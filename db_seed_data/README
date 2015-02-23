@@ -1,0 +1,23 @@
+index of seed data files:
+
+
+user_data: 
+a pipe-separated file of user information
+
+id|username|email|
+
+
+session_data: 
+a pipe-separated file of example session information, to get things rolling:
+
+|id|user|location(latlog)
+
+
+#?? locations data (presets and user-addable, with human-readable names):
+
+
+#board (quiver) data:
+
+
+||||||||
+||||||||

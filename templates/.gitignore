@@ -1,0 +1,11 @@
+# do not push the virtual env
+env/
+
+# exclude all compiled python files
+*.pyc
+
+# exclude databases
+*.db
+
+# exclude scratch directories and old ubermelon ref files
+ref_old
