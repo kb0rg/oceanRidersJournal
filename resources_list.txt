@@ -1,0 +1,107 @@
+
+#---------------------------------------------------------
+existing journals for reference, WEB APPS:
+#---------------------------------------------------------
+
+----------------------------------------------------------
+
+http://sesh.co.za/how-it-works
+
+----------------------------------------------------------
+
+http://www.thrashtown.com
+like the quiver table.
+would add ability to edit quiver from session log page
+
+#---------------------------------------------------------
+existing journals for reference, MOBILE APPS:
+#---------------------------------------------------------
+
+SURF JOURNAL
+http://surfjournal.org/
+made by norCal locals. 
+contact:
+us@surfjournal.org
+
+----------------------------------------------------------
+
+SESSIONS SURF JOURNAL
+https://itunes.apple.com/us/app/sessions-surf-journal/id503952177?mt=8
+
+
+#---------------------------------------------------------
+ANALOG JOURNALS (for ideas re what info to include)
+#---------------------------------------------------------
+
+http://www.secretspot.co.uk/wetsuit-accessories/care-and-repair/surf-log-book-dated-20255.aspx
+
+----------------------------------------------------------
+
+http://wavelog.com/wp-content/uploads/2014/02/photo.jpg
+
+
+#---------------------------------------------------------
+APIs
+#---------------------------------------------------------
+
+NOAA buoys
+http://www.co-ops.nos.noaa.gov/api/#format
+http://www.ndbc.noaa.gov/measdes.shtml
+
+noaa buoys compiled?
+https://github.com/flatfield/buoy-api
+
+----------------------------------------------------------
+
+Magic seaweed!!!
+http://magicseaweed.com/developer/forecast-api
+
+----------------------------------------------------------
+
+spitcast?
+http://www.spitcast.com/api/docs/
+
+----------------------------------------------------------
+
+SURFLINE (serious money. and may not even exist yet:
+site is for registering interest in the API when avail.
+solo. not gonna use it. but putting it down for the record)
+http://developer.surfline.com/
+
+#---------------------------------------------------------
+OTHER WEATHER/ CONDITIONS RESOURCES
+#---------------------------------------------------------
+
+http://www.surf-forecast.com/weather_maps/California
+
+http://www.worldweatheronline.com/api/marine-weather-api.aspx
+
+http://www.wunderground.com/weather/api/d/docs
+
+http://www.spitcast.com/
+http://www.spitcast.com/surf-report/spot/south-ocean-beach-san-francisco-ca/?dcat=day&dval=20150223
+
+http://ocean.peterbrueggeman.com/tidepredict.html
+
+#---------------------------------------------------------
+OTHER PEOPLE'S PROJECTS ON GITHUB
+#---------------------------------------------------------
+
+(see thrash town, web apps above)
+https://github.com/ramdog/thrashtown
+js
+
+----------------------------------------------------------
+
+(not sure, a personal single-user surf journal?)
+https://github.com/stnava/SurfersJournal
+https://github.com/stnava/SurfersJournal/blob/gh-pages/surfersJournal.Rmd
+
+----------------------------------------------------------
+
+(?)
+https://github.com/brandur/hekla
+(empty page?)
+https://the-surf.herokuapp.com
+(older github)
+https://github.com/brandur/the-surf-old
