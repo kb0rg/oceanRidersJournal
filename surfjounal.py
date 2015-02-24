@@ -2,6 +2,8 @@ from flask import Flask, request, session, render_template, g, redirect, url_for
 import model
 import jinja2
 import os
+import requests
+import json
 
 app = Flask(__name__)
 app.secret_key = '\xf5!\x07!qj\xa4\x08\xc6\xf8\n\x8a\x95m\xe2\x04g\xbb\x98|U\xa2f\x03'
@@ -9,44 +11,49 @@ app.jinja_env.undefined = jinja2.StrictUndefined
 
 @app.route("/")
 def index():
-    """This is the 'cover' page of the ubermelon site"""
+    """This is the 'cover' page of the surf journal site"""
+    
     return render_template("index.html")
 
-@app.route("/sessionsSummary")
-def list_sessionsInfo():
-    """list of all of the potential info that can be collected"""
-    # melons = model.get_melons()
-    # return render_template("surf_sessions.html",
-    #                        session_list = sessions)
-    return render_template("surf_sessions_summary.html")
+@app.route("/entriesSummary")
+def list_entriesInfo():
+    """temp page while building? or turn into intro/ about page?
+    currently a list of all of the potential info that can be collected"""
 
-@app.route("/sessions")
-def list_sessions():
-    """diplay all of the surf sessions logged so far"""
-    # melons = model.get_melons()
-    # return render_template("surf_sessions.html",
-    #                        session_list = sessions)
-    return render_template("surf_sessions_list.html")
+    return render_template("surf_entries_summary.html")
+
+@app.route("/entries")
+def list_entries():
+    """diplay all of the surf entries logged so far"""
+
+    return render_template("surf_entries_list.html")
+
+@app.route("/addEntry")
+def add_entry():
+    """put everything from this form into the db"""
 
 
-@app.route("/addSession")
-def add_session():
-    """put everything from the form into the db"""
-    # melons = model.get_melons()
-    # return render_template("surf_sessions.html",
-    #                        session_list = sessions)
-    return render_template("surf_session_add.html")
+    # noaa_url = "http://tidesandcurrents.noaa.gov/api/datagetter?begin_date=20130101%2010:00&end_date=20130101%2010:24&station=8454000&product=water_level&datum=mllw&units=metric&time_zone=gmt&application=web_services&format=json"
+    # r = requests.get(noaa_url)
+    # spitcast_tide_url = "http://api.spitcast.com/api/county/tide/san-francisco/"
+    # r = requests.get(spitcast_tide_url)
+    # return json.dumps(r.json())
+
+    # # json.load vs json.loads, json.dumps, Flask.jsonify
+    # s = model.Session(date, time,)
+    # model.session.add
+    return render_template("surf_entry_add.html")
 
 
 @app.route("/board_quiver")
 def edit_quiver():
     """display and edit existing quiver of boards"""
     # melons = model.get_melons()
-    # return render_template("surf_sessions.html",
-    #                        session_list = sessions)
+    # return render_template("surf_entries.html",
+    #                        session_list = entries)
     return render_template("board_quiver.html")    
 
-    # @app.route("/melon/<int:id>")
+# @app.route("/melon/<int:id>")
 # def show_melon(id):
 #     """This page shows the details of a given melon, as well as giving an
 #     option to buy the melon."""

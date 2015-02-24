@@ -44,7 +44,7 @@ http://wavelog.com/wp-content/uploads/2014/02/photo.jpg
 APIs
 #---------------------------------------------------------
 
-NOAA buoys
+NOAA buoys -- got key
 http://www.co-ops.nos.noaa.gov/api/#format
 http://www.ndbc.noaa.gov/measdes.shtml
 
@@ -53,13 +53,22 @@ https://github.com/flatfield/buoy-api
 
 ----------------------------------------------------------
 
-Magic seaweed!!!
+Magic seaweed -- international spots. waiting for key
 http://magicseaweed.com/developer/forecast-api
 
 ----------------------------------------------------------
 
-spitcast?
+spitcast -- california spots only. 
+no key needed? wrote note w/ project synopsis
 http://www.spitcast.com/api/docs/
+
+http://www.spitcast.com/
+http://www.spitcast.com/surf-report/spot/south-ocean-beach-san-francisco-ca/?dcat=day&dval=20150223
+
+----------------------------------------------------------
+
+http://www.wunderground.com/weather/api/d/docs
+
 
 ----------------------------------------------------------
 
@@ -68,19 +77,17 @@ site is for registering interest in the API when avail.
 solo. not gonna use it. but putting it down for the record)
 http://developer.surfline.com/
 
+http://www.worldweatheronline.com/api/marine-weather-api.aspx
+http://blog.worldweatheronline.com/2015/02/05/getting-started-world-weather-online-api-php/
+
 #---------------------------------------------------------
 OTHER WEATHER/ CONDITIONS RESOURCES
 #---------------------------------------------------------
 
+# animated maps of water/ weather conditions:
 http://www.surf-forecast.com/weather_maps/California
 
-http://www.worldweatheronline.com/api/marine-weather-api.aspx
-
-http://www.wunderground.com/weather/api/d/docs
-
-http://www.spitcast.com/
-http://www.spitcast.com/surf-report/spot/south-ocean-beach-san-francisco-ca/?dcat=day&dval=20150223
-
+# list of many many many tide-related sites
 http://ocean.peterbrueggeman.com/tidepredict.html
 
 #---------------------------------------------------------

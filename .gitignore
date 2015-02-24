@@ -1,8 +1,15 @@
-# do not commit virtualenv
+# do not push the virtual env
 env/
 
-# ignore old ref stuff
-ref_fromMelonApp
+# API keys
+_noCommit_*
 
-# no pyc
+# exclude all compiled python files
 *.pyc
+
+# exclude databases
+*.db
+
+# ignore specified ref stuff
+ref_fromMelonApp
+spitcast_ref.txt
