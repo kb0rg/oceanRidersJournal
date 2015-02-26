@@ -4,6 +4,12 @@ import jinja2
 import os
 import requests
 import json
+from datetime import datetime
+
+
+# todo: set python variables (AS CONSTANTS?) to access variables in keys.sh, EX:
+#NAME_CONSUMER_KEY=os.environ["NAME_CONSUMER_KEY"]
+# remember to source key.sh to set tokens as env variables for that session.
 
 app = Flask(__name__)
 app.secret_key = '\xf5!\x07!qj\xa4\x08\xc6\xf8\n\x8a\x95m\xe2\x04g\xbb\x98|U\xa2f\x03'
@@ -15,23 +21,16 @@ def index():
     
     return render_template("index.html")
 
-@app.route("/entriesSummary")
+@app.route("/about")
 def list_entriesInfo():
     """temp page while building? or turn into intro/ about page?
     currently a list of all of the potential info that can be collected"""
 
-    return render_template("surf_entries_summary.html")
+    return render_template("about.html")
 
-@app.route("/entries")
-def list_entries():
-    """diplay all of the surf entries logged so far"""
-
-    return render_template("surf_entries_list.html")
-
-@app.route("/addEntry")
-def add_entry():
+@app.route("/addEntryGoTo")
+def go_to_addEntry():
     """put everything from this form into the db"""
-
 
     # noaa_url = "http://tidesandcurrents.noaa.gov/api/datagetter?begin_date=20130101%2010:00&end_date=20130101%2010:24&station=8454000&product=water_level&datum=mllw&units=metric&time_zone=gmt&application=web_services&format=json"
     # r = requests.get(noaa_url)
@@ -43,6 +42,47 @@ def add_entry():
     # s = model.Session(date, time,)
     # model.session.add
     return render_template("surf_entry_add.html")
+
+@app.route("/addEntry")
+def add_entry():
+    """receive input from add_entry form, commit to db, then list all existing entries."""
+    session = model.connect()
+
+    entry_date = request.args.get("entry_date")
+    start_time = request.args.get("start_time")
+    end_time = request.args.get("end_time")
+    
+    date_time_start = datetime.strptime((entry_date + " " + start_time), "%Y-%m-%d %H:%M")
+    date_time_end = datetime.strptime((entry_date + " " + end_time), "%Y-%m-%d %H:%M")
+
+    print "\n" * 3, "date_time_start: ", date_time_start, "date_time_end: ", date_time_end
+
+    beach_name = request.args.get("beach_name")
+    board_name = request.args.get("board_name")
+    board_pref = request.args.get("board_pref")
+    # fix datetime for entry_date
+    new_entry = model.Entry(date_time_start = date_time_start, date_time_end=date_time_end, beach_name = beach_name, board_name=board_name, board_pref = board_pref)
+    # entry_date removed for now
+    # new_entry = model.Entry(beach_name = beach_name, board_name=board_name, board_pref = board_pref)
+    session.add(new_entry)
+    session.commit()
+    entry_list = session.query(model.Entry).all()
+    # TODO -- want to filer entries by date. filter_by seems to want specific entry data. is there a sort?
+    # look below at show_melon( get_melon_by_id())?
+    return render_template("surf_entries_summary.html", entries = entry_list)
+
+# @app.route("/entriesSummary")
+# def list_entriesInfo():
+#     """temp page while building? or turn into intro/ about page?
+#     currently a list of all of the potential info that can be collected"""
+
+#     return render_template("surf_entries_summary.html")
+
+@app.route("/entries")
+def list_entries():
+    """diplay all of the surf entries logged so far"""
+
+    return render_template("surf_entries_list.html")
 
 
 @app.route("/board_quiver")
@@ -62,24 +102,6 @@ def edit_quiver():
 #     return render_template("melon_details.html",
 #                   display_melon = melon)
 
-# @app.route("/cart")
-# def shopping_cart():
-#     """TODO: Display the contents of the shopping cart. The shopping cart is a
-#     list held in the session that contains all the melons to be added. Check
-#     accompanying screenshots for details."""
-#     return render_template("cart.html")
-
-# @app.route("/add_to_cart/<int:id>")
-# def add_to_cart(id):
-#     """TODO: Finish shopping cart functionality using session variables to hold
-#     cart list.
-
-#     Intended behavior: when a melon is added to a cart, redirect them to the
-#     shopping cart page, while displaying the message
-#     "Successfully added to cart" """
-
-#     return "Oops! This needs to be implemented!"
-
 
 @app.route("/login", methods=["GET"])
 def show_login():
@@ -92,13 +114,44 @@ def process_login():
     dictionary, look up the user, and store them in the session."""
     return "Oops! This needs to be implemented"
 
+"""
+todo: log-in. reference code from ratings below. need to get user table set up before proceeding?
+"""
 
-# @app.route("/checkout")
-# def checkout():
-#     """TODO: Implement a payment system. For now, just return them to the main
-#     melon listing page."""
-#     flash("Sorry! Checkout will be implemented in a future version of ubermelon.")
-#     return redirect("/melons")
+# @app.route("/login", methods=["POST"])
+# def login():
+#     email = request.form['email']
+#     password = request.form['password']
+
+#     try:
+#         user = db_session.query(User).filter_by(email=email, password=password).one()
+#     except:
+#         flash("Invalid username or password", "error")
+#         return redirect(url_for("index"))
+
+#     session['user_id'] = user.id
+#     return redirect(url_for("display_search"))
+
+# @app.route("/register", methods=["POST"])
+# def register():
+#     email = request.form['email']
+#     password = request.form['password']
+#     existing = db_session.query(User).filter_by(email=email).first()
+#     if existing:
+#         flash("Email already in use", "error")
+#         return redirect(url_for("index"))
+
+#     u = User(email=email, password=password)
+#     db_session.add(u)
+#     db_session.commit()
+#     db_session.refresh(u)
+#     session['user_id'] = u.id 
+#     return redirect(url_for("display_search"))
+
+# @app.route("/logout")
+# def logout():
+#     del session['user_id']
+#     return redirect(url_for("index"))
 
 if __name__ == "__main__":
     port = int(os.environ.get("PORT", 5000))

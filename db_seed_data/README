@@ -7,10 +7,10 @@ a pipe-separated file of user information
 id|username|email|
 
 
-session_data: 
-a pipe-separated file of example session information, to get things rolling:
+entry_data: 
+a pipe-separated file of example journal entry information, to get things rolling:
 
-|id|user|location(latlog)
+|id|user|location(latlong?)
 
 
 #?? locations data (presets and user-addable, with human-readable names):

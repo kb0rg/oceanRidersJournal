@@ -1,6 +1,6 @@
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy import create_engine
-from sqlalchemy import Column, Integer, Float, String, DateTime
+from sqlalchemy import Column, Integer, Float, String, DateTime, func
 from sqlalchemy.orm import sessionmaker
 
 ENGINE = None
@@ -12,6 +12,33 @@ https://github.com/hackbrightacademy/ratings/blob/deployed/judgemental.py
 """
 ### Class declarations go here
 Base = declarative_base()
+
+class Entry(Base):
+    __tablename__ = "entries"
+
+    id = Column(Integer, primary_key = True)
+
+    date_time_start = Column(DateTime, nullable = False)
+    date_time_end = Column(DateTime, nullable = False)
+
+    beach_name = Column(String(64), nullable = False)
+    board_name = Column(String(64), nullable = True)
+    board_pref = Column(String(64), nullable = True)
+
+    # user_name = Column(String(64), nullable = False)
+    # location = Column(String(64), nullable = False)
+    # # date = (DateTime, nullable = False)
+
+    # board = Column(String(64), nullable = True)
+
+    # # relate user_name to users table: get via id of currently logged-in user
+    # # relate location to locations table: get from and/or add to?
+    # # pull swell, wind, and tide data from apis and add to entry
+    # # relate board to bords table: get from and/or add to quiver?
+
+    def __repr__(self):
+        return "%d, %s, %s" % (self.id, self.beach_name, self.board_pref)
+
 
 class Location(Base):
     """docstring will go here."""
@@ -41,24 +68,6 @@ class User(Base):
     def __repr__(self):
         return "%d, %s, %s" % (self.id, self.email, self.password)
 
-class Entry(Base):
-    __tablename__ = "entries"
-
-    id = Column(Integer, primary_key = True)
-    user_name = Column(String(64), nullable = False)
-    location = Column(String(64), nullable = False)
-    # date = (DateTime, nullable = False)
-    # start_time = Column(DateTime, nullable = False)
-    # end_time = Column(DateTime, nullable = False)
-    board = Column(String(64), nullable = True)
-
-    # relate user_name to users table: get via id of currently logged-in user
-    # relate location to locations table: get from and/or add to?
-    # pull swell, wind, and tide data from apis and add to entry
-    # relate board to bords table: get from and/or add to quiver?
-
-    def __repr__(self):
-        return "%d, %s, %s, %d, %s" % (self.id, self.email, self.password)
 
 ### End class declarations
 
@@ -77,3 +86,18 @@ def main():
 
 if __name__ == "__main__":
     main()
+
+
+
+"""
+NOTE!!!! DO NOT FORGET THIS!!!!
+*****
+in the event that db needs to be deleted and rebuilt:
+
+remember to do this in interactive python shell - -while in venv
+(python -i model.py)
+
+engine = create_engine("sqlite:///surf_journal.db", echo=True)
+Base.metadata.create_all(engine)
+
+"""

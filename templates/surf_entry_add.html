@@ -7,18 +7,31 @@
 
 
 <h4>this is a test form:</h4>
-<form>
-<!-- <form action="surfjournal.py">
- -->
+<form action="/addEntry">
+Date:<br>
+<input type="date" name = "entry_date">
+<br>
+Start Time (as HH:MM with "AM" or "PM"):<br>
+<input type="time" name="start_time">
+<br>
+Start Time (as HH:MM with "AM" or "PM"):<br>
+<input type="time" name="end_time">
+<br>
 Beach Name:<br>
 <input type="text" name = "beach_name">
 <br>
 Board Ridden:<br>
 <input type="text" name = "board_name">
-<input type="submit" value = "Submit">
-<!-- lost on the how to send it back to python part
- -->
+<br>
+Did you wish you'd brought a different board?:<br>
+<input type="radio" name = "board_pref" value = "board_smaller">(smaller)
+<input type="radio" name = "board_pref" value = "board_ok">(just right)
+<input type="radio" name = "board_pref" value = "board_bigger">(bigger)
+<br>
+<input type="submit" value = "Add Entry to the Journal">
 </form>
+
+
 <!-- borrowed from thrash-town, need to edit/ adapt. 
 like the date/ time pulldown. 
 locations pulldown also good but want it to pull from table (pre-seeded with spots like these) and also have option to add to that table

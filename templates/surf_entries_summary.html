@@ -1,19 +1,21 @@
-{% extends 'giantList_features.html' %}
+{% extends 'base.html' %}
 {% block body %}
 
-<!-- added this to base.html
- --><!-- <div class="inner cover">
-<a href="/sessions" class="btn btn-lg btn-default">view existing sessions</a>
-<a href="/enterSession" class="btn btn-lg btn-default">create a new entry</a>
-</div> -->
-<h2>note to self -- this page may go away. this is a place to organize my thoughts
-about what info I want to collect and/or display)</h2>
-<h3>(or, it may become a home page for the user, maybe with a graphical view of all their logged sessions on a map, with todays conditions?</h3>
 
-<h2>in the meantime, have a tide chart!</h2>
-<canvas class="chart_tide" data-location="san-francisco" data-duration="day" data-date="20150223" width="276" height="94"></canvas>
+<ul>
+    {% for entry in entries %}
+    <li>{{entry.date_time_start}} * {{entry.date_time_end}} * {{entry.beach_name}} * {{entry.board_name}} * {{entry.board_pref}}</li>
+   {% endfor %}
+</ul>
+
 
 <li></li>
 <li></li>
 <li></li>
 {% endblock %}
+
+<!-- this is an example from the ratings app that includes the option to link to a "details" page
+ -->
+<!--     <li><a href="{{url_for("view_movie", id=rating.movie_id)}}">{{rating.movie.title}} &mdash; {{rating.rating}}</a></li>
+ --> 
+
