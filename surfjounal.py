@@ -17,8 +17,10 @@ app.jinja_env.undefined = jinja2.StrictUndefined
 
 @app.route("/")
 def index():
-    """This is the 'cover' page of the surf journal site"""
-    
+    """This is the 'cover' page of kborg's surf journal site.
+    It will contain some kind of awesome background image.
+    And a logo. And maybe some inspirational text. 
+    But first I have to build the rest of the damn site."""
     return render_template("index.html")
 
 @app.route("/about")
@@ -43,27 +45,29 @@ def go_to_addEntry():
     # model.session.add
     return render_template("surf_entry_add.html")
 
+# @app.route("/addEntry", methods=["POST"])
 @app.route("/addEntry")
 def add_entry():
     """receive input from add_entry form, commit to db, then list all existing entries."""
     session = model.connect()
 
-    entry_date = request.args.get("entry_date")
-    start_time = request.args.get("start_time")
-    end_time = request.args.get("end_time")
-    
-    date_time_start = datetime.strptime((entry_date + " " + start_time), "%Y-%m-%d %H:%M")
-    date_time_end = datetime.strptime((entry_date + " " + end_time), "%Y-%m-%d %H:%M")
+    ## remove date and time inputs for now. 
+    # entry_date = request.args.get("entry_date")
+    # start_time = request.args.get("start_time")
+    # end_time = request.args.get("end_time")
+    # date_time_start = datetime.strptime((entry_date + " " + start_time), "%Y-%m-%d %H:%M")
+    # date_time_end = datetime.strptime((entry_date + " " + end_time), "%Y-%m-%d %H:%M")
+
+    ## temporarily rewire start and end times to datetime.now()
+    date_time_start = datetime.now()
+    date_time_end = datetime.now()
 
     print "\n" * 3, "date_time_start: ", date_time_start, "date_time_end: ", date_time_end
 
     beach_name = request.args.get("beach_name")
     board_name = request.args.get("board_name")
     board_pref = request.args.get("board_pref")
-    # fix datetime for entry_date
     new_entry = model.Entry(date_time_start = date_time_start, date_time_end=date_time_end, beach_name = beach_name, board_name=board_name, board_pref = board_pref)
-    # entry_date removed for now
-    # new_entry = model.Entry(beach_name = beach_name, board_name=board_name, board_pref = board_pref)
     session.add(new_entry)
     session.commit()
     entry_list = session.query(model.Entry).all()
@@ -82,6 +86,14 @@ def add_entry():
 def list_entries():
     """diplay all of the surf entries logged so far"""
 
+    ## This breaks when I try to send it to same page as /addEntry
+    # return render_template("surf_entries_summary.html")
+    ## can I re-route it to the result of the add_entry function?
+    # return add_entry()
+    ## NOPE. temporarily re-routing it to the old page.
+    """
+    todo: figure out how to make this button go to the list page.
+    """
     return render_template("surf_entries_list.html")
 
 

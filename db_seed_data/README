@@ -1,23 +1,24 @@
 index of seed data files:
 
-
-user_data: 
-a pipe-separated file of user information
-
-id|username|email|
+-->location_data:
+a pipe-separated file of location information:
+Region|Country|State or Province|County|Beach|MSW_ID
 
 
-entry_data: 
+-->user_data: 
+a pipe-separated file of user information:
+
+id|username|email|firstname|lastname|home region
+
+-->entry_data: 
 a pipe-separated file of example journal entry information, to get things rolling:
 
-|id|user|location(latlong?)
+|id|user|location ID|
 
 
-#?? locations data (presets and user-addable, with human-readable names):
 
-
+STRETCH GOALS:
+#?? additional locations data (presets and user-addable, with human-readable names?):
 #board (quiver) data:
 
-
-||||||||
 ||||||||

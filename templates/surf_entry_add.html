@@ -1,22 +1,25 @@
 {% extends 'giantList_features.html' %}
 
 {% block body %}
-<h2>(create fields here for user to enter info)</h2>
+<h2>Enter info about your surf session:</h2>
 
 <div id="entries-list">
-
-
-<h4>this is a test form:</h4>
+<h4>(this form is a work in progress)</h4>
+<!-- <form action="/addEntry" method="POST">
+ -->
 <form action="/addEntry">
-Date:<br>
+<!-- add start and end time again later. for now, datetime NOW
+ -->
+<!-- Date:<br>
 <input type="date" name = "entry_date">
 <br>
 Start Time (as HH:MM with "AM" or "PM"):<br>
 <input type="time" name="start_time">
 <br>
-Start Time (as HH:MM with "AM" or "PM"):<br>
-<input type="time" name="end_time">
-<br>
+End Time (as HH:MM with "AM" or "PM"):<br>
+<input type="time" name="end_time"> -->
+
+
 Beach Name:<br>
 <input type="text" name = "beach_name">
 <br>
@@ -28,38 +31,48 @@ Did you wish you'd brought a different board?:<br>
 <input type="radio" name = "board_pref" value = "board_ok">(just right)
 <input type="radio" name = "board_pref" value = "board_bigger">(bigger)
 <br>
+<h4> This entry will be automatically created with today's date and the current time.</h4>
+<h3> Ability to specify past dates/ times will be implemented later.</h3>
+<br>
 <input type="submit" value = "Add Entry to the Journal">
 </form>
+<br>
+<br>
+<br>
+<br>
 
-
-<!-- borrowed from thrash-town, need to edit/ adapt. 
-like the date/ time pulldown. 
-locations pulldown also good but want it to pull from table (pre-seeded with spots like these) and also have option to add to that table
- -->
-<h4>these are someone else's app's forms, which I like better, 
-though there are things I'd need to rewire and issues to iron out</h4>
-
-<label class="col-md-2 control-label"><span tooltip-placement="top" tooltip-trigger="mouseenter" tooltip="When you got in the water" class="ng-scope">Session Date</span></label>
-
-<input class="form-control ng-pristine ng-valid ng-valid-required ng-touched" type="datetime-local" ng-model="formConfig.params.sessionDate" required="">
-
-<label class="col-md-2 control-label"><span tooltip-placement="top" tooltip-trigger="mouseenter" tooltip="From your saved spots" class="ng-scope">Location</span></label>
-
-<div class="col-md-5"><select class="form-control ng-pristine ng-invalid ng-invalid-required ng-touched" name="surfSpot" type="text" required="" ng-model="formConfig.params.surfSpot_id" ng-options="surfSpot._id as surfSpot.name group by surfSpot.region for surfSpot in surfSpots"><option value="?" selected="selected" label=""></option><optgroup label="Marin"><option value="0" label="Bolinas">Bolinas</option><option value="1" label="Cronkhite">Cronkhite</option><option value="2" label="Other">Other</option></optgroup><optgroup label="SF"><option value="3" label="Fort Point">Fort Point</option><option value="4" label="Deadman's">Deadman's</option><option value="5" label="Ocean Beach North">Ocean Beach North</option><option value="6" label="Ocean Beach Middle">Ocean Beach Middle</option><option value="7" label="Ocean Beach South">Ocean Beach South</option><option value="8" label="Other">Other</option></optgroup><optgroup label="San Mateo"><option value="9" label="Pacifica Pier / Sharp Park">Pacifica Pier / Sharp Park</option><option value="10" label="Rockaway">Rockaway</option><option value="11" label="Linda Mar">Linda Mar</option><option value="12" label="Grey Whale Cove">Grey Whale Cove</option><option value="13" label="Montara">Montara</option><option value="14" label="HMB Jetty">HMB Jetty</option><option value="15" label="HMB beachbreaks">HMB beachbreaks</option><option value="16" label="Other">Other</option></optgroup><optgroup label="SC North County"><option value="17" label="Año Nuevo">Año Nuevo</option><option value="18" label="Waddell / Big Creek">Waddell / Big Creek</option><option value="19" label="Scotts Creek">Scotts Creek</option><option value="20" label="Davenport">Davenport</option><option value="21" label="4 mile">4 mile</option><option value="22" label="3 mile">3 mile</option><option value="23" label="Other">Other</option></optgroup><optgroup label="Santa Cruz"><option value="24" label="Natural Bridges">Natural Bridges</option><option value="25" label="Steamer Lane">Steamer Lane</option><option value="26" label="Other">Other</option><option value="27" label="26th Ave">26th Ave</option><option value="28" label="Pleasure Point">Pleasure Point</option><option value="29" label="The Hook">The Hook</option><option value="30" label="Sharks">Sharks</option><option value="31" label="Manresa / Sunset">Manresa / Sunset</option><option value="32" label="Moss Landing">Moss Landing</option><option value="33" label="Other">Other</option></optgroup><optgroup label="CA"><option value="34" label="Monterey / Carmel">Monterey / Carmel</option><option value="35" label="Big Sur">Big Sur</option><option value="36" label="Other">Other</option></optgroup><optgroup label="USA"><option value="37" label="West Coast - Other">West Coast - Other</option><option value="38" label="East Coast - Other">East Coast - Other</option></optgroup><optgroup label="International"><option value="39" label="Other">Other</option></optgroup></select></div>
-
-
-<h4>core info to include:</h4>
-<li>location (from existing options, or add location)</li>
-<li></li>
-<li></li>
-
-<h4>Additional features:</h4>
+<h2>DEV NOTES</h2>
+<h4>core info to include:<br>
+	(prioritized  from the "all potential info list, below)")
+</h4>
+<li> date and time (use dateime.now as a starting point. <br>
+	allow for making entries for past dates ... later)</li>
+<li>location pulldown (pick from existing options, limited to CA for now)</li>
+<li>board info (input field)</li>
+<li>board preference (buttons)</li>
+<br>
+<br>
+<h4>Near-term stretch Goals: Additional features:</h4>
+<li>location nickname/ additional info (specific break w/in named beach)</li>
+<li>link to stored board quiver with ability to edit/ add to quiver</li>
+<li>pick past date</li>
+<li>crowd density (buttons?)</li>
+<li>crowd vibe (buttons?)</li>
+<li>start and end time</li>
+<li>challenge level</li>
+<li>overall enjoyment of session</li>
+<li>input: additional notes</li>
+<li>surfed vs/ just observed<br>
+	(and if not surfed, input field for: why not surfed)
+</li>
+<br>
+<br>
+<h4>SUPER optimistic stretch goals: Additional features:</h4>
+<li>more locations</li>
+<li>add photo(s)</li>
 <li>set location by map</li>
 <li>set location from photo metadata</li>
-<li></li>
 <!-- <li></li>
-<li></li>
-<li></li>
 <li></li> -->
 
 

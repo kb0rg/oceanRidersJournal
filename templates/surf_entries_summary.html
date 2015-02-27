@@ -1,21 +1,58 @@
 {% extends 'base.html' %}
 {% block body %}
 
+<h3>Display all of the previously logged sessions</h3>
 
-<ul>
+
+<table style="width:100%">
+<!-- saw examples using table id, and others using class. class is for css, right? -- what's id for? -->
+	<tr>
+    	<th>Date - start time</th>
+    	<th>Date - end time</th> 
+    	<th>Which Beach</th>
+    	<th>Which Board?</th>
+    	<th>Was it the Right Board?</th>
+  	</tr>
+
+
+<!-- HEY HOW DO I reformat the time JUST FOR DISPLAY PURPOSES???
+ -->
+ 
     {% for entry in entries %}
-    <li>{{entry.date_time_start}} * {{entry.date_time_end}} * {{entry.beach_name}} * {{entry.board_name}} * {{entry.board_pref}}</li>
-   {% endfor %}
-</ul>
+	<tr>    
+    	<td>{{entry.date_time_start}}</td>
+    	<td>{{entry.date_time_end}}</td>
+    	<td>{{entry.beach_name}}</td>
+    	<td>{{entry.board_name}} </td>
+    	<td>{{entry.board_pref}}</td>
+    </tr>
+	{% endfor %}
+
+</table>
 
 
+
 <li></li>
 <li></li>
 <li></li>
+
+
+<h4>core info to include:</h4>
+<li>list synopsis of all sessions</li>
+<li>ability to edit a previously entered session</li>
+<li>ability to jump to details page for any session</li>
+
+<h4>Additional features:</h4>
+<li>ability to expand view for each session (instead of going to details page)</li>
+<li>ability to sort/ filter by various fields (date, board, wavesize, location, friend, swell dir)</li>
+
+<h4>extra bonus options:</h4>
+<li>pull a screengrab from surfline's video feed from that day and time????</li>
+
+<li>link back to any of the other create with some info seeded from current entry?</li>
 {% endblock %}
 
 <!-- this is an example from the ratings app that includes the option to link to a "details" page
  -->
 <!--     <li><a href="{{url_for("view_movie", id=rating.movie_id)}}">{{rating.movie.title}} &mdash; {{rating.rating}}</a></li>
  --> 
-
