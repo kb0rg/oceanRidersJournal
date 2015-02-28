@@ -49,7 +49,14 @@ def go_to_addEntry():
 @app.route("/addEntry")
 def add_entry():
     """receive input from add_entry form, commit to db, then list all existing entries."""
-    session = model.connect()
+
+    ### TODO -- ask about this!
+    ## this breaks now that I switched model to scoped sessions.
+    # session = model.connect()
+    ## try this?
+    session = model.session
+    ## this works! but should I put the session somewhere else, like in main?
+
 
     ## remove date and time inputs for now. 
     # entry_date = request.args.get("entry_date")

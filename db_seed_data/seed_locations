@@ -1,4 +1,6 @@
-norCal|USA|CA|San Francisco|Ocean Beach|255
-norCal|USA|CA|Marin|Bolinas Jetty|4215
-norCal|USA|CA|Marin|Stinson Beach|4216
-
+norCal|USA|CA|San Francisco|Ocean Beach|255|T|37.7594 N|122.5108 W
+norCal|USA|CA|Marin|Bolinas Jetty|4215|T|37.9094 N|122.6864 W
+norCal|USA|CA|Marin|Stinson Beach|4216|T|37.9006 N|122.6444 W
+norCal|USA|CA|San Mateo|Linda Mar|819|T|37.6011 N|122.4992 W
+norCal|USA|CA|San Mateo|Rockaway|819|F|37.6100 N|122.4975 W
+norCal|USA|CA|San Mateo|Montara|819|F|37.5481 N|122.5136 W

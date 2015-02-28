@@ -2,13 +2,14 @@ index of seed data files:
 
 -->location_data:
 a pipe-separated file of location information:
-Region|Country|State or Province|County|Beach|MSW_ID
+
+Region|Country|State or Province|County|Beach Name|MSW_ID of closest location|T or F msw id exists for this actual location|lat|lon|
 
 
 -->user_data: 
 a pipe-separated file of user information:
 
-id|username|email|firstname|lastname|home region
+username|firstname|lastname|home region
 
 -->entry_data: 
 a pipe-separated file of example journal entry information, to get things rolling:
