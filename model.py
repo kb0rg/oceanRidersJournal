@@ -27,7 +27,7 @@ class Entry(Base):
     date_time_end = Column(DateTime, nullable = False)
 
     ## link this to ID in loc table?
-    beach_name = Column(String(64), nullable = False)
+    beach_name = Column(String(64), nullable = False) # relate to 
 
     # todo LATER: add input field for more specific location name or nickname (ie Patch or Noriega)
     # spot_name = Column(String(64), nullable = True)

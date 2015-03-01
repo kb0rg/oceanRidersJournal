@@ -10,6 +10,7 @@ _noCommit_*
 # exclude databases
 *.db
 
-# ignore specified ref stuff
+# ignore specified ref stuff and notes to self
 ref_fromMelonApp
 spitcast_ref.txt
+todo_*.txt

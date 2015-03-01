@@ -71,9 +71,17 @@ def add_entry():
 
     print "\n" * 3, "date_time_start: ", date_time_start, "date_time_end: ", date_time_end
 
+    # queries from user
     beach_name = request.args.get("beach_name")
     board_name = request.args.get("board_name")
     board_pref = request.args.get("board_pref")
+    # add location
+    # get location id from locations table
+    # make API call using location id
+    # parse API json, grab and bind to var the piece that I want
+    
+
+    # add piece from api to this instance of model.Entry
     new_entry = model.Entry(date_time_start = date_time_start, date_time_end=date_time_end, beach_name = beach_name, board_name=board_name, board_pref = board_pref)
     session.add(new_entry)
     session.commit()
@@ -100,8 +108,16 @@ def list_entries():
     ## NOPE. temporarily re-routing it to the old page.
     """
     todo: figure out how to make this button go to the list page.
-    """
-    return render_template("surf_entries_list.html")
+    """ 
+    ## ah! just need to start a session, define entry list, and pass it to the template.
+    session = model.session
+    entry_list = session.query(model.Entry).all()
+
+    ## except --- this template does not *do* anything with the entry list. 
+    # return render_template("surf_entries_list.html", entries = entry_list)
+    ## so... render the other (entries) template, and deprecate the old (list) one
+    return render_template("surf_entries_summary.html", entries = entry_list)
+
 
 
 @app.route("/board_quiver")
