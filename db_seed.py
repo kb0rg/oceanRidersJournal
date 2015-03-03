@@ -15,7 +15,7 @@ def load_users(session):
   """
     populates users table from seed file.
     seed file is using these fields:
-  username|firstname|lastname|home region
+  	username|firstname|lastname|home region
     """
 	
     with open("db_seed_data/seed_users") as f:
