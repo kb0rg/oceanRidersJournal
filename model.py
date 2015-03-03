@@ -26,8 +26,12 @@ class Entry(Base):
     date_time_start = Column(DateTime, nullable = False)
     date_time_end = Column(DateTime, nullable = False)
 
-    ## link this to ID in loc table?
-    beach_name = Column(String(64), nullable = False) # relate to 
+    ## for working with temp beach name input text field:
+    # beach_name = Column(String(64), nullable = False)
+
+    # beach from location ID (uses loc table's loc_id)
+    ## need to explicity link this to ID in loc table?
+
 
     # todo LATER: add input field for more specific location name or nickname (ie Patch or Noriega)
     # spot_name = Column(String(64), nullable = True)
@@ -65,6 +69,7 @@ class User(Base):
 
 class Location(Base):
     """
+    makes a row in the locations table.
     for temp reference: seed file is using these fields:
     Region|Country|State or Province|County|Beach Name|MSW_ID of closest location|T or F msw id exists for this actual location|lat|lon|
     """
@@ -84,6 +89,7 @@ class Location(Base):
     # API - readable location
     msw_id = Column(Integer, nullable = True)
     msw_unique_id_exists = Column(Boolean, nullable = True)
+    ## need field identifying which beach's msw is being used, if false?
 
     # lat long for reloacting later (in case API changes)
     # should these be left as strings, or converted to another format?
@@ -120,7 +126,7 @@ if __name__ == "__main__":
 
 
 """
-NOTE!!!! DO NOT FORGET THIS!!!!
+NOTE!!!! DO NOT FORGET TO DO THIS!!!!
 *****
 in the event that db needs to be deleted and rebuilt:
 

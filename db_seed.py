@@ -11,28 +11,28 @@ import csv
 import sqlalchemy.exc
 import re
  
-# ## based on func from ratings app, not sure about the use of try/ except
-# def load_users(session):
-#   """
-#     populates users table from seed file.
-#     seed file is using these fields:
-#   username|firstname|lastname|home region
-#     """
+def load_users(session):
+  """
+    populates users table from seed file.
+    seed file is using these fields:
+  username|firstname|lastname|home region
+    """
 	
-#     with open("db_seed_data/seed_users") as f:
-#         reader = csv.reader(f, delimiter="|")
-#         for row in reader:
-#             username, firstname, lastname, home_region = row
+    with open("db_seed_data/seed_users") as f:
+        reader = csv.reader(f, delimiter="|")
+        for row in reader:
+            username, firstname, lastname, home_region = row
 			
-#             u = model.User(username=username, email=None, password=None, firstname=firstname, lastname=lastname, home_region=home_region)
-#             session.add(u)
-
-#         # try:
-#         #     session.commit()
-#         # except sqlalchemy.exc.IntegrityError, e:
-#         #     session.rollback()
+            u = model.User(username=username, email=None, password=None, firstname=firstname, lastname=lastname, home_region=home_region)
+            session.add(u)
 		
-#         session.commit()
+		## based on func from ratings app, not sure about the use of try/ except
+        # try:
+        #     session.commit()
+        # except sqlalchemy.exc.IntegrityError, e:
+        #     session.rollback()
+		
+        session.commit()
 
 def load_locations(session):
 	"""
@@ -58,6 +58,7 @@ def load_locations(session):
 				lat=lat, long=long)
 			session.add(m)
 		 
+ 		## based on func from ratings app, not sure about the use of try/ except
 		# try:
 		#     session.commit()
 		# except:
@@ -105,7 +106,7 @@ unused stuff from ratings app, for ref if needed:
 
 def main(session):
 	# call each of the load_* functions with the session as an argument
-	# load_users(session)
+	load_users(session)
 	load_locations(session)
  
 if __name__ == "__main__":

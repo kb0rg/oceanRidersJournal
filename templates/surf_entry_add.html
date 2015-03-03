@@ -5,10 +5,19 @@
 
 <div id="entries-list">
 <h4>(this form is a work in progress)</h4>
-<!-- <form action="/addEntry" method="POST">
- -->
+
 <form action="/addEntry">
-<!-- add start and end time again later. for now, datetime NOW
+
+<!-- <form action="/addEntry" method="post">
+ -->
+<!-- 	
+todo: trying to fix get/ post issue, get this error:
+The method is not allowed for the requested URL.
+ -->
+
+
+
+ <!-- add start and end time again later. for now, datetime NOW
  -->
 <!-- Date:<br>
 <input type="date" name = "entry_date">
@@ -23,6 +32,25 @@ End Time (as HH:MM with "AM" or "PM"):<br>
 Beach Name:<br>
 <input type="text" name = "beach_name">
 <br>
+
+
+<!-- 
+got work to do on beach input.
+ultimately don't want to hard-code the drop-down.
+need jinja loop that reads loc table. 
+displays beach names. 
+passes table's loc id
+ -->
+<!-- 
+how to:
+get locations objects from route
+need a select tag to make dropdown
+w/in select tags,
+jinja for loop 
+(for now no region opt group. maybe add later)
+make <option> from selected attr of each loc object:
+<option name = "name of beach id var to go back to python, in quotes" value = "in jinja format, beach id"> "beach_name from jinja" </option>
+ -->
 
 Board Ridden:<br>
 <input type="text" name = "board_name">

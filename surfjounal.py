@@ -30,10 +30,22 @@ def list_entriesInfo():
 
     return render_template("about.html")
 
-@app.route("/addEntryGoTo")
+@app.route("/addEntryForm")
 def go_to_addEntry():
     """put everything from this form into the db"""
 
+
+    # need jinja loop that reads loc table. 
+    # query db for all locations 
+    # grab all locations as objects, pass those as array to template
+    # will have ALL attributes of each loc, can pick and choose 
+    #  on the html side
+
+
+    return render_template("surf_entry_add.html")
+
+
+    ### clean this up -- api notes in wrong place
     # noaa_url = "http://tidesandcurrents.noaa.gov/api/datagetter?begin_date=20130101%2010:00&end_date=20130101%2010:24&station=8454000&product=water_level&datum=mllw&units=metric&time_zone=gmt&application=web_services&format=json"
     # r = requests.get(noaa_url)
     # spitcast_tide_url = "http://api.spitcast.com/api/county/tide/san-francisco/"
@@ -43,9 +55,7 @@ def go_to_addEntry():
     # # json.load vs json.loads, json.dumps, Flask.jsonify
     # s = model.Session(date, time,)
     # model.session.add
-    return render_template("surf_entry_add.html")
 
-# @app.route("/addEntry", methods=["POST"])
 @app.route("/addEntry")
 def add_entry():
     """receive input from add_entry form, commit to db, then list all existing entries."""
@@ -80,54 +90,27 @@ def add_entry():
     # make API call using location id
     # parse API json, grab and bind to var the piece that I want
     
-
     # add piece from api to this instance of model.Entry
     new_entry = model.Entry(date_time_start = date_time_start, date_time_end=date_time_end, beach_name = beach_name, board_name=board_name, board_pref = board_pref)
     session.add(new_entry)
     session.commit()
-    entry_list = session.query(model.Entry).all()
+    # entry_list = session.query(model.Entry).all()
     # TODO -- want to filer entries by date. filter_by seems to want specific entry data. is there a sort?
     # look below at show_melon( get_melon_by_id())?
-    return render_template("surf_entries_summary.html", entries = entry_list)
+    return redirect("/entries")
 
-# @app.route("/entriesSummary")
-# def list_entriesInfo():
-#     """temp page while building? or turn into intro/ about page?
-#     currently a list of all of the potential info that can be collected"""
 
-#     return render_template("surf_entries_summary.html")
 
 @app.route("/entries")
 def list_entries():
-    """diplay all of the surf entries logged so far"""
+    """displays all of the surf entries logged so far"""
 
-    ## This breaks when I try to send it to same page as /addEntry
-    # return render_template("surf_entries_summary.html")
-    ## can I re-route it to the result of the add_entry function?
-    # return add_entry()
-    ## NOPE. temporarily re-routing it to the old page.
-    """
-    todo: figure out how to make this button go to the list page.
-    """ 
-    ## ah! just need to start a session, define entry list, and pass it to the template.
     session = model.session
     entry_list = session.query(model.Entry).all()
 
-    ## except --- this template does not *do* anything with the entry list. 
-    # return render_template("surf_entries_list.html", entries = entry_list)
-    ## so... render the other (entries) template, and deprecate the old (list) one
     return render_template("surf_entries_summary.html", entries = entry_list)
 
-
-
-@app.route("/board_quiver")
-def edit_quiver():
-    """display and edit existing quiver of boards"""
-    # melons = model.get_melons()
-    # return render_template("surf_entries.html",
-    #                        session_list = entries)
-    return render_template("board_quiver.html")    
-
+### use this as ref for making "entry details" happen?
 # @app.route("/melon/<int:id>")
 # def show_melon(id):
 #     """This page shows the details of a given melon, as well as giving an
@@ -136,6 +119,14 @@ def edit_quiver():
 #     print melon
 #     return render_template("melon_details.html",
 #                   display_melon = melon)
+
+@app.route("/board_quiver")
+def edit_quiver():
+    """display and edit existing quiver of boards"""
+    # melons = model.get_melons()
+    # return render_template("surf_entries.html",
+    #                        session_list = entries)
+    return render_template("board_quiver.html")    
 
 
 @app.route("/login", methods=["GET"])

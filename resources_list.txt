@@ -96,7 +96,7 @@ OTHER PEOPLE'S PROJECTS ON GITHUB
 
 (see thrash town, web apps above)
 https://github.com/ramdog/thrashtown
-js
+(but it's written in js)
 
 ----------------------------------------------------------
 
