@@ -7,67 +7,108 @@ import json
 from datetime import datetime
 
 
-# todo: set python variables (AS CONSTANTS?) to access variables in keys.sh, EX:
-#NAME_CONSUMER_KEY=os.environ["NAME_CONSUMER_KEY"]
-# remember to source key.sh to set tokens as env variables for that session.
-
+"""
+todo:
+app.secret.key = do I need to change this, or hide it in a secrets file?
+"""
 app = Flask(__name__)
 app.secret_key = '\xf5!\x07!qj\xa4\x08\xc6\xf8\n\x8a\x95m\xe2\x04g\xbb\x98|U\xa2f\x03'
 app.jinja_env.undefined = jinja2.StrictUndefined
+
+"""
+remember to source keys .sh file to set tokens as env variables for each terminal session.
+"""
+
+def msw_query(spot_id):
+
+    """
+    make call to MSW API to get info for journal entry.
+    """
+
+    MSW_API_KEY = os.environ['MSW_ACCESS_TOKEN']
+    # base URL for MSW API requests
+    MSW_API_URL = "http://magicseaweed.com/api/"+MSW_API_KEY+"/forecast/?spot_id=" +str(spot_id)+"&units=us"
+
+    """
+    api call todo:
+    -> spot_id hardwired for now, 
+    but need to make this read from "add_entry" form
+    -> filter out FIRST index of response, for now
+    -> pass the api resp to entries table (model Entry arg)
+    -> edit display template to include swell info
+    -> get arrows from MSW?!
+
+    REFACTOR QUESTION:
+    break this into separate functions?
+    build query, make query, parse query???
+    add arg for which attr querying, loop queries?
+    """
+
+    ## generic query gets all forecast for given spot_id
+    # msw_resp = requests.get(MSW_API_URL)
+    # msw_json_list = msw_resp.json()
+    # msw_json_obj = msw_json[0]
+
+    # request all attr of primary swell
+    MSW_API_URL_SWELL1 = MSW_API_URL+"swell.components.primary.*"
+    msw_swell1_resp = requests.get(MSW_API_URL_SWELL1)
+    msw_swell1_json_list = msw_swell1_resp.json()
+    msw_swell1_json_obj = msw_swell1_json_list[0]
+    return msw_swell1_json_obj
+
 
 @app.route("/")
 def index():
     """This is the 'cover' page of kborg's surf journal site.
     It will contain some kind of awesome background image.
     And a logo. And maybe some inspirational text. 
-    But first I have to build the rest of the damn site."""
+    But first kborg has to build the rest of the damn site."""
     return render_template("index.html")
 
 @app.route("/about")
 def list_entriesInfo():
-    """temp page while building? or turn into intro/ about page?
+    """temp page while building -- or turn into intro/ about page.
     currently a list of all of the potential info that can be collected"""
 
     return render_template("about.html")
 
 @app.route("/addEntryForm")
 def go_to_addEntry():
-    """put everything from this form into the db"""
+    """go to the form to add an entry to the surf journal.
+    """
 
-
+    """
+    todo add entry page:
+    flesh out the locations dropdown.
+    unclear on how to query db from jinja inside html?
+    or do I somehow do it here, and pass that back to the template?
     # need jinja loop that reads loc table. 
     # query db for all locations 
     # grab all locations as objects, pass those as array to template
     # will have ALL attributes of each loc, can pick and choose 
     #  on the html side
-
+    """
 
     return render_template("surf_entry_add.html")
 
-
-    ### clean this up -- api notes in wrong place
-    # noaa_url = "http://tidesandcurrents.noaa.gov/api/datagetter?begin_date=20130101%2010:00&end_date=20130101%2010:24&station=8454000&product=water_level&datum=mllw&units=metric&time_zone=gmt&application=web_services&format=json"
-    # r = requests.get(noaa_url)
-    # spitcast_tide_url = "http://api.spitcast.com/api/county/tide/san-francisco/"
-    # r = requests.get(spitcast_tide_url)
-    # return json.dumps(r.json())
-
-    # # json.load vs json.loads, json.dumps, Flask.jsonify
-    # s = model.Session(date, time,)
-    # model.session.add
-
-@app.route("/addEntry")
+@app.route("/addEntryToDB")
 def add_entry():
     """receive input from add_entry form, commit to db, then list all existing entries."""
 
-    ### TODO -- ask about this!
+    """
+    TODO -- ask about this!
     ## this breaks now that I switched model to scoped sessions.
     # session = model.connect()
-    ## try this?
+    ## session = model.session works! 
+    but... should I put the session somewhere else, like in main? 
+    or is it appropriate to make session calls inside particular routes?
+    """
     session = model.session
-    ## this works! but should I put the session somewhere else, like in main?
 
-
+    """
+    todo:
+    rewire start and end time functionality
+    """
     ## remove date and time inputs for now. 
     # entry_date = request.args.get("entry_date")
     # start_time = request.args.get("start_time")
@@ -83,22 +124,42 @@ def add_entry():
 
     # queries from user
     beach_name = request.args.get("beach_name")
+    spot_name = request.args.get("spot_name")
     board_name = request.args.get("board_name")
     board_pref = request.args.get("board_pref")
-    # add location
-    # get location id from locations table
-    # make API call using location id
-    # parse API json, grab and bind to var the piece that I want
-    
+
+    """
+    todo entry location:
+    # get location id from locations dropdown value
+    # query loc table to get msw_id using loc_id
+    # pass msw_id to msw_query()
+    # parse API json, grab pieces that I want and bind to var     
+    """
+
+    # base URL for MSW API requests REQUIRES spot id
+    # using bolinas jetty as test/ default.
+    msw_id = 4215
+    # make API call using msw_id
+    msw_swell1_json_obj = msw_query(msw_id)
+
+    # parse msw response object into desired attr
+    swell1_ht = msw_swell1_json_obj["swell"]['components']['primary']['height']
+    swell1_per = msw_swell1_json_obj["swell"]['components']['primary']['period']
+    swell1_dirDeg = msw_swell1_json_obj["swell"]['components']['primary']['direction']
+    swell1_dirComp = msw_swell1_json_obj["swell"]['components']['primary']['compassDirection']
+
     # add piece from api to this instance of model.Entry
-    new_entry = model.Entry(date_time_start = date_time_start, date_time_end=date_time_end, beach_name = beach_name, board_name=board_name, board_pref = board_pref)
+    new_entry = model.Entry(date_time_start = date_time_start, date_time_end=date_time_end,
+                            beach_name = beach_name, spot_name = spot_name,
+                            swell1_ht = swell1_ht, swell1_per = swell1_per, 
+                            swell1_dirDeg = swell1_dirDeg, swell1_dirComp = swell1_dirComp,
+                            board_name=board_name, board_pref = board_pref)
     session.add(new_entry)
     session.commit()
     # entry_list = session.query(model.Entry).all()
     # TODO -- want to filer entries by date. filter_by seems to want specific entry data. is there a sort?
     # look below at show_melon( get_melon_by_id())?
     return redirect("/entries")
-
 
 
 @app.route("/entries")
@@ -109,6 +170,12 @@ def list_entries():
     entry_list = session.query(model.Entry).all()
 
     return render_template("surf_entries_summary.html", entries = entry_list)
+
+"""
+todo:
+entries details:
+add ability to display details of a given journal entry.
+"""
 
 ### use this as ref for making "entry details" happen?
 # @app.route("/melon/<int:id>")
@@ -123,26 +190,40 @@ def list_entries():
 @app.route("/board_quiver")
 def edit_quiver():
     """display and edit existing quiver of boards"""
+
+    """
+    todo quiver:
+    implement this. 
+
+
+    follow locations for dropdown functionality.
+    """
+
     # melons = model.get_melons()
     # return render_template("surf_entries.html",
     #                        session_list = entries)
+    
+
     return render_template("board_quiver.html")    
 
+
+"""
+todo: log-in. reference code from ratings below.
+additional goals:
+hash/ salt passwords.
+give different permissions to different users:
+ie, kborg = admin, can access pages that add locations, edit db...
+"""
 
 @app.route("/login", methods=["GET"])
 def show_login():
     return render_template("login.html")
-
 
 @app.route("/login", methods=["POST"])
 def process_login():
     """TODO: Receive the user's login credentials located in the 'request.form'
     dictionary, look up the user, and store them in the session."""
     return "Oops! This needs to be implemented"
-
-"""
-todo: log-in. reference code from ratings below. need to get user table set up before proceeding?
-"""
 
 # @app.route("/login", methods=["POST"])
 # def login():

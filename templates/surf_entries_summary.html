@@ -10,8 +10,14 @@
     	<th>Date - start time</th>
     	<th>Date - end time</th> 
     	<th>Which Beach</th>
+        <th>Which Spot?</th>
+        <th>Swell Direction</th>
+        <th>Swell Height</th>
+        <th>Swell Interval</th>
     	<th>Which Board?</th>
     	<th>Was it the Right Board?</th>
+
+
   	</tr>
 
 
@@ -23,6 +29,10 @@
     	<td>{{entry.date_time_start}}</td>
     	<td>{{entry.date_time_end}}</td>
     	<td>{{entry.beach_name}}</td>
+        <td>{{entry.spot_name}}</td>
+        <td>{{entry.swell1_dirDeg}}{{entry.swell1_dirComp}}</td>
+        <td>{{entry.swell1_ht}}</td>
+        <td>{{entry.swell1_per}}</td>
     	<td>{{entry.board_name}} </td>
     	<td>{{entry.board_pref}}</td>
     </tr>
@@ -35,10 +45,19 @@
 <li></li>
 <br>
 <h3>
-todo: fix the fact that every time I refresh this page, <br>
-previous entry is duplicated (in table and in display)
+todo:
 <br>
-fix datetime format to display more human-readably
+(style)
+<br>
+(and scale of table elements, getting crowded)
+<br>
+-fix datetime format to display more human-readably
+<br>
+-fix wording of board pref either in table-to-entry, or entry-to-display
+<br>
+- convert swell dir from MSW format to global degrees 
+<br>
+- add MSW graphics (arrows) to swell dir display
 <br>
 </h3>
 <br>
@@ -51,13 +70,14 @@ fix datetime format to display more human-readably
 <li>ability to jump to details page for any session</li>
 
 <h4>Additional features:</h4>
-<li>ability to expand view for each session (instead of going to details page)</li>
+<li>ability to dynamically expand view for each session (instead of going to details page)</li>
 <li>ability to sort/ filter by various fields (date, board, wavesize, location, friend, swell dir)</li>
 
 <h4>extra bonus options:</h4>
 <li>pull a screengrab from surfline's video feed from that day and time????</li>
 
-<li>link back to any of the other create with some info seeded from current entry?</li>
+<li>link back to "add entry" with some info seeded from currently selected entry?</li>
+(ie "create new entry like this one")
 <br>
 <br>
 <a href="http://magicseaweed.com"><img src="http://im-1-uk.msw.ms/msw_powered_by.png"></a>
