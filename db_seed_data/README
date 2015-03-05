@@ -3,7 +3,7 @@ index of seed data files:
 -->location_data:
 a pipe-separated file of location information:
 
-Region|Country|State or Province|County|Beach Name|MSW_ID of closest location|T or F msw id exists for this actual location|lat|lon|
+Region|Country|State or Province|County|Beach Name|MSW_ID used|msw id exists for this location?|Beach Name of closest MSW data|lat|lon|
 
 
 -->user_data: 
@@ -20,6 +20,6 @@ a pipe-separated file of example journal entry information, to get things rollin
 
 STRETCH GOALS:
 #?? additional locations data (presets and user-addable, with human-readable names?):
-#board (quiver) data:
+-->board (quiver) data:
 
 ||||||||

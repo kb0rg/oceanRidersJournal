@@ -15,8 +15,6 @@ todo: trying to fix get/ post issue, get this error:
 The method is not allowed for the requested URL.
  -->
 
-
-
  <!-- add start and end time again later. for now, datetime NOW
  -->
 <!-- Date:<br>
@@ -29,31 +27,43 @@ End Time (as HH:MM with "AM" or "PM"):<br>
 <input type="time" name="end_time"> -->
 
 
+<!-- 
+	temp location dropdown,
+	with hard-wired values
+	keep for visual ref: regions
+ -->
+<!-- Beach Name:<br>
+<select name = loc_id>
+<optgroup label="San Francisco">
+  <option value="1">Ocean Beach</option>
+<optgroup label="Marin">
+  <option value="2">Bolinas</option>
+  <option name = "loc_id" value="3">Stinson Beach</option>
+<optgroup label="San Mateo">
+  <option value="4">Linda Mar</option>
+  <option value="5">Rockaway</option>
+  <option value="6">Montara</option>
+</select> -->
+<!--  -->
+<!--  -->
+<!-- 
+todo:
+add region to dropdown. 
+not sure how to do this. 
+sort query before passing to template?
+conditional within template?
+-->
 Beach Name:<br>
-<input type="text" name = "beach_name"> (eg: Bolinas, Ocean Beach)
+<select name = "loc_id">
+	{% for loc in locations %}
+	<option value="{{loc.id}}">{{loc.beach_name}}</option>
+	{% endfor %}
+</select>
 <br>
 Spot Name:<br>
 <input type="text" name = "spot_name"> (eg: patch, Sloat)
 <br>
-
-<!-- 
-got work to do on beach input.
-ultimately don't want to hard-code the drop-down.
-need jinja loop that reads loc table. 
-displays beach names. 
-passes table's loc id
- -->
-<!-- 
-how to:
-get locations objects from route
-need a select tag to make dropdown
-w/in select tags,
-jinja for loop 
-(for now no region opt group. maybe add later)
-make <option> from selected attr of each loc object:
-<option name = "name of beach id var to go back to python, in quotes" value = "in jinja format, beach id"> "beach_name from jinja" </option>
- -->
-
+<br>
 Board Ridden:<br>
 <input type="text" name = "board_name">
 <br>
@@ -77,26 +87,28 @@ Did you wish you'd brought a different board?:<br>
 <h4>core info to include:<br>
 	(prioritized  from the "all potential info list, below)")
 </h4>
-<li> date and time (use dateime.now as a starting point. <br>
-	allow for making entries for past dates ... later)</li>
-<li>location pulldown (pick from existing options, limited to CA for now)</li>
-<li>board info (input field)</li>
-<li>board preference (buttons)</li>
+<li>&#10004; date and time (use dateime.now as a starting point.</li>
+<li>&#10004; location pulldown (pick from existing options, limited to CA for now)</li>
+<li>&#10004; board info (input field)</li>
+<li>&#10004; board preference (buttons)</li>
+<li>required fields?</li>
 <br>
 <br>
 <h4>Near-term stretch Goals: Additional features:</h4>
-<li>location nickname/ additional info (specific break w/in named beach)</li>
+<li>&#10004; location nickname/ additional info (specific break w/in named beach)</li>
 <li>link to stored board quiver with ability to edit/ add to quiver</li>
-<li>pick past date</li>
+<li>if not right board, allow to choose other board (pref field) from quiver? (pulldown)</li>
+<li>ability to make entry for past date</li>
 <li>crowd density (buttons?)</li>
 <li>crowd vibe (buttons?)</li>
-<li>start and end time</li>
+<li>start and end time (or start time/ duration)</li>
 <li>challenge level</li>
 <li>overall enjoyment of session</li>
 <li>input: additional notes</li>
 <li>surfed vs/ just observed<br>
 	(and if not surfed, input field for: why not surfed)
 </li>
+<li>iconify the subjective stuff (board pref, crowds, challenge level, etc</li>
 <br>
 <br>
 <h4>SUPER optimistic stretch goals: Additional features:</h4>
@@ -104,9 +116,13 @@ Did you wish you'd brought a different board?:<br>
 <li>add photo(s)</li>
 <li>set location by map</li>
 <li>set location from photo metadata</li>
+
 <!-- <li></li>
 <li></li> -->
 
-
+<!-- 
+this is a checkmark!
+&#10004; 
+ -->
 </div>
 {% endblock %}

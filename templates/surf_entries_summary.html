@@ -1,83 +1,77 @@
 {% extends 'base.html' %}
 {% block body %}
 
-<h3>Display all of the previously logged journal entries</h3>
+<h3>Display all of the previously logged journal entries:</h3>
 
 
 <table style="width:100%">
 <!-- saw examples using table id, and others using class. class is for css, right? -- what's id for? -->
 	<tr>
-    	<th>Date - start time</th>
-    	<th>Date - end time</th> 
+    	<th>Date: start time</th>
+    	<th>end time</th> 
     	<th>Which Beach</th>
         <th>Which Spot?</th>
         <th>Swell Direction</th>
-        <th>Swell Height</th>
-        <th>Swell Interval</th>
+        <th>Swell Height/ Interval</th>
     	<th>Which Board?</th>
     	<th>Was it the Right Board?</th>
-
 
   	</tr>
 
 
 <!-- HEY HOW DO I reformat the time JUST FOR DISPLAY PURPOSES???
  -->
+
+ <!-- 
+also need to query table to convert loc_id to beach name for display
+  -->
  
     {% for entry in entries %}
 	<tr>    
-    	<td>{{entry.date_time_start}}</td>
-    	<td>{{entry.date_time_end}}</td>
-    	<td>{{entry.beach_name}}</td>
+    	<td>{{entry.date_time_start.strftime('%m/%d/%Y %I:%m %p')}}</td>
+    	<td>{{entry.date_time_end.strftime('%I:%m %p')}}</td>
+    	<td>{{entry.loc_id}}</td>
         <td>{{entry.spot_name}}</td>
         <td>{{entry.swell1_dirDeg}}{{entry.swell1_dirComp}}</td>
-        <td>{{entry.swell1_ht}}</td>
-        <td>{{entry.swell1_per}}</td>
+        <td>{{entry.swell1_ht}} @ {{entry.swell1_per}} sec</td>
     	<td>{{entry.board_name}} </td>
     	<td>{{entry.board_pref}}</td>
     </tr>
 	{% endfor %}
-
 </table>
 
 
+<!-- MVP and stretch goal list, style-->
+<br>
+<h4>core styling tasks to do:</h4>
 
-<li></li>
+<li>scale table elements, getting crowded</li>
+<li>&#10004; fix datetime format to display more human-readably</li>
+<li>fix wording of board pref (in table-to-entry, or entry-to-display?)</li>
+<li>display beach name (get from loc_id)</li>
+<li>add MSW graphics (arrows) to swell dir display</li>
+<li>convert swell dir from MSW format to global degrees?</li>
 <br>
-<h3>
-todo:
-<br>
-(style)
-<br>
-(and scale of table elements, getting crowded)
-<br>
--fix datetime format to display more human-readably
-<br>
--fix wording of board pref either in table-to-entry, or entry-to-display
-<br>
-- convert swell dir from MSW format to global degrees 
-<br>
-- add MSW graphics (arrows) to swell dir display
-<br>
-</h3>
-<br>
-<li></li>
 
+<!-- MVP and stretch goal list, functionality-->
 
-<h4>core info to include:</h4>
-<li>list synopsis of all sessions</li>
-<li>ability to edit a previously entered session</li>
+<h4>core functionality todo:</h4>
+<li>&#10004; simple list synopsis of all sessions</li>
 <li>ability to jump to details page for any session</li>
-
+<br>
+<br>
 <h4>Additional features:</h4>
+<li>ability to edit a previously entered session?</li>
 <li>ability to dynamically expand view for each session (instead of going to details page)</li>
 <li>ability to sort/ filter by various fields (date, board, wavesize, location, friend, swell dir)</li>
-
+<br>
+<br>
 <h4>extra bonus options:</h4>
 <li>pull a screengrab from surfline's video feed from that day and time????</li>
-
 <li>link back to "add entry" with some info seeded from currently selected entry?</li>
 (ie "create new entry like this one")
+<li>tell user what (nearest) beach's msw is displayed if entry's beach has no msw forecast</li>
+<li>additional query/ graphs for end time if duration > n?</li>
 <br>
 <br>
 <a href="http://magicseaweed.com"><img src="http://im-1-uk.msw.ms/msw_powered_by.png"></a>

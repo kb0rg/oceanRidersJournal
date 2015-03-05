@@ -6,9 +6,13 @@ import requests
 import json
 from datetime import datetime
 
+"""
+TODO: general:
+review post/ get methods and see if/ where post should be used
+"""
 
 """
-todo:
+TODO:
 app.secret.key = do I need to change this, or hide it in a secrets file?
 """
 app = Flask(__name__)
@@ -19,10 +23,10 @@ app.jinja_env.undefined = jinja2.StrictUndefined
 remember to source keys .sh file to set tokens as env variables for each terminal session.
 """
 
-def msw_query(spot_id):
+def msw_getSwell1(spot_id):
 
     """
-    make call to MSW API to get info for journal entry.
+    make call to magicseaweed API to get info for journal entry.
     """
 
     MSW_API_KEY = os.environ['MSW_ACCESS_TOKEN']
@@ -30,18 +34,20 @@ def msw_query(spot_id):
     MSW_API_URL = "http://magicseaweed.com/api/"+MSW_API_KEY+"/forecast/?spot_id=" +str(spot_id)+"&units=us"
 
     """
-    api call todo:
-    -> spot_id hardwired for now, 
-    but need to make this read from "add_entry" form
-    -> filter out FIRST index of response, for now
-    -> pass the api resp to entries table (model Entry arg)
-    -> edit display template to include swell info
-    -> get arrows from MSW?!
+    api call TODO:
+    -> find response by time closest to quert time?
+    (filtering out FIRST index of response for now)
 
     REFACTOR QUESTION:
-    break this into separate functions?
+    break this into separate functions:
     build query, make query, parse query???
     add arg for which attr querying, loop queries?
+
+    katie says: no.
+    can make multiple copies of this func for different queriers as needed,
+    save those out into a module to be imported into controller.
+    in module, move constants outside function.
+    for now, leave this here.
     """
 
     ## generic query gets all forecast for given spot_id
@@ -59,55 +65,67 @@ def msw_query(spot_id):
 
 @app.route("/")
 def index():
-    """This is the 'cover' page of kborg's surf journal site.
+    
+    """
+    This is the 'cover' page of kborg's surf journal site.
     It will contain some kind of awesome background image.
     And a logo. And maybe some inspirational text. 
-    But first kborg has to build the rest of the damn site."""
+    But first kborg has to build the rest of the damn site.
+    """
+
     return render_template("index.html")
 
 @app.route("/about")
 def list_entriesInfo():
-    """temp page while building -- or turn into intro/ about page.
-    currently a list of all of the potential info that can be collected"""
+
+    """
+    temp page while building -- or turn into intro/ about page.
+    currently a list of all of the potential info that can be collected
+    """
 
     return render_template("about.html")
 
 @app.route("/addEntryForm")
 def go_to_addEntry():
-    """go to the form to add an entry to the surf journal.
+
+    """
+    goes to the form to add an entry to the surf journal.
+    gets info from the db to send to/ populate the form.
     """
 
     """
-    todo add entry page:
-    flesh out the locations dropdown.
-    unclear on how to query db from jinja inside html?
-    or do I somehow do it here, and pass that back to the template?
-    # need jinja loop that reads loc table. 
-    # query db for all locations 
-    # grab all locations as objects, pass those as array to template
-    # will have ALL attributes of each loc, can pick and choose 
-    #  on the html side
+    TODO: add entry form:
+    flesh out the locations dropdown with regions.
+    add board quiver info.
     """
 
-    return render_template("surf_entry_add.html")
+    # get all locations from db and pass to template for dropdown
+    loc_list = model.session.query(model.Location).all()
+    # print loc_list
+
+    return render_template("surf_entry_add.html", locations = loc_list)
 
 @app.route("/addEntryToDB")
 def add_entry():
     """receive input from add_entry form, commit to db, then list all existing entries."""
 
     """
-    TODO -- ask about this!
-    ## this breaks now that I switched model to scoped sessions.
-    # session = model.connect()
-    ## session = model.session works! 
-    but... should I put the session somewhere else, like in main? 
-    or is it appropriate to make session calls inside particular routes?
+    TODO:
+    get user_id from session once log-in enabled
     """
-    session = model.session
+    # temp hardwire user id to kborg
+    user_id = 1
 
     """
-    todo:
+    TODO:
     rewire start and end time functionality
+    - decide whether endtime triggers query, or 
+    is just for personal record of surf duration
+    - if no cron:
+        - keep start as datetime now 
+    - if cron:
+        - find closest report time to start time
+        and plug THAT into db query
     """
     ## remove date and time inputs for now. 
     # entry_date = request.args.get("entry_date")
@@ -123,14 +141,13 @@ def add_entry():
     print "\n" * 3, "date_time_start: ", date_time_start, "date_time_end: ", date_time_end
 
     # queries from user
-    beach_name = request.args.get("beach_name")
+    loc_id = request.args.get("loc_id")
     spot_name = request.args.get("spot_name")
     board_name = request.args.get("board_name")
     board_pref = request.args.get("board_pref")
 
     """
-    todo entry location:
-    # get location id from locations dropdown value
+    TODO: entry location:
     # query loc table to get msw_id using loc_id
     # pass msw_id to msw_query()
     # parse API json, grab pieces that I want and bind to var     
@@ -138,9 +155,15 @@ def add_entry():
 
     # base URL for MSW API requests REQUIRES spot id
     # using bolinas jetty as test/ default.
-    msw_id = 4215
+    # msw_id = 4215
+
+    # look up loc from loc table: from loc_id get msw_id
+    loc_obj = model.session.query(model.Location).get(loc_id)
+    # assign db's msw_id to this function's msw_id var
+    msw_id = loc_obj.msw_id
+
     # make API call using msw_id
-    msw_swell1_json_obj = msw_query(msw_id)
+    msw_swell1_json_obj = msw_getSwell1(msw_id)
 
     # parse msw response object into desired attr
     swell1_ht = msw_swell1_json_obj["swell"]['components']['primary']['height']
@@ -149,16 +172,16 @@ def add_entry():
     swell1_dirComp = msw_swell1_json_obj["swell"]['components']['primary']['compassDirection']
 
     # add piece from api to this instance of model.Entry
-    new_entry = model.Entry(date_time_start = date_time_start, date_time_end=date_time_end,
-                            beach_name = beach_name, spot_name = spot_name,
+    new_entry = model.Entry(user_id = user_id,
+                            date_time_start = date_time_start, date_time_end=date_time_end,
+                            loc_id = loc_id, spot_name = spot_name,
                             swell1_ht = swell1_ht, swell1_per = swell1_per, 
                             swell1_dirDeg = swell1_dirDeg, swell1_dirComp = swell1_dirComp,
                             board_name=board_name, board_pref = board_pref)
-    session.add(new_entry)
-    session.commit()
-    # entry_list = session.query(model.Entry).all()
-    # TODO -- want to filer entries by date. filter_by seems to want specific entry data. is there a sort?
-    # look below at show_melon( get_melon_by_id())?
+
+    model.session.add(new_entry)
+    model.session.commit()
+
     return redirect("/entries")
 
 
@@ -166,13 +189,14 @@ def add_entry():
 def list_entries():
     """displays all of the surf entries logged so far"""
 
-    session = model.session
-    entry_list = session.query(model.Entry).all()
+    entry_list = model.session.query(model.Entry).all()
+
+    # TODO -- want to filter entries by date. sort here or on display/ template side?
 
     return render_template("surf_entries_summary.html", entries = entry_list)
 
 """
-todo:
+TODO:
 entries details:
 add ability to display details of a given journal entry.
 """
@@ -192,23 +216,15 @@ def edit_quiver():
     """display and edit existing quiver of boards"""
 
     """
-    todo quiver:
+    TODO quiver:
     implement this. 
-
-
+    ...
     follow locations for dropdown functionality.
     """
-
-    # melons = model.get_melons()
-    # return render_template("surf_entries.html",
-    #                        session_list = entries)
-    
-
-    return render_template("board_quiver.html")    
-
+    return render_template("board_quiver.html")
 
 """
-todo: log-in. reference code from ratings below.
+TODO: log-in. reference code from ratings below.
 additional goals:
 hash/ salt passwords.
 give different permissions to different users:

@@ -46,9 +46,8 @@ class Entry(Base):
     date_time_start = Column(DateTime, nullable = False)
     date_time_end = Column(DateTime, nullable = False)
 
-
     """
-    todo location:
+    todo entry location:
     -> need to explicity link this to ID in loc table?
     -> make not nullable? or give warning in form that if not provided, 
     no weather info will be given?
@@ -56,13 +55,14 @@ class Entry(Base):
     # todo LATER: add input field for more specific spot_name /nickname (ie Patch or Noriega)
     """
     ## for working with temp beach name input text field:
-    beach_name = Column(String(64), nullable = False)
+    # beach_name = Column(String(64), nullable = False)
+
     # beach from location ID (uses loc table's loc_id)
-    # loc_id = Column(Integer, nullable = True)
+    loc_id = Column(Integer, nullable = True)
     spot_name = Column(String(64), nullable = True)
 
     """
-    todo board:
+    todo entry board:
     -> make not nullable? 
     LATER:
     --> make board table
@@ -82,14 +82,17 @@ class Entry(Base):
     -> add air and water temp
     -> remove dirComp if function converts to global degrees
     """
-    ## pull swell, wind, and tide data from apis and add to entry
+    ## pull swell1 data from apis and add to entry
     swell1_ht = Column(Float, nullable = True)
     swell1_per = Column(Integer, nullable = True)
     swell1_dirDeg = Column(Float, nullable = True)
     swell1_dirComp = Column(String(4), nullable = True)
 
+    ## pull swell2 and 3, wind, and temp data from MSW api and add to entry
+    ## tide data from .... api?  and add to entry
+
     def __repr__(self):
-        return "%d, %s, %s" % (self.id, self.beach_name, self.board_pref)
+        return "%d, %d, %s, %s, %s" % (self.id, self.loc_id, self.spot_name, self.board_name, self.board_pref)
 
 class User(Base):
     """
@@ -119,27 +122,26 @@ class Location(Base):
 
     """
     for temp reference: seed file is using these fields:
-    Region|Country|State or Province|County|Beach Name|MSW_ID of closest location|T or F msw id exists for this actual location|lat|lon|
+    Region|Country|State or Province|County|Beach Name|MSW_ID used|msw id exists for this location?|
+    Beach Name of closest MSW data|lat|lon|
     """
 
     id = Column(Integer, primary_key = True)
     # general location name, ie Bolinas or Ocean Beach
     beach_name = Column(String(64), nullable = False)
 
-    # human-readable location
+    # human-readable location info:
+    # (allowing for future expansion beyond CA)
     region = Column(String(64), nullable = False)
     country = Column(String(64), nullable = False)
     state_or_prov = Column(String(64), nullable = False)
     county = Column(String(64), nullable = False)
 
-    """
-    todo API id:
-    need field identifying which beach's msw is being used, if false?
-    """
-
-    # API - readable location
+    # API-readable location info:
     msw_id = Column(Integer, nullable = True)
     msw_unique_id_exists = Column(Boolean, nullable = True)
+    # which beach's MSW report is being displayed:
+    msw_beach_name = Column(String(64), nullable = False)
 
     """
     todo latlong:
@@ -158,21 +160,10 @@ class Location(Base):
 
 ### End class declarations
 
-"""
-deprecated this function in favor of scoped session (threadsafe)
-(see top of file)
-# def connect():
-#     global ENGINE
-#     global Session
-#     ENGINE = create_engine("sqlite:///db_surfjournal.db", echo=True)
-#     Session = sessionmaker(bind=ENGINE)
-
-#     return Session()
-"""
 
 def main():
     """In case we need this for something"""
-    pass
+    print "Welcome to your surfjournal's model."
 
 if __name__ == "__main__":
     main()
