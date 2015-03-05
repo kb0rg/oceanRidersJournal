@@ -119,8 +119,9 @@ def add_entry():
     """
     TODO:
     rewire start and end time functionality
-    - decide whether endtime triggers query, or 
-    is just for personal record of surf duration
+    - decide whether endtime triggers another 
+    query to get changes in conditions, or 
+    if it's just for personal record of duration
     - if no cron:
         - keep start as datetime now 
     - if cron:

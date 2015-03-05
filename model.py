@@ -1,6 +1,7 @@
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy import create_engine
 from sqlalchemy import Boolean, Column, Integer, Float, String, DateTime, func
+from sqlalchemy import ForeignKey
 from sqlalchemy.orm import sessionmaker, scoped_session, relationship, backref
 
 # not sure if I need regex -- was used in one of the examples I may not be using
@@ -18,81 +19,6 @@ session = scoped_session(sessionmaker(bind=engine,
 
 ### Class declarations go here
 Base = declarative_base()
-
-class Entry(Base):
-    """
-    makes a row in the entries table.
-    """
-    __tablename__ = "entries"
-
-    # automatically generated when instance is created
-    id = Column(Integer, primary_key = True)
-
-    """
-    todo user: 
-    -> make not nullable? 
-    -> need to get this from login info
-    --> need to explicity link this to ID in users table?
-    --> include name? (if so, get from user table by id)
-    """
-    user_id = Column(Integer, nullable = True)
-    # user_name = Column(String(64), nullable = False)
-
-    """
-    todo datetime:
-    -> set up form to make inputs, not just use datetime.now 
-    --> format in a way MSW can read, or do that conversion at API call?
-    """
-    date_time_start = Column(DateTime, nullable = False)
-    date_time_end = Column(DateTime, nullable = False)
-
-    """
-    todo entry location:
-    -> need to explicity link this to ID in loc table?
-    -> make not nullable? or give warning in form that if not provided, 
-    no weather info will be given?
-    -> make dropdown in form that reads from loc table
-    # todo LATER: add input field for more specific spot_name /nickname (ie Patch or Noriega)
-    """
-    ## for working with temp beach name input text field:
-    # beach_name = Column(String(64), nullable = False)
-
-    # beach from location ID (uses loc table's loc_id)
-    loc_id = Column(Integer, nullable = True)
-    spot_name = Column(String(64), nullable = True)
-
-    """
-    todo entry board:
-    -> make not nullable? 
-    LATER:
-    --> make board table
-    --> relate board_id to boards table
-    --> make ability to get from and/or add to quiver?
-    """
-    # board_id = Column(Integer, nullable = True)
-    board_name = Column(String(64), nullable = True)
-    board_pref = Column(String(64), nullable = True)
-
-
-    """
-    todo API:
-    -> add swell2 and swell3?
-    -> add tide height and state
-    -> add wind speed and direction
-    -> add air and water temp
-    -> remove dirComp if function converts to global degrees
-    """
-    ## pull swell1 data from apis and add to entry
-    swell1_ht = Column(Float, nullable = True)
-    swell1_per = Column(Integer, nullable = True)
-    swell1_dirDeg = Column(Float, nullable = True)
-    swell1_dirComp = Column(String(4), nullable = True)
-
-    ## pull swell2 and 3, wind, and temp data from MSW api and add to entry
-    ## tide data from .... api?  and add to entry
-
-    def __repr__(self):
-        return "%d, %d, %s, %s, %s" % (self.id, self.loc_id, self.spot_name, self.board_name, self.board_pref)
 
 class User(Base):
     """
@@ -157,6 +83,84 @@ class Location(Base):
 
     def __repr__(self):
         return "<Location: %d, %s, MSW (or nearest) ID: %d >"%(self.id, self.beach_name, self.msw_id) 
+
+class Entry(Base):
+    """
+    makes a row in the entries table.
+    """
+    __tablename__ = "entries"
+
+    # automatically generated when instance is created
+    id = Column(Integer, primary_key = True)
+
+    """
+    todo user: 
+    -> need to get this from login info
+    """
+    user_id = Column(Integer, ForeignKey('users.id'))
+
+    user = relationship("User",
+        backref=backref("entries", order_by=id))
+
+    """
+    todo datetime:
+    -> set up form to make inputs, not just use datetime.now 
+    --> format in a way MSW can read, or do that conversion at API call?
+    """
+    date_time_start = Column(DateTime, nullable = False)
+    date_time_end = Column(DateTime, nullable = False)
+
+    """
+    todo entry location:
+    -> need to explicity link this to ID in loc table?
+    -> make not nullable? or give warning in form that if not provided, 
+    no weather info will be given?
+    -> make dropdown in form that reads from loc table
+    # todo LATER: add input field for more specific spot_name /nickname (ie Patch or Noriega)
+    """
+    ## for working with temp beach name input text field:
+    # beach_name = Column(String(64), nullable = False)
+
+    # beach from location ID (uses loc table's loc_id)
+    loc_id = Column(Integer, ForeignKey('locations.id'))
+    spot_name = Column(String(64), nullable = True)
+
+    loc = relationship("Location",
+        backref=backref("entries", order_by=id))
+
+    """
+    todo entry board:
+    -> make not nullable? 
+    LATER:
+    --> make board table
+    --> relate board_id to boards table
+    --> make ability to get from and/or add to quiver?
+    """
+    # board_id = Column(Integer, nullable = True)
+    board_name = Column(String(64), nullable = True)
+    board_pref = Column(String(64), nullable = True)
+
+
+    """
+    todo API:
+    -> add swell2 and swell3?
+    -> add tide height and state
+    -> add wind speed and direction
+    -> add air and water temp
+    -> remove dirComp if function converts to global degrees
+    """
+    ## pull swell1 data from apis and add to entry
+    swell1_ht = Column(Float, nullable = True)
+    swell1_per = Column(Integer, nullable = True)
+    swell1_dirDeg = Column(Float, nullable = True)
+    swell1_dirComp = Column(String(4), nullable = True)
+
+    ## pull swell2 and 3, wind, and temp data from MSW api and add to entry
+    ## tide data from .... api?  and add to entry
+
+    def __repr__(self):
+        return "%d, %d, %s, %s, %s" % (self.id, self.loc_id, self.spot_name, self.board_name, self.board_pref)
+
 
 ### End class declarations
 
