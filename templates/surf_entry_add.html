@@ -69,9 +69,11 @@ Board Ridden:<br>
 <br>
 <!-- how to make this field mandatory? -->
 Did you wish you'd brought a different board?:<br>
-<input type="radio" name = "board_pref" value = "board_smaller">(smaller)
-<input type="radio" name = "board_pref" value = "board_ok">(just right)
-<input type="radio" name = "board_pref" value = "board_bigger">(bigger)
+<input type="radio" name = "board_pref" required value = "smaller">(smaller)
+<input type="radio" name = "board_pref" value = "ok">(just right)
+<input type="radio" name = "board_pref" value = "bigger">(bigger)
+<br>
+<input type="text" name = "board_notes">Any notes on board choice?
 <br>
 <h4> This entry will be automatically created with today's date and the current time.</h4>
 <h3> Ability to specify past dates/ times will be implemented later.</h3>

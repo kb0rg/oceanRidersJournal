@@ -5,12 +5,7 @@ from sqlalchemy import ForeignKey
 from sqlalchemy.orm import sessionmaker, scoped_session, relationship, backref
 
 # not sure if I need regex -- was used in one of the examples I may not be using
-import re
-
-"""
-using ratings webapp for reference here. see "deployed" branch on HB github
-https://github.com/hackbrightacademy/ratings/blob/deployed/judgemental.py
-"""
+# import re
 
 engine = create_engine("sqlite:///db_surfjournal.db", echo=False) 
 session = scoped_session(sessionmaker(bind=engine,
@@ -46,12 +41,6 @@ class Location(Base):
     """
     __tablename__ = "locations"
 
-    """
-    for temp reference: seed file is using these fields:
-    Region|Country|State or Province|County|Beach Name|MSW_ID used|msw id exists for this location?|
-    Beach Name of closest MSW data|lat|lon|
-    """
-
     id = Column(Integer, primary_key = True)
     # general location name, ie Bolinas or Ocean Beach
     beach_name = Column(String(64), nullable = False)
@@ -84,6 +73,39 @@ class Location(Base):
     def __repr__(self):
         return "<Location: %d, %s, MSW (or nearest) ID: %d >"%(self.id, self.beach_name, self.msw_id) 
 
+class Board(Base):
+    """
+    makes a row in the boards table.
+    """
+    __tablename__ = "boards"
+
+    id = Column(Integer, primary_key = True)
+
+    """
+    TODO boards general:
+    --> ?? make field to note if board is borrowed/ whose it is?
+    (for purposes of db, each board has only one user)
+    """
+    """
+    todo board user: 
+    -> need to get this from login info
+    """
+    user_id = Column(Integer, ForeignKey('users.id'))
+
+    user = relationship("User",
+        backref=backref("boards", order_by=id))
+
+    nickname = Column(String(64), nullable = False)
+    type = Column(String(64), nullable = False)
+    length_ft = Column(Integer, nullable = True)
+    length_in = Column(Integer, nullable = True)
+    shaper = Column(String(64), nullable = True)
+    model = Column(String(64), nullable = True)
+    fins = Column(String(64), nullable = True)
+
+    def __repr__(self):
+        return "<Board: %d, %s, %s %d\' %d\">"%(self.id, self.nickname, self.shaper, self.lenght_ft, self.lenght_in) 
+
 class Entry(Base):
     """
     makes a row in the entries table.
@@ -94,8 +116,8 @@ class Entry(Base):
     id = Column(Integer, primary_key = True)
 
     """
-    todo user: 
-    -> need to get this from login info
+    todo entry user: 
+    -> should get this from login info
     """
     user_id = Column(Integer, ForeignKey('users.id'))
 
@@ -103,7 +125,7 @@ class Entry(Base):
         backref=backref("entries", order_by=id))
 
     """
-    todo datetime:
+    todo entry datetime:
     -> set up form to make inputs, not just use datetime.now 
     --> format in a way MSW can read, or do that conversion at API call?
     """
@@ -130,16 +152,20 @@ class Entry(Base):
 
     """
     todo entry board:
-    -> make not nullable? 
+    --> make ability to get board from quiver in form
     LATER:
-    --> make board table
-    --> relate board_id to boards table
-    --> make ability to get from and/or add to quiver?
+    --> ?? (entry has only one board, or multiple?)
+    --> ? make ability to add to quiver?
+    --> ? delete board name once id/ quiver is wired?
     """
-    # board_id = Column(Integer, nullable = True)
-    board_name = Column(String(64), nullable = True)
-    board_pref = Column(String(64), nullable = True)
+    board_id = Column(Integer, ForeignKey('boards.id'))
 
+    # board_name = Column(String(64), nullable = True) 
+    board_pref = Column(String(64), nullable = False)
+    board_notes = Column(String(64), nullable = True)
+
+    board = relationship("Board",
+        backref=backref("entries", order_by=id))
 
     """
     todo API:

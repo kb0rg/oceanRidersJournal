@@ -13,6 +13,7 @@ import sqlalchemy.exc
 import re
  
 def load_users(session):
+
     """
     populates users table from seed file.
     seed file is using these fields:
@@ -36,6 +37,7 @@ def load_users(session):
         session.commit()
 
 def load_locations(session):
+
     """
     populates locations table from seed file.
     seed file is using these fields:
@@ -69,49 +71,55 @@ def load_locations(session):
 
         session.commit()
 
-"""
-unused stuff from ratings app, for ref if needed:
 
-# ## based on func from ratings app, not sure about the use of try/ except
-# def load_entries(session):
-#     with open("db_seed_data/seed_entries") as f:
-#         reader = csv.reader(f, delimiter="|")
-#         for row in reader:
-#             # username, firstname, lastname, home_region = row
-#             # u = model.User(username=username, email=None, password=None, firstname=firstname, lastname=lastname, home_region=home_region)
-#             # session.add(u)
-#             ## this might be useful for entries table
-#             # if not release_date:
-#             #     continue
-#             # release_date = datetime.datetime.strptime(release_date, "%d-%b-%Y")
+def load_boards(session):
 
-#         # try:
-#         #     session.commit()
-#         # except sqlalchemy.exc.IntegrityError, e:
-#         #     session.rollback()
-        
-#         session.commit()
+    """
+    populates boards table from seed file.
+    seed file is using these fields:
+    user|nickname|type|lenght_ft|lenght_in|shaper|model|fins
+    """
 
-## from ratings app, this function does NOT use try/ except
-# def load_ratings(session):
-#     with open("db_seed_data/u.data") as f:
-#         reader = csv.reader(f, delimiter="\t")
-#         for row in reader:
-#             user_id = int(row[0])
-#             movie_id = int(row[1])
-#             rating = int(row[2])
-             
-#             r = model.Rating(user_id=user_id, movie_id=movie_id, rating=rating)
-#             session.add(r)
-#         session.commit()
+    with open("db_seed_data/seed_boards") as f:
+
+        reader = csv.reader(f, delimiter="|")
+        for row in reader:
+            print row
+
+            user, nickname, type, length_ft, length_in, shaper, model, fins = row
+
+            user = int(user)
+            print "user type: " + type(user)
+
+            length_ft = int(length_ft)
+            print "length_ft type: " + type(length_ft)
+
+            length_in = int(length_in)
+            print "length_in type: " + type(length_in)
+
+
+            m = model.Board(user=user, nickname=nickname, type=type, 
+                            length_ft=length_ft, length_in=length_in,
+                            shaper=shaper, model=model, fins=fins)
+            session.add(m)
+         
+        ## based on func from ratings app, not sure about the use of try/ except
+        # try:
+        #     session.commit()
+        # except:
+        #     session.rollback()
+
+        session.commit()
+
  
-"""
 
 def main(session):
     # call each of the load_* functions with the session as an argument
     print "Seeding the tables..."
     load_users(session)
     load_locations(session)
+    load_boards(session)
+
     print "Done!"
  
 if __name__ == "__main__":

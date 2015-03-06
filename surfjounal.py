@@ -218,10 +218,11 @@ def edit_quiver():
 
     """
     TODO quiver:
-    implement this. 
-    ...
-    follow locations for dropdown functionality.
     """
+
+    # get all boards from db and pass to template for display
+    board_list = model.session.query(model.Board).all()
+    # print board_list
     return render_template("board_quiver.html")
 
 """

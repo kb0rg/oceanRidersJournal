@@ -5,21 +5,21 @@ a pipe-separated file of location information:
 
 Region|Country|State or Province|County|Beach Name|MSW_ID used|msw id exists for this location?|Beach Name of closest MSW data|lat|lon|
 
-
 -->user_data: 
 a pipe-separated file of user information:
 
 username|firstname|lastname|home region
 
--->entry_data: 
-a pipe-separated file of example journal entry information, to get things rolling:
-
-|id|user|location ID|
-
+-->board (quiver) data:
+user|nickname|type|length_ft|length_in|shaper|model|fins
 
 
 STRETCH GOALS:
 #?? additional locations data (presets and user-addable, with human-readable names?):
--->board (quiver) data:
+#?? make entries seeds?
+-->entry_data: 
+a pipe-separated file of example journal entry information, to get things rolling:
+|id|user|location ID|...?
+
 
 ||||||||

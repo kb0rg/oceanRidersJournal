@@ -3,7 +3,6 @@
 
 <h3>Display all of the previously logged journal entries:</h3>
 
-
 <table style="width:100%">
 <!-- saw examples using table id, and others using class. class is for css, right? -- what's id for? -->
 	<tr>
@@ -18,14 +17,6 @@
 
   	</tr>
 
-
-<!-- HEY HOW DO I reformat the time JUST FOR DISPLAY PURPOSES???
- -->
-
- <!-- 
-also need to query table to convert loc_id to beach name for display
-** need to set up db relations to make this work?! **
-  -->
  
     {% for entry in entries %}
 	<tr>    
@@ -35,7 +26,7 @@ also need to query table to convert loc_id to beach name for display
         <td>{{entry.spot_name}}</td>
         <td>{{entry.swell1_dirDeg}}{{entry.swell1_dirComp}}</td>
         <td>{{entry.swell1_ht}} @ {{entry.swell1_per}} sec</td>
-    	<td>{{entry.board_name}} </td>
+    	<td>{{entry.board.nickname}} {{entry.board.lenght_ft}}' {{entry.board.lenght_in}}" {{entry.board.fins}}</td>
     	<td>{{entry.board_pref}}</td>
     </tr>
 	{% endfor %}

@@ -2,19 +2,43 @@
 {% block body %}
 
 <div id="entries-list">
-<!-- see all_melons.html for scaffold on how to pull 
-and display info from the database
- -->
 
 <h2>(display/edit existing boards and add new boards)</h2>
+<!-- 
+add ability to re-sort? by: type, length, shaper, (fin setup?)
+make input fields allow autofill if existing board info matches typing?
+ -->
+<table style="width:100%">
+<!-- saw examples using table id, and others using class. class is for css, right? -- what's id for? -->
+	<tr>
+    	<th>Board's nickname</th>
+    	<th>Length</th> 
+        <th>Type</th>
+        <th>Shaper</th>
+        <th>Model</th>
+    	<th>Fin Setup</th>
 
+  	</tr>
+ 
+    {% for board in boards %}
+	<tr>    
+    	<td>{{board.nickname}} </td>
+    	<td>{{board.length_ft}}' {{board.length_in}}"</td>
+    	<td>{{board.type}}</td>
+    	<td>{{board.shaper}}</td>
+    	<td>{{board.model}}</td>
+    	<td>{{board.fins}} </td>
+
+    </tr>
+	{% endfor %}
+</table>
 
 
 <h4>core info to include:</h4>
-<li>nickname</li>
-<li>length (in x&#39; x&#34;)</li>
-<li>brand/ shaper</li>
-<li>custom?</li>
+<li>&#10004;nickname</li>
+<li>&#10004;length (in x&#39; x&#34;)</li>
+<li>&#10004;brand/ shaper</li>
+<li>custom? need separate field, or in model ok?</li>
 
 <h4>Additional features:</h4>
 <li>photo(s) of board</li>
