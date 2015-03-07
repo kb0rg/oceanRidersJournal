@@ -11,7 +11,7 @@ a pipe-separated file of user information:
 username|firstname|lastname|home region
 
 -->board (quiver) data:
-user|nickname|type|length_ft|length_in|shaper|model|fins
+user|nickname|category|length_ft|length_in|shaper|shape(model)|fins
 
 
 STRETCH GOALS:

@@ -96,15 +96,17 @@ class Board(Base):
         backref=backref("boards", order_by=id))
 
     nickname = Column(String(64), nullable = False)
-    type = Column(String(64), nullable = False)
+    # changed "type" to "category" -- reserved
+    category = Column(String(64), nullable = False)
     length_ft = Column(Integer, nullable = True)
     length_in = Column(Integer, nullable = True)
     shaper = Column(String(64), nullable = True)
-    model = Column(String(64), nullable = True)
+    # changed "model" to "shape" -- reserved
+    shape = Column(String(64), nullable = True)
     fins = Column(String(64), nullable = True)
 
     def __repr__(self):
-        return "<Board: %d, %s, %s %d\' %d\">"%(self.id, self.nickname, self.shaper, self.lenght_ft, self.lenght_in) 
+        return "<Board: %d, %s, %s %d\' %d\">"%(self.id, self.nickname, self.shaper, self.length_ft, self.length_in) 
 
 class Entry(Base):
     """
@@ -156,11 +158,9 @@ class Entry(Base):
     LATER:
     --> ?? (entry has only one board, or multiple?)
     --> ? make ability to add to quiver?
-    --> ? delete board name once id/ quiver is wired?
     """
     board_id = Column(Integer, ForeignKey('boards.id'))
 
-    # board_name = Column(String(64), nullable = True) 
     board_pref = Column(String(64), nullable = False)
     board_notes = Column(String(64), nullable = True)
 
@@ -169,6 +169,8 @@ class Entry(Base):
 
     """
     todo API:
+    ---> data model question:
+    should I pull API specifics out of entry table, and make an API_info table with entry_id keys?
     -> add swell2 and swell3?
     -> add tide height and state
     -> add wind speed and direction
@@ -178,14 +180,24 @@ class Entry(Base):
     ## pull swell1 data from apis and add to entry
     swell1_ht = Column(Float, nullable = True)
     swell1_per = Column(Integer, nullable = True)
-    swell1_dirDeg = Column(Float, nullable = True)
-    swell1_dirComp = Column(String(4), nullable = True)
+    swell1_dir_deg = Column(Float, nullable = True)
+    swell1_dir_comp = Column(String(4), nullable = True)
+
+    ## pull wind data from apis and add to entry
+    wind_speed = Column(Float, nullable = True)
+    wind_dir_deg = Column(Float, nullable = True)
+    wind_dir_comp = Column(String(4), nullable = True)
+    wind_unit = Column(String(10), nullable = True)
 
     ## pull swell2 and 3, wind, and temp data from MSW api and add to entry
     ## tide data from .... api?  and add to entry
 
+    ## pull water and air temp from API 
+    temp_h2o = Column(Integer, nullable = True)
+    temp_air = Column(Integer, nullable = True)
+
     def __repr__(self):
-        return "%d, %d, %s, %s, %s" % (self.id, self.loc_id, self.spot_name, self.board_name, self.board_pref)
+        return "%d, %d, %s, %s, %s" % (self.id, self.loc_id, self.spot_name, self.board.nickname, self.board_pref)
 
 
 ### End class declarations
@@ -193,20 +205,24 @@ class Entry(Base):
 
 def main():
     """In case we need this for something"""
-    print "Welcome to your surfjournal's model."
+    
+    print "Welcome to your surfjournal's model.\n" + \
+    "I suspect you are here to rebuild the database schema.\n" + \
+    "AGAIN\n" + \
+    "Here we go."
 
 if __name__ == "__main__":
     main()
 
 
 """
-NOTE!!!! DO NOT FORGET TO DO THIS!!!!
+NOTE!!!!
 *****
 when db needs to be deleted and rebuilt:
 
-do this in interactive python shell (while in venv):
+1) run model.py in interactive mode (while in venv):
 python -i model.py
-
+2) enter this in interactive python shell 
 engine = create_engine("sqlite:///db_surfjournal.db", echo=True)
 Base.metadata.create_all(engine)
 

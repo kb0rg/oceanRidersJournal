@@ -64,10 +64,20 @@ Spot Name:<br>
 <input type="text" name = "spot_name"> (eg: patch, Sloat)
 <br>
 <br>
+<!-- board info -->
+<!-- 
+todo:
+add board categories to dropdown. 
+(see loactions: regions issue)
+also, ability to add board from here?
+-->
 Board Ridden:<br>
-<input type="text" name = "board_name">
+<select name = "board_id">
+	{% for board in boards %}
+	<option value="{{board.id}}">{{board.nickname}}</option>
+	{% endfor %}
+</select>
 <br>
-<!-- how to make this field mandatory? -->
 Did you wish you'd brought a different board?:<br>
 <input type="radio" name = "board_pref" required value = "smaller">(smaller)
 <input type="radio" name = "board_pref" value = "ok">(just right)
@@ -98,7 +108,8 @@ Did you wish you'd brought a different board?:<br>
 <br>
 <h4>Near-term stretch Goals: Additional features:</h4>
 <li>&#10004; location nickname/ additional info (specific break w/in named beach)</li>
-<li>link to stored board quiver with ability to edit/ add to quiver</li>
+<li>&#10004; link board form to stored board quiver </li>
+<li>make ability to edit/ add to quiver</li>
 <li>if not right board, allow to choose other board (pref field) from quiver? (pulldown)</li>
 <li>ability to make entry for past date</li>
 <li>crowd density (buttons?)</li>

@@ -55,6 +55,21 @@ def msw_getSwell1(spot_id):
     # msw_json_list = msw_resp.json()
     # msw_json_obj = msw_json[0]
 
+    """
+    TODO: msw API
+    get air temp: condition.temperature
+    ? weather icon?: condition.weather
+    wave heights: minBreakingHeight, maxBreakingHeight
+    ratings?: fadedRating, solidRating
+    wind: wind.speed, wind.direction, wind.compassDirection, wind.unit
+    charts?: charts.swell, charts.period, charts.wind
+    """
+    """
+    TODO: other API
+    water temp?
+    tides (chart or info to build chart)
+    """
+
     # request all attr of primary swell
     MSW_API_URL_SWELL1 = MSW_API_URL+"swell.components.primary.*"
     msw_swell1_resp = requests.get(MSW_API_URL_SWELL1)
@@ -96,14 +111,15 @@ def go_to_addEntry():
     """
     TODO: add entry form:
     flesh out the locations dropdown with regions.
-    add board quiver info.
+    flesh out the boards dropdown with categories.
     """
 
     # get all locations from db and pass to template for dropdown
     loc_list = model.session.query(model.Location).all()
+    board_list = model.session.query(model.Board).all()
     # print loc_list
 
-    return render_template("surf_entry_add.html", locations = loc_list)
+    return render_template("surf_entry_add.html", locations = loc_list, boards = board_list)
 
 @app.route("/addEntryToDB")
 def add_entry():
@@ -144,7 +160,7 @@ def add_entry():
     # queries from user
     loc_id = request.args.get("loc_id")
     spot_name = request.args.get("spot_name")
-    board_name = request.args.get("board_name")
+    board_id = request.args.get("board_id")
     board_pref = request.args.get("board_pref")
 
     """
@@ -169,16 +185,16 @@ def add_entry():
     # parse msw response object into desired attr
     swell1_ht = msw_swell1_json_obj["swell"]['components']['primary']['height']
     swell1_per = msw_swell1_json_obj["swell"]['components']['primary']['period']
-    swell1_dirDeg = msw_swell1_json_obj["swell"]['components']['primary']['direction']
-    swell1_dirComp = msw_swell1_json_obj["swell"]['components']['primary']['compassDirection']
+    swell1_dir_deg = msw_swell1_json_obj["swell"]['components']['primary']['direction']
+    swell1_dir_comp = msw_swell1_json_obj["swell"]['components']['primary']['compassDirection']
 
     # add piece from api to this instance of model.Entry
     new_entry = model.Entry(user_id = user_id,
                             date_time_start = date_time_start, date_time_end=date_time_end,
                             loc_id = loc_id, spot_name = spot_name,
                             swell1_ht = swell1_ht, swell1_per = swell1_per, 
-                            swell1_dirDeg = swell1_dirDeg, swell1_dirComp = swell1_dirComp,
-                            board_name=board_name, board_pref = board_pref)
+                            swell1_dir_deg = swell1_dir_deg, swell1_dir_comp = swell1_dir_comp,
+                            board_id=board_id, board_pref = board_pref)
 
     model.session.add(new_entry)
     model.session.commit()
@@ -223,7 +239,7 @@ def edit_quiver():
     # get all boards from db and pass to template for display
     board_list = model.session.query(model.Board).all()
     # print board_list
-    return render_template("board_quiver.html")
+    return render_template("board_quiver.html", boards = board_list)
 
 """
 TODO: log-in. reference code from ratings below.

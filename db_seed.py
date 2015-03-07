@@ -35,6 +35,7 @@ def load_users(session):
         #     session.rollback()
         
         session.commit()
+        print "users table seeded."
 
 def load_locations(session):
 
@@ -70,6 +71,8 @@ def load_locations(session):
         #     session.rollback()
 
         session.commit()
+        print "locations table seeded."
+
 
 
 def load_boards(session):
@@ -77,7 +80,7 @@ def load_boards(session):
     """
     populates boards table from seed file.
     seed file is using these fields:
-    user|nickname|type|lenght_ft|lenght_in|shaper|model|fins
+    user|nickname|type|length_ft|length_in|shaper|shape(model)|fins
     """
 
     with open("db_seed_data/seed_boards") as f:
@@ -86,42 +89,37 @@ def load_boards(session):
         for row in reader:
             print row
 
-            user, nickname, type, length_ft, length_in, shaper, model, fins = row
+            user_id, nickname, category, length_ft, length_in, shaper, shape, fins = row
+            # print "user: ", type(user)
+            # print "changing user to int..."
+            # user = int(user)
+            # print "user: ", type(user)
 
-            user = int(user)
-            print "user type: " + type(user)
+            # print "length_ft: ", length_ft, type(length_ft)
+            # length_ft = int(length_ft)
+            
+            # print "length_ft: ", length_ft, type(length_ft)
+            # length_in = int(length_in)
 
-            length_ft = int(length_ft)
-            print "length_ft type: " + type(length_ft)
-
-            length_in = int(length_in)
-            print "length_in type: " + type(length_in)
-
-
-            m = model.Board(user=user, nickname=nickname, type=type, 
+            m = model.Board(user_id=user_id, nickname=nickname, category=category,
                             length_ft=length_ft, length_in=length_in,
-                            shaper=shaper, model=model, fins=fins)
+                            shaper=shaper, shape=shape, fins=fins)
             session.add(m)
-         
-        ## based on func from ratings app, not sure about the use of try/ except
-        # try:
-        #     session.commit()
-        # except:
-        #     session.rollback()
 
         session.commit()
+        print "boards table seeded."
 
  
-
 def main(session):
     # call each of the load_* functions with the session as an argument
     print "Seeding the tables..."
+    
     load_users(session)
     load_locations(session)
-    load_boards(session)
+    # load_boards(session)
 
     print "Done!"
  
 if __name__ == "__main__":
-    s = model.session
-    main(s)
+    session = model.session
+    main(session)
