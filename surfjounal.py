@@ -1,10 +1,12 @@
 from flask import Flask, request, session, render_template, g, redirect, url_for, flash
-import model
 import jinja2
 import os
 import requests
 import json
 from datetime import datetime
+import model
+import api_msw as msw
+
 
 """
 TODO: general:
@@ -18,64 +20,6 @@ app.secret.key = do I need to change this, or hide it in a secrets file?
 app = Flask(__name__)
 app.secret_key = '\xf5!\x07!qj\xa4\x08\xc6\xf8\n\x8a\x95m\xe2\x04g\xbb\x98|U\xa2f\x03'
 app.jinja_env.undefined = jinja2.StrictUndefined
-
-"""
-remember to source keys .sh file to set tokens as env variables for each terminal session.
-"""
-
-def msw_getSwell1(spot_id):
-
-    """
-    make call to magicseaweed API to get info for journal entry.
-    """
-
-    MSW_API_KEY = os.environ['MSW_ACCESS_TOKEN']
-    # base URL for MSW API requests
-    MSW_API_URL = "http://magicseaweed.com/api/"+MSW_API_KEY+"/forecast/?spot_id=" +str(spot_id)+"&units=us"
-
-    """
-    api call TODO:
-    -> find response by time closest to quert time?
-    (filtering out FIRST index of response for now)
-
-    REFACTOR QUESTION:
-    break this into separate functions:
-    build query, make query, parse query???
-    add arg for which attr querying, loop queries?
-
-    katie says: no.
-    can make multiple copies of this func for different queriers as needed,
-    save those out into a module to be imported into controller.
-    in module, move constants outside function.
-    for now, leave this here.
-    """
-
-    ## generic query gets all forecast for given spot_id
-    # msw_resp = requests.get(MSW_API_URL)
-    # msw_json_list = msw_resp.json()
-    # msw_json_obj = msw_json[0]
-
-    """
-    TODO: msw API
-    get air temp: condition.temperature
-    ? weather icon?: condition.weather
-    wave heights: minBreakingHeight, maxBreakingHeight
-    ratings?: fadedRating, solidRating
-    wind: wind.speed, wind.direction, wind.compassDirection, wind.unit
-    charts?: charts.swell, charts.period, charts.wind
-    """
-    """
-    TODO: other API
-    water temp?
-    tides (chart or info to build chart)
-    """
-
-    # request all attr of primary swell
-    MSW_API_URL_SWELL1 = MSW_API_URL+"swell.components.primary.*"
-    msw_swell1_resp = requests.get(MSW_API_URL_SWELL1)
-    msw_swell1_json_list = msw_swell1_resp.json()
-    msw_swell1_json_obj = msw_swell1_json_list[0]
-    return msw_swell1_json_obj
 
 
 @app.route("/")
@@ -162,6 +106,7 @@ def add_entry():
     spot_name = request.args.get("spot_name")
     board_id = request.args.get("board_id")
     board_pref = request.args.get("board_pref")
+    board_notes = request.args.get("board_notes")
 
     """
     TODO: entry location:
@@ -180,8 +125,11 @@ def add_entry():
     msw_id = loc_obj.msw_id
 
     # make API call using msw_id
-    msw_swell1_json_obj = msw_getSwell1(msw_id)
+    msw_swell1_json_obj = msw.getSwell1(msw_id)
 
+    """
+    should this parsing be part of the api call module, or stay here?
+    """
     # parse msw response object into desired attr
     swell1_ht = msw_swell1_json_obj["swell"]['components']['primary']['height']
     swell1_per = msw_swell1_json_obj["swell"]['components']['primary']['period']
@@ -194,7 +142,7 @@ def add_entry():
                             loc_id = loc_id, spot_name = spot_name,
                             swell1_ht = swell1_ht, swell1_per = swell1_per, 
                             swell1_dir_deg = swell1_dir_deg, swell1_dir_comp = swell1_dir_comp,
-                            board_id=board_id, board_pref = board_pref)
+                            board_id=board_id, board_pref = board_pref, board_notes = board_notes)
 
     model.session.add(new_entry)
     model.session.commit()

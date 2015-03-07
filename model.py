@@ -206,10 +206,17 @@ class Entry(Base):
 def main():
     """In case we need this for something"""
     
-    print "Welcome to your surfjournal's model.\n" + \
+    print "\nWelcome to your surfjournal's model.\n" + \
     "I suspect you are here to rebuild the database schema.\n" + \
     "AGAIN\n" + \
-    "Here we go."
+    "Here we go.\n"
+    print "*" * 13, "\n"
+    print "To proceed rebuilding the schema, run the following code:\n" + \
+    "engine = create_engine(\"sqlite:///db_surfjournal.db\", echo=True)\n" + \
+    "Base.metadata.create_all(engine)\n"
+    print "*" * 13, "\n"
+    print "Otherwise please exit now."
+
 
 if __name__ == "__main__":
     main()

@@ -1,0 +1,157 @@
+.msw-swa /* Inherits from swell arrows */
+{
+    background:         url("http://im-1.msw.ms/md/static/sa-sprite.png") no-repeat top left;
+}
+.msw-swa-10{ background-position: 0 0; width: 26px; height: 26px; } 
+.msw-swa-100{ background-position: 0 -52px; width: 26px; height: 26px; } 
+.msw-swa-105{ background-position: 0 -104px; width: 26px; height: 26px; } 
+.msw-swa-110{ background-position: 0 -156px; width: 26px; height: 26px; } 
+.msw-swa-115{ background-position: 0 -208px; width: 26px; height: 26px; } 
+.msw-swa-120{ background-position: 0 -260px; width: 26px; height: 26px; } 
+.msw-swa-125{ background-position: 0 -312px; width: 26px; height: 26px; } 
+.msw-swa-130{ background-position: 0 -364px; width: 26px; height: 26px; } 
+.msw-swa-135{ background-position: 0 -416px; width: 26px; height: 26px; } 
+.msw-swa-140{ background-position: 0 -468px; width: 26px; height: 26px; } 
+.msw-swa-145{ background-position: 0 -520px; width: 26px; height: 26px; } 
+.msw-swa-15{ background-position: 0 -572px; width: 26px; height: 26px; } 
+.msw-swa-150{ background-position: 0 -624px; width: 26px; height: 26px; } 
+.msw-swa-155{ background-position: 0 -676px; width: 26px; height: 26px; } 
+.msw-swa-160{ background-position: 0 -728px; width: 26px; height: 26px; } 
+.msw-swa-165{ background-position: 0 -780px; width: 26px; height: 26px; } 
+.msw-swa-170{ background-position: 0 -832px; width: 26px; height: 26px; } 
+.msw-swa-175{ background-position: 0 -884px; width: 26px; height: 26px; } 
+.msw-swa-180{ background-position: 0 -936px; width: 26px; height: 26px; } 
+.msw-swa-185{ background-position: 0 -988px; width: 26px; height: 26px; } 
+.msw-swa-190{ background-position: 0 -1040px; width: 26px; height: 26px; } 
+.msw-swa-195{ background-position: 0 -1092px; width: 26px; height: 26px; } 
+.msw-swa-20{ background-position: 0 -1144px; width: 26px; height: 26px; } 
+.msw-swa-200{ background-position: 0 -1196px; width: 26px; height: 26px; } 
+.msw-swa-205{ background-position: 0 -1248px; width: 26px; height: 26px; } 
+.msw-swa-210{ background-position: 0 -1300px; width: 26px; height: 26px; } 
+.msw-swa-215{ background-position: 0 -1352px; width: 26px; height: 26px; } 
+.msw-swa-220{ background-position: 0 -1404px; width: 26px; height: 26px; } 
+.msw-swa-225{ background-position: 0 -1456px; width: 26px; height: 26px; } 
+.msw-swa-230{ background-position: 0 -1508px; width: 26px; height: 26px; } 
+.msw-swa-235{ background-position: 0 -1560px; width: 26px; height: 26px; } 
+.msw-swa-240{ background-position: 0 -1612px; width: 26px; height: 26px; } 
+.msw-swa-245{ background-position: 0 -1664px; width: 26px; height: 26px; } 
+.msw-swa-25{ background-position: 0 -1716px; width: 26px; height: 26px; } 
+.msw-swa-250{ background-position: 0 -1768px; width: 26px; height: 26px; } 
+.msw-swa-255{ background-position: 0 -1820px; width: 26px; height: 26px; } 
+.msw-swa-260{ background-position: 0 -1872px; width: 26px; height: 26px; } 
+.msw-swa-265{ background-position: 0 -1924px; width: 26px; height: 26px; } 
+.msw-swa-270{ background-position: -52px 0; width: 26px; height: 26px; } 
+.msw-swa-275{ background-position: -52px -52px; width: 26px; height: 26px; } 
+.msw-swa-280{ background-position: -52px -104px; width: 26px; height: 26px; } 
+.msw-swa-285{ background-position: -52px -156px; width: 26px; height: 26px; } 
+.msw-swa-290{ background-position: -52px -208px; width: 26px; height: 26px; } 
+.msw-swa-295{ background-position: -52px -260px; width: 26px; height: 26px; } 
+.msw-swa-30{ background-position: -52px -312px; width: 26px; height: 26px; } 
+.msw-swa-300{ background-position: -52px -364px; width: 26px; height: 26px; } 
+.msw-swa-305{ background-position: -52px -416px; width: 26px; height: 26px; } 
+.msw-swa-310{ background-position: -52px -468px; width: 26px; height: 26px; } 
+.msw-swa-315{ background-position: -52px -520px; width: 26px; height: 26px; } 
+.msw-swa-320{ background-position: -52px -572px; width: 26px; height: 26px; } 
+.msw-swa-325{ background-position: -52px -624px; width: 26px; height: 26px; } 
+.msw-swa-330{ background-position: -52px -676px; width: 26px; height: 26px; } 
+.msw-swa-335{ background-position: -52px -728px; width: 26px; height: 26px; } 
+.msw-swa-340{ background-position: -52px -780px; width: 26px; height: 26px; } 
+.msw-swa-345{ background-position: -52px -832px; width: 26px; height: 26px; } 
+.msw-swa-35{ background-position: -52px -884px; width: 26px; height: 26px; } 
+.msw-swa-350{ background-position: -52px -936px; width: 26px; height: 26px; } 
+.msw-swa-355{ background-position: -52px -988px; width: 26px; height: 26px; } 
+.msw-swa-360{ background-position: -52px -1040px; width: 26px; height: 26px; } 
+.msw-swa-40{ background-position: -52px -1092px; width: 26px; height: 26px; } 
+.msw-swa-45{ background-position: -52px -1144px; width: 26px; height: 26px; } 
+.msw-swa-5{ background-position: -52px -1196px; width: 26px; height: 26px; } 
+.msw-swa-50{ background-position: -52px -1248px; width: 26px; height: 26px; } 
+.msw-swa-55{ background-position: -52px -1300px; width: 26px; height: 26px; } 
+.msw-swa-60{ background-position: -52px -1352px; width: 26px; height: 26px; } 
+.msw-swa-65{ background-position: -52px -1404px; width: 26px; height: 26px; } 
+.msw-swa-70{ background-position: -52px -1456px; width: 26px; height: 26px; } 
+.msw-swa-75{ background-position: -52px -1508px; width: 26px; height: 26px; } 
+.msw-swa-80{ background-position: -52px -1560px; width: 26px; height: 26px; } 
+.msw-swa-85{ background-position: -52px -1612px; width: 26px; height: 26px; } 
+.msw-swa-90{ background-position: -52px -1664px; width: 26px; height: 26px; } 
+.msw-swa-95{ background-position: -52px -1716px; width: 26px; height: 26px; }
+
+
+.msw-ssa,
+.msw-swa /* Wind arrows */
+{
+    display:            inline-block;
+    width:              26px;
+    height:             26px;
+    background:         url("http://im-1.msw.ms/md/static/wa-sprite.png") no-repeat top left;
+}
+.msw-ssa-10{ background-position: 0 0; width: 26px; height: 26px; } 
+.msw-ssa-100{ background-position: 0 -52px; width: 26px; height: 26px; } 
+.msw-ssa-105{ background-position: 0 -104px; width: 26px; height: 26px; } 
+.msw-ssa-110{ background-position: 0 -156px; width: 26px; height: 26px; } 
+.msw-ssa-115{ background-position: 0 -208px; width: 26px; height: 26px; } 
+.msw-ssa-120{ background-position: 0 -260px; width: 26px; height: 26px; } 
+.msw-ssa-125{ background-position: 0 -312px; width: 26px; height: 26px; } 
+.msw-ssa-130{ background-position: 0 -364px; width: 26px; height: 26px; } 
+.msw-ssa-135{ background-position: 0 -416px; width: 26px; height: 26px; } 
+.msw-ssa-140{ background-position: 0 -468px; width: 26px; height: 26px; } 
+.msw-ssa-145{ background-position: 0 -520px; width: 26px; height: 26px; } 
+.msw-ssa-15{ background-position: 0 -572px; width: 26px; height: 26px; } 
+.msw-ssa-150{ background-position: 0 -624px; width: 26px; height: 26px; } 
+.msw-ssa-155{ background-position: 0 -676px; width: 26px; height: 26px; } 
+.msw-ssa-160{ background-position: 0 -728px; width: 26px; height: 26px; } 
+.msw-ssa-165{ background-position: 0 -780px; width: 26px; height: 26px; } 
+.msw-ssa-170{ background-position: 0 -832px; width: 26px; height: 26px; } 
+.msw-ssa-175{ background-position: 0 -884px; width: 26px; height: 26px; } 
+.msw-ssa-180{ background-position: 0 -936px; width: 26px; height: 26px; } 
+.msw-ssa-185{ background-position: 0 -988px; width: 26px; height: 26px; } 
+.msw-ssa-190{ background-position: 0 -1040px; width: 26px; height: 26px; } 
+.msw-ssa-195{ background-position: 0 -1092px; width: 26px; height: 26px; } 
+.msw-ssa-20{ background-position: 0 -1144px; width: 26px; height: 26px; } 
+.msw-ssa-200{ background-position: 0 -1196px; width: 26px; height: 26px; } 
+.msw-ssa-205{ background-position: 0 -1248px; width: 26px; height: 26px; } 
+.msw-ssa-210{ background-position: 0 -1300px; width: 26px; height: 26px; } 
+.msw-ssa-215{ background-position: 0 -1352px; width: 26px; height: 26px; } 
+.msw-ssa-220{ background-position: 0 -1404px; width: 26px; height: 26px; } 
+.msw-ssa-225{ background-position: 0 -1456px; width: 26px; height: 26px; } 
+.msw-ssa-230{ background-position: 0 -1508px; width: 26px; height: 26px; } 
+.msw-ssa-235{ background-position: 0 -1560px; width: 26px; height: 26px; } 
+.msw-ssa-240{ background-position: 0 -1612px; width: 26px; height: 26px; } 
+.msw-ssa-245{ background-position: 0 -1664px; width: 26px; height: 26px; } 
+.msw-ssa-25{ background-position: 0 -1716px; width: 26px; height: 26px; } 
+.msw-ssa-250{ background-position: 0 -1768px; width: 26px; height: 26px; } 
+.msw-ssa-255{ background-position: 0 -1820px; width: 26px; height: 26px; } 
+.msw-ssa-260{ background-position: 0 -1872px; width: 26px; height: 26px; } 
+.msw-ssa-265{ background-position: 0 -1924px; width: 26px; height: 26px; } 
+.msw-ssa-270{ background-position: -52px 0; width: 26px; height: 26px; } 
+.msw-ssa-275{ background-position: -52px -52px; width: 26px; height: 26px; } 
+.msw-ssa-280{ background-position: -52px -104px; width: 26px; height: 26px; } 
+.msw-ssa-285{ background-position: -52px -156px; width: 26px; height: 26px; } 
+.msw-ssa-290{ background-position: -52px -208px; width: 26px; height: 26px; } 
+.msw-ssa-295{ background-position: -52px -260px; width: 26px; height: 26px; } 
+.msw-ssa-30{ background-position: -52px -312px; width: 26px; height: 26px; } 
+.msw-ssa-300{ background-position: -52px -364px; width: 26px; height: 26px; } 
+.msw-ssa-305{ background-position: -52px -416px; width: 26px; height: 26px; } 
+.msw-ssa-310{ background-position: -52px -468px; width: 26px; height: 26px; } 
+.msw-ssa-315{ background-position: -52px -520px; width: 26px; height: 26px; } 
+.msw-ssa-320{ background-position: -52px -572px; width: 26px; height: 26px; } 
+.msw-ssa-325{ background-position: -52px -624px; width: 26px; height: 26px; } 
+.msw-ssa-330{ background-position: -52px -676px; width: 26px; height: 26px; } 
+.msw-ssa-335{ background-position: -52px -728px; width: 26px; height: 26px; } 
+.msw-ssa-340{ background-position: -52px -780px; width: 26px; height: 26px; } 
+.msw-ssa-345{ background-position: -52px -832px; width: 26px; height: 26px; } 
+.msw-ssa-35{ background-position: -52px -884px; width: 26px; height: 26px; } 
+.msw-ssa-350{ background-position: -52px -936px; width: 26px; height: 26px; } 
+.msw-ssa-355{ background-position: -52px -988px; width: 26px; height: 26px; } 
+.msw-ssa-40{ background-position: -52px -1040px; width: 26px; height: 26px; } 
+.msw-ssa-45{ background-position: -52px -1092px; width: 26px; height: 26px; } 
+.msw-ssa-5{ background-position: -52px -1144px; width: 26px; height: 26px; } 
+.msw-ssa-50{ background-position: -52px -1196px; width: 26px; height: 26px; } 
+.msw-ssa-55{ background-position: -52px -1248px; width: 26px; height: 26px; } 
+.msw-ssa-60{ background-position: -52px -1300px; width: 26px; height: 26px; } 
+.msw-ssa-65{ background-position: -52px -1352px; width: 26px; height: 26px; } 
+.msw-ssa-70{ background-position: -52px -1404px; width: 26px; height: 26px; } 
+.msw-ssa-75{ background-position: -52px -1456px; width: 26px; height: 26px; } 
+.msw-ssa-80{ background-position: -52px -1508px; width: 26px; height: 26px; } 
+.msw-ssa-85{ background-position: -52px -1560px; width: 26px; height: 26px; } 
+.msw-ssa-90{ background-position: -52px -1612px; width: 26px; height: 26px; } 
+.msw-ssa-95{ background-position: -52px -1664px; width: 26px; height: 26px; }

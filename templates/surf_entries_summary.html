@@ -1,6 +1,9 @@
 {% extends 'base.html' %}
 {% block body %}
 
+<link rel="stylesheet" href="/static/css/msw_arrowSprites.css" />
+
+
 <h3>Display all of the previously logged journal entries:</h3>
 
 <table style="width:100%">
@@ -13,10 +16,10 @@
         <th>Swell Direction</th>
         <th>Swell Height/ Interval</th>
     	<th>Which Board?</th>
-    	<th>Was it the Right Board?</th>
+    	<th>Right Board/ Notes?</th>
 
   	</tr>
-
+    
  
     {% for entry in entries %}
 	<tr>    
@@ -24,25 +27,48 @@
     	<td>{{entry.date_time_end.strftime('%I:%m %p')}}</td>
     	<td>{{entry.loc.beach_name}}</td>
         <td>{{entry.spot_name}}</td>
-        <td>{{entry.swell1_dir_deg}}{{entry.swell1_dir_comp}}</td>
+        <td><div class="msw-swa msw-swa-215"> </div> {{entry.swell1_dir_deg}} {{entry.swell1_dir_comp}}</td>
         <td>{{entry.swell1_ht}} @ {{entry.swell1_per}} sec</td>
     	<td>{{entry.board.nickname}} {{entry.board.length_ft}}' {{entry.board.length_in}}" {{entry.board.fins}}</td>
-    	<td>{{entry.board_pref}}</td>
+    	{% if entry.board_pref == "ok" %}
+            <td>{{entry.board_pref}}
+        {% else %}
+            <td>wanted {{entry.board_pref}}
+        {% endif %}
+        {% if entry.board_notes == "None" %}
+            </td>
+        {% else %}
+            : {{entry.board_notes}}</td>
+        {% endif %}
+
     </tr>
 	{% endfor %}
 </table>
+<br>
+<br>
+
+<!-- 
+test msw swell arrow sprite:
+ -->
+<div class="msw-swa msw-swa-215"> </div>
 
 
 <!-- MVP and stretch goal list, style-->
 <br>
+<br>
 <h4>core styling tasks to do:</h4>
 
-<li>scale table elements, getting crowded</li>
+<li><strike>scale table elements, getting crowded</strike></li>
+<li>split entry display into summary and details pages</li>
 <li>&#10004; fix datetime format to display more human-readably</li>
-<li>fix wording of board pref (in table-to-entry, or entry-to-display?)</li>
+<li>&#10004; fix wording of board pref (in table-to-entry, or entry-to-display?)</li>
+<li>&#10004; fix broken conditional in board_pref display</li>
+<li>fix broken conditional in board_notes display (kill ":" if no notes)</li>
 <li>&#10004; display beach name (get from loc_id)</li>
-<li>add MSW graphics (arrows) to swell dir display</li>
-<li>convert swell dir from MSW format to global degrees?</li>
+<li>&#10004; get MSW graphics (arrows) to add to swell dir display</li>
+<li>get swell dir_deg convert from MSW format to global for display </li>
+<li>get converted swell dir_deg rounded to nearest 5 deg to get correct arrow</li>
+<li>more info from API(s): wind, other swell, temps, tides</li>
 <br>
 
 <!-- MVP and stretch goal list, functionality-->
