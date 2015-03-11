@@ -14,6 +14,8 @@
         <th>Swell Direction</th>
         <th>Swell Height/ Interval</th>
         <th>Wind </th>
+        <th>Which Board?</th>
+
 
   	</tr>
  
@@ -25,6 +27,7 @@
         <td><div class="msw-swa msw-swa-215"> </div> {{entry.swell1_dir_deg}} {{entry.swell1_dir_comp}}</td>
         <td>{{entry.swell1_ht}} @ {{entry.swell1_per}} sec</td>
         <td><div class="msw-ssa msw-ssa-35"> </div> {{entry.wind_dir_deg}} {{entry.wind_dir_comp}} @ {{entry.wind_speed}} {{entry.wind_unit}}</td>
+        <td>{{entry.board.id}} {{entry.board.nickname}} {{entry.board.length_ft}}' {{entry.board.length_in}}" {{entry.board.fins}}</td>
 
     </tr>
 	{% endfor %}

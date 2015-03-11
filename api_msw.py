@@ -1,7 +1,9 @@
 import os
-import jinja2
 import requests
 import json
+# from decimal import Decimal
+from pprint import pprint
+
 
 """
 module for functions relating to calls to magicseaweed.com api 
@@ -62,6 +64,8 @@ def getSwell1(spot_id):
     msw_swell1_resp = requests.get(url_swell1)
     msw_swell1_json_list = msw_swell1_resp.json()
     msw_swell1_json_obj = msw_swell1_json_list[0]
+
+    pprint(msw_swell1_json_obj)
     return msw_swell1_json_obj
 
 
@@ -79,6 +83,34 @@ def getWind(spot_id):
     msw_wind_json_list = msw_wind_resp.json()
     msw_wind_json_obj = msw_wind_json_list[0]
     return msw_wind_json_obj
+
+def getGlobalDegrees(degrees):
+
+    """
+    convert degress from API (relative to 180) to global 
+    (relative to 0/360)
+    """
+
+    degreesGlobal = (degrees + 180.0) % 360
+    degreesGlobal = round(degreesGlobal, 2)
+
+    return degreesGlobal
+
+def getArrowDegrees(degrees):
+    
+    """
+    find nearest 5 degree increment to get arrow sprite from api.
+    """
+
+    if degrees % 5 == 0:
+        degrees = degrees
+    else:
+        if degrees % 5 >= 3:
+            degrees = degrees +  (5 -(degrees % 5))
+        if degrees % 5 < 3:
+            degrees = degrees - (degrees % 5)
+
+    return int(degrees)
 
 """
 TODO: need to source other (non MSW) APIs:

@@ -70,12 +70,25 @@ def add_entry():
     """receive input from add_entry form, commit to db, then redirect to page 
     that lists existing entries."""
 
+    # temp hardwire user id to kborg
+    user_id = 1
+
     """
     TODO:
     get user_id from session once log-in enabled
     """
-    # temp hardwire user id to kborg
-    user_id = 1
+
+    # entry_date = request.args.get("entry_date")
+    # start_time = request.args.get("start_time")
+    # end_time = request.args.get("end_time")
+    # date_time_start = datetime.strptime((entry_date + " " + start_time), "%Y-%m-%d %H:%M")
+    # date_time_end = datetime.strptime((entry_date + " " + end_time), "%Y-%m-%d %H:%M")
+
+    ## temporarily rewire start and end times to datetime.now()
+    date_time_start = datetime.now()
+    date_time_end = datetime.now()
+
+    print "\n" * 3, "date_time_start: ", date_time_start, "date_time_end: ", date_time_end
 
     """
     TODO:
@@ -89,18 +102,6 @@ def add_entry():
         - find closest report time to start time
         and plug THAT into db query
     """
-    ## remove date and time inputs for now. 
-    # entry_date = request.args.get("entry_date")
-    # start_time = request.args.get("start_time")
-    # end_time = request.args.get("end_time")
-    # date_time_start = datetime.strptime((entry_date + " " + start_time), "%Y-%m-%d %H:%M")
-    # date_time_end = datetime.strptime((entry_date + " " + end_time), "%Y-%m-%d %H:%M")
-
-    ## temporarily rewire start and end times to datetime.now()
-    date_time_start = datetime.now()
-    date_time_end = datetime.now()
-
-    print "\n" * 3, "date_time_start: ", date_time_start, "date_time_end: ", date_time_end
 
     # queries from user
     loc_id = request.args.get("loc_id")
@@ -108,6 +109,11 @@ def add_entry():
     board_id = request.args.get("board_id")
     board_pref = request.args.get("board_pref")
     board_notes = request.args.get("board_notes")
+    ## add to model
+    #rate_wave_challenge
+    #rate_wave_fun
+    #rate_crowd_den
+    #rate_crowd_vibe
 
     # look up loc from loc table: from loc_id get msw_id
     loc_obj = model.session.query(model.Location).get(loc_id)
@@ -125,6 +131,9 @@ def add_entry():
     swell1_per = msw_swell1_json_obj['swell']['components']['primary']['period']
     swell1_dir_deg = msw_swell1_json_obj['swell']['components']['primary']['direction']
     swell1_dir_comp = msw_swell1_json_obj['swell']['components']['primary']['compassDirection']
+    ## add to model:
+    # swell1_dir_deg_global = getGlobalDegrees(swell1_dir_deg)
+    # swell1_arrow_deg = getArrowDegrees(swell1_dir_deg_disp)
 
     """
     TODO: response is showing way more than wind.
@@ -138,8 +147,10 @@ def add_entry():
     wind_dir_deg = msw_wind_json_obj['wind']['direction']
     wind_dir_comp = msw_wind_json_obj['wind']['compassDirection']
     wind_unit = msw_wind_json_obj['wind']['unit']
-    # add gusts to model?
+    ## add to model
     # wind_gusts = msw_wind_json_obj['wind']['gusts']
+    # wind_dir_deg_global = getGlobalDegrees(wind_dir_deg)
+    # wind_arrow_deg = (wind_dir_deg_global)
 
     # add info from user and api to this instance of model.Entry
     new_entry = model.Entry(user_id = user_id,
@@ -173,15 +184,22 @@ entries details:
 add ability to display details of a given journal entry.
 """
 
-### use this as ref for making "entry details" happen?
-# @app.route("/melon/<int:id>")
-# def show_melon(id):
-#     """This page shows the details of a given melon, as well as giving an
-#     option to buy the melon."""
-#     melon = model.get_melon_by_id(id)
-#     print melon
-#     return render_template("melon_details.html",
-#                   display_melon = melon)
+@app.route("/entryDetails")
+def list_entry_details():
+    """displays full details of the selected surf entry"""
+
+    ### use this as ref for making "entry details" happen?
+    # @app.route("/melon/<int:id>")
+    # def show_melon(id):
+    #     """This page shows the details of a given melon, as well as giving an
+    #     option to buy the melon."""
+    #     melon = model.get_melon_by_id(id)
+    #     print melon
+    #     return render_template("melon_details.html",
+    #                   display_melon = melon)
+
+    return render_template("surf_entry_details.html")
+
 
 @app.route("/addBoardToDB")
 def add_board():

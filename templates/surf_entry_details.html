@@ -13,6 +13,7 @@
         <th>Which Spot?</th>
         <th>Swell Direction</th>
         <th>Swell Height/ Interval</th>
+        <th>Wind </th>
     	<th>Which Board?</th>
     	<th>Right Board/ Notes?</th>
 
@@ -25,6 +26,7 @@
         <td>{{entry.spot_name}}</td>
         <td><div class="msw-swa msw-swa-215"> </div> {{entry.swell1_dir_deg}} {{entry.swell1_dir_comp}}</td>
         <td>{{entry.swell1_ht}} @ {{entry.swell1_per}} sec</td>
+        <td><div class="msw-ssa msw-ssa-35"> </div> {{entry.wind_dir_deg}} {{entry.wind_dir_comp}} @ {{entry.wind_speed}} {{entry.wind_unit}}</td>
     	<td>{{entry.board.nickname}} {{entry.board.length_ft}}' {{entry.board.length_in}}" {{entry.board.fins}}</td>
     	{% if entry.board_pref == "ok" %}
             <td>{{entry.board_pref}}

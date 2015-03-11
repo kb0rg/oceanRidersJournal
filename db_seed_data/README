@@ -13,13 +13,12 @@ username|firstname|lastname|home region
 -->board (quiver) data:
 user|nickname|category|length_ft|length_in|shaper|shape(model)|fins
 
+-->entry_data: 
+(using msw api data collected for past dates, only rounded degress available)
+a pipe-separated file of example journal entry information, to get things rolling:
+user_id|datetime start|loc_id|spot_name|swell1_ht|swell1_per|swell1_arrow_deg|swell1_dir_comp|wind_speed|wind_gusts|wind_arrow_deg|board_id|board_pref|board_notes
+
 
 STRETCH GOALS:
 #?? additional locations data (presets and user-addable, with human-readable names?):
-#?? make entries seeds?
--->entry_data: 
-a pipe-separated file of example journal entry information, to get things rolling:
-|id|user|location ID|...?
-
-
 ||||||||
