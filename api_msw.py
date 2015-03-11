@@ -80,8 +80,6 @@ def getWind(spot_id):
     msw_wind_json_obj = msw_wind_json_list[0]
     return msw_wind_json_obj
 
-
-
 """
 TODO: need to source other (non MSW) APIs:
 -> water temp?

@@ -189,7 +189,7 @@ class Entry(Base):
     wind_dir_comp = Column(String(4), nullable = True)
     wind_unit = Column(String(10), nullable = True)
 
-    ## pull swell2 and 3, wind, and temp data from MSW api and add to entry
+    ## pull swell2 and 3, and temp data from MSW api and add to entry
     ## tide data from .... api?  and add to entry
 
     ## pull water and air temp from API 

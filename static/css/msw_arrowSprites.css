@@ -76,8 +76,10 @@
 .msw-swa-95{ background-position: -52px -1716px; width: 26px; height: 26px; }
 
 
-.msw-ssa,
-.msw-swa /* Wind arrows */
+.msw-ssa
+/*,
+*//*.msw-swa 
+*//* Wind arrows */
 {
     display:            inline-block;
     width:              26px;

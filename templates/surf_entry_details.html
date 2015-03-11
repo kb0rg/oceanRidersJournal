@@ -3,7 +3,7 @@
 
 <link rel="stylesheet" href="/static/css/msw_arrowSprites.css" />
 
-<h3>Display all of the previously logged journal entries:</h3>
+<h3>Displays all detailed of selected surf journal entry:</h3>
 
 <table style="width:100%">
 <!-- saw examples using table id, and others using class. class is for css, right? -- what's id for? -->
@@ -13,7 +13,8 @@
         <th>Which Spot?</th>
         <th>Swell Direction</th>
         <th>Swell Height/ Interval</th>
-        <th>Wind </th>
+    	<th>Which Board?</th>
+    	<th>Right Board/ Notes?</th>
 
   	</tr>
  
@@ -24,7 +25,17 @@
         <td>{{entry.spot_name}}</td>
         <td><div class="msw-swa msw-swa-215"> </div> {{entry.swell1_dir_deg}} {{entry.swell1_dir_comp}}</td>
         <td>{{entry.swell1_ht}} @ {{entry.swell1_per}} sec</td>
-        <td><div class="msw-ssa msw-ssa-35"> </div> {{entry.wind_dir_deg}} {{entry.wind_dir_comp}} @ {{entry.wind_speed}} {{entry.wind_unit}}</td>
+    	<td>{{entry.board.nickname}} {{entry.board.length_ft}}' {{entry.board.length_in}}" {{entry.board.fins}}</td>
+    	{% if entry.board_pref == "ok" %}
+            <td>{{entry.board_pref}}
+        {% else %}
+            <td>wanted {{entry.board_pref}}
+        {% endif %}
+        {% if entry.board_notes == "None" %}
+            </td>
+        {% else %}
+            : {{entry.board_notes}}</td>
+        {% endif %}
 
     </tr>
 	{% endfor %}
@@ -32,37 +43,27 @@
 <br>
 <br>
 
-<!-- 
-test msw swell arrow sprite:
- -->
-<!-- <div class="msw-swa msw-swa-215"> </div>
- -->
 
 <!-- MVP and stretch goal list, style-->
 <br>
 <br>
 <h4>core styling tasks to do:</h4>
 
-<li><strike>scale table elements, getting crowded</strike></li>
-<li>&#10004; split entry display into summary and details pages</li>
-<li>&#10004; fix datetime format to display more human-readably</li>
-<li>&#10004; display beach name (get from loc_id)</li>
+<li>&#10004; fix broken conditional in board_pref display</li>
+<li>&#10004; fix wording of board pref (in table-to-entry, or entry-to-display?)</li>
+<li>fix broken conditional in board_notes display (kill ":" if no notes)</li>
 <li>&#10004; get MSW graphics (arrows) to add to swell dir display</li>
-<li>get swell dir_deg convert from MSW format to global for display </li>
-<li>get converted swell dir_deg rounded to nearest 5 deg to get correct arrow</li>
-<li>fix getting same arrows for swell and wind</li>
+<li>&#10004; get MSW graphics (arrows) to add to wind dir display</li>
+<li>more info from API(s): wind, other swell, temps, tides</li>
 <br>
 
 <!-- MVP and stretch goal list, functionality-->
 
 <h4>core functionality todo:</h4>
-<li>&#10004; simple list synopsis of all sessions</li>
-<li>ability to jump to details page for any session</li>
 <br>
 <br>
 <h4>Additional features:</h4>
 <li>ability to edit a previously entered session?</li>
-<li>ability to dynamically expand view for each session (instead of going to details page)</li>
 <li>ability to sort/ filter by various fields (date, board, wavesize, location, friend, swell dir)</li>
 <br>
 <br>
@@ -73,14 +74,9 @@ test msw swell arrow sprite:
 <li>tell user what (nearest) beach's msw is displayed if entry's beach has no msw forecast</li>
 <li>additional query/ graphs for end time if duration > n?</li>
 <br>
-<br>
 <a href="http://magicseaweed.com"><img src="http://im-1-uk.msw.ms/msw_powered_by.png"></a>
 
 
 {% endblock %}
 
 
-<!-- this is an example from the ratings app that includes the option to link to a "details" page
- -->
-<!--     <li><a href="{{url_for("view_movie", id=rating.movie_id)}}">{{rating.movie.title}} &mdash; {{rating.rating}}</a></li>
- --> 

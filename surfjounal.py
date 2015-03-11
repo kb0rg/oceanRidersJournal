@@ -67,7 +67,8 @@ def go_to_addEntry():
 
 @app.route("/addEntryToDB")
 def add_entry():
-    """receive input from add_entry form, commit to db, then list all existing entries."""
+    """receive input from add_entry form, commit to db, then redirect to page 
+    that lists existing entries."""
 
     """
     TODO:
@@ -108,40 +109,46 @@ def add_entry():
     board_pref = request.args.get("board_pref")
     board_notes = request.args.get("board_notes")
 
-    """
-    TODO: entry location:
-    # query loc table to get msw_id using loc_id
-    # pass msw_id to msw_query()
-    # parse API json, grab pieces that I want and bind to var     
-    """
-
-    # base URL for MSW API requests REQUIRES spot id
-    # using bolinas jetty as test/ default.
-    # msw_id = 4215
-
     # look up loc from loc table: from loc_id get msw_id
     loc_obj = model.session.query(model.Location).get(loc_id)
     # assign db's msw_id to this function's msw_id var
     msw_id = loc_obj.msw_id
 
-    # make API call using msw_id
+    """
+    TODO: should I make just one API call, get everything?
+    """
+    # make API call for swell1 info using msw_id
     msw_swell1_json_obj = msw.getSwell1(msw_id)
 
-    """
-    should this parsing be part of the api call module, or stay here?
-    """
-    # parse msw response object into desired attr
-    swell1_ht = msw_swell1_json_obj["swell"]['components']['primary']['height']
-    swell1_per = msw_swell1_json_obj["swell"]['components']['primary']['period']
-    swell1_dir_deg = msw_swell1_json_obj["swell"]['components']['primary']['direction']
-    swell1_dir_comp = msw_swell1_json_obj["swell"]['components']['primary']['compassDirection']
+    # parse msw response object for swell1 info into desired attr
+    swell1_ht = msw_swell1_json_obj['swell']['components']['primary']['height']
+    swell1_per = msw_swell1_json_obj['swell']['components']['primary']['period']
+    swell1_dir_deg = msw_swell1_json_obj['swell']['components']['primary']['direction']
+    swell1_dir_comp = msw_swell1_json_obj['swell']['components']['primary']['compassDirection']
 
-    # add piece from api to this instance of model.Entry
+    """
+    TODO: response is showing way more than wind.
+    """
+    # make API call for wind info using msw_id
+    msw_wind_json_obj = msw.getWind(msw_id)
+
+    print "msw_wind_json_obj: ", msw_wind_json_obj
+    # parse msw response object for wind info into desired attr
+    wind_speed = msw_wind_json_obj['wind']['']
+    wind_dir_deg = msw_wind_json_obj['wind']['direction']
+    wind_dir_comp = msw_wind_json_obj['wind']['compassDirection']
+    wind_unit = msw_wind_json_obj['wind']['unit']
+    # add gusts to model?
+    # wind_gusts = msw_wind_json_obj['wind']['gusts']
+
+    # add info from user and api to this instance of model.Entry
     new_entry = model.Entry(user_id = user_id,
                             date_time_start = date_time_start, date_time_end=date_time_end,
                             loc_id = loc_id, spot_name = spot_name,
                             swell1_ht = swell1_ht, swell1_per = swell1_per, 
                             swell1_dir_deg = swell1_dir_deg, swell1_dir_comp = swell1_dir_comp,
+                            wind_speed = wind_speed, wind_dir_deg = wind_dir_deg,
+                            wind_dir_comp = wind_dir_comp, wind_unit = wind_unit,
                             board_id=board_id, board_pref = board_pref, board_notes = board_notes)
 
     model.session.add(new_entry)
@@ -175,6 +182,37 @@ add ability to display details of a given journal entry.
 #     print melon
 #     return render_template("melon_details.html",
 #                   display_melon = melon)
+
+@app.route("/addBoardToDB")
+def add_board():
+    """receive input from board_quiver form, commit to db, then redirect to quiver list page."""
+
+    """
+    TODO:
+    get user_id from session once log-in enabled
+    """
+    # temp hardwire user_id to kborg
+    user_id = 1
+
+    # queries from user
+    nickname = request.args.get("nickname")
+    category = request.args.get("category")
+    length_ft = request.args.get("length_ft")
+    length_in = request.args.get("length_in")
+    shaper = request.args.get("shaper")
+    shape = request.args.get("shape")
+    fins = request.args.get("fins")
+     # = request.args.get("")
+
+    new_entry = model.Board(user_id = user_id,
+                            nickname = nickname, category = category,
+                            length_ft = length_ft, length_in = length_in,
+                            shaper = shaper, shape = shape, fins = fins)
+
+    model.session.add(new_entry)
+    model.session.commit()
+
+    return redirect("/board_quiver")
 
 @app.route("/board_quiver")
 def edit_quiver():
