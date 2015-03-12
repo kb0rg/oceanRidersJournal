@@ -1,6 +1,6 @@
 <html>
     <head>
-        <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.min.css" />
+        <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.min.css"/>
         <link rel="stylesheet" href="/static/css/style.css" />
     </head>
     <body>
@@ -11,8 +11,9 @@
                 </div>
                 <div class="navbar-collapse collapse">
                     <ul class="nav navbar-nav navbar-right">
-<!--                         <li><a href="/cart"><img class="melon-cart" src="watermelon.png"> My Melon Cart</a></li> -->
-                        <li><a href="/login">Log In</a></li>
+                        <li><a href="/about">Home/ About</a></li>
+                        <li><a href="/login">Log In/ Register</a></li>
+                        <li><a href="/logout">Log Out</a></li>
                     </ul>
                 </div>
             </div>
@@ -21,7 +22,6 @@
             <a href="/entries" class="btn btn-lg btn-default">view existing entries</a>
             <a href="/addEntryForm" class="btn btn-lg btn-default">create a new entry</a>
             <a href="/board_quiver" class="btn btn-lg btn-default">view/ edit quiver</a>
-            <a href="/about" class="btn btn-lg btn-default">back to home/ about page</a>
         </div>
         <div class="container">
             {% with messages = get_flashed_messages() %}

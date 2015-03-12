@@ -8,14 +8,7 @@
 
 <form action="/addEntryToDB">
 
-<!-- <form action="/addEntry" method="post">
- -->
-<!-- 	
-todo: trying to fix get/ post issue, get this error:
-The method is not allowed for the requested URL.
- -->
-
- <!-- add start and end time again later. for now, datetime NOW
+<!-- add start and end time again later. for now, datetime NOW
  -->
 <!-- Date:<br>
 <input type="date" name = "entry_date">
@@ -25,33 +18,16 @@ Start Time (as HH:MM with "AM" or "PM"):<br>
 <br>
 End Time (as HH:MM with "AM" or "PM"):<br>
 <input type="time" name="end_time"> -->
-
-
-<!-- 
-	temp location dropdown,
-	with hard-wired values
-	keep for visual ref: regions
- -->
-<!-- Beach Name:<br>
-<select name = loc_id>
-<optgroup label="San Francisco">
-  <option value="1">Ocean Beach</option>
-<optgroup label="Marin">
-  <option value="2">Bolinas</option>
-  <option name = "loc_id" value="3">Stinson Beach</option>
-<optgroup label="San Mateo">
-  <option value="4">Linda Mar</option>
-  <option value="5">Rockaway</option>
-  <option value="6">Montara</option>
-</select> -->
 <!--  -->
 <!--  -->
 <!-- 
-todo:
+TODO:
 add region to dropdown. 
 not sure how to do this. 
 sort query before passing to template?
 conditional within template?
+tried putting optgoup label = loc.county in jinja, 
+got blanks before each beach
 -->
 Beach Name:<br>
 <select name = "loc_id">
@@ -66,10 +42,9 @@ Spot Name:<br>
 <br>
 <!-- board info -->
 <!-- 
-todo:
+TODO:
 add board categories to dropdown. 
 (see loactions: regions issue)
-also, ability to add board from here?
 -->
 Board Ridden:<br>
 <select name = "board_id">
@@ -77,6 +52,11 @@ Board Ridden:<br>
 	<option value="{{board.id}}">{{board.nickname}}</option>
 	{% endfor %}
 </select>
+<!-- 
+TODO:
+make this button *temp* redirect to quiver, w/o lising existing input?
+ -->
+<a href="/board_quiver" class="btn btn-sm btn-default">add a board to quiver</a>
 <br>
 Did you wish you'd brought a different board?:<br>
 <input type="radio" name = "board_pref" required value = "smaller">(smaller)
@@ -109,7 +89,7 @@ Did you wish you'd brought a different board?:<br>
 <h4>Near-term stretch Goals: Additional features:</h4>
 <li>&#10004; location nickname/ additional info (specific break w/in named beach)</li>
 <li>&#10004; link board form to stored board quiver </li>
-<li>make ability to edit/ add to quiver</li>
+<li>&#10004; make ability to edit/ add to quiver</li>
 <li>if not right board, allow to choose other board (pref field) from quiver? (pulldown)</li>
 <li>ability to make entry for past date</li>
 <li>crowd density (buttons?)</li>

@@ -48,6 +48,19 @@ at time of git clone. leaving it for now in case it proves useful-->
             </p>
           </div>
 
+        <div class="container">
+            {% with messages = get_flashed_messages() %}
+            {% if messages %}
+            {% for message in messages %}
+            <ul class="flashes">
+                <li>{{message}}</li>
+            </ul>
+            {% endfor %}
+            {% endif %}
+            {% endwith %}
+
+        </div>
+
           <div class="mastfoot">
             <div class="inner">
                 <p>Copyright? **If so, then put Something here about kborg and hackbright**</p>
@@ -59,13 +72,6 @@ at time of git clone. leaving it for now in case it proves useful-->
       </div>
 
     </div>
-<!-- I don't know what's going on here, below. this was commented out
-at time of git clone. leaving it for now in case it proves useful.
-seems to be driving a sliding footer. that slides right on top of the copyright
-defined in the footer above. why? how? do I care?-->
-        <h1>WAT</h1>
-        <h4> not sure if I need this code. there was something here, but commented out, in the ubermelon app </h3>
-        <h2><a href=https://www.destroyallsoftware.com/talks/wat</a></h2>
 
     </body>
 </html>

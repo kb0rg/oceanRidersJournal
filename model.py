@@ -136,26 +136,20 @@ class Entry(Base):
 
     """
     todo entry location:
-    -> need to explicity link this to ID in loc table?
     -> make not nullable? or give warning in form that if not provided, 
     no weather info will be given?
-    -> make dropdown in form that reads from loc table
-    # todo LATER: add input field for more specific spot_name /nickname (ie Patch or Noriega)
     """
-    ## for working with temp beach name input text field:
-    # beach_name = Column(String(64), nullable = False)
 
     # beach from location ID (uses loc table's loc_id)
     loc_id = Column(Integer, ForeignKey('locations.id'))
     spot_name = Column(String(64), nullable = True)
+    # go_out = Column(Boolean, nullable = True)
 
     loc = relationship("Location",
         backref=backref("entries", order_by=id))
 
     """
     todo entry board:
-    --> make ability to get board from quiver in form
-    LATER:
     --> ?? (entry has only one board, or multiple?)
     --> ? make ability to add to quiver?
     """
@@ -169,13 +163,10 @@ class Entry(Base):
 
     """
     todo API:
-    ---> data model question:
-    should I pull API specifics out of entry table, and make an API_info table with entry_id keys?
     -> add swell2 and swell3?
     -> add tide height and state
-    -> add wind speed and direction
     -> add air and water temp
-    -> remove dirComp if function converts to global degrees
+    -> remove dirComp if function converts to global degrees?
     """
     ## pull swell1 data from apis and add to entry
     swell1_ht = Column(Float, nullable = True)
@@ -195,6 +186,18 @@ class Entry(Base):
     ## pull water and air temp from API 
     temp_h2o = Column(Integer, nullable = True)
     temp_air = Column(Integer, nullable = True)
+
+    ## subjective user ratings
+    #rate_wave_challenge = Column(Integer, nullable = True)
+    #rate_wave_fun = Column(Integer, nullable = True)
+    #rate_crowd_den = Column(Integer, nullable = True)
+    #rate_crowd_vibe = Column(Integer, nullable = True)
+    #rate_overall_fun = Column(Integer, nullable = True)
+
+    ## additional user inputs
+    #buddy_name = Column(String(64), nullable = True)
+    #gen_notes = Column(String(140), nullable = True)
+
 
     def __repr__(self):
         return "%d, %d, %s, %s, %s" % (self.id, self.loc_id, self.spot_name, self.board.nickname, self.board_pref)

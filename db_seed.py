@@ -120,6 +120,34 @@ def main(session):
 
     print "Done!"
  
+def load_entries(session):
+
+    """
+    populates entries table from seed file.
+    seed file is using these fields:
+    user_id|datetime start|loc_id|spot_name|swell1_ht|swell1_per|swell1_arrow_deg|
+            swell1_dir_comp|wind_speed|wind_gusts|wind_arrow_deg|board_id|board_pref|board_notes
+
+    (using msw api data collected for past dates, only rounded degress available. need to convert here)
+    """
+    
+    with open("db_seed_data/seed_entries") as f:
+        reader = csv.reader(f, delimiter="|")
+        for row in reader:
+            user_id, datetime_start, loc_id, spot_name, swell1_ht, swell1_per, swell1_arrow_deg,
+            swell1_dir_comp, wind_speed, wind_gusts, wind_arrow_deg, board_id, board_pref, board_notes = row
+            
+            u = model.Entry(username=username, email=None, password=None, firstname=firstname, lastname=lastname, home_region=home_region)
+            session.add(u)
+        
+        ## based on func from ratings app, not sure about the use of try/ except
+        # try:
+        #     session.commit()
+        # except sqlalchemy.exc.IntegrityError, e:
+        #     session.rollback()
+        
+        session.commit()
+        print "users table seeded." 
 if __name__ == "__main__":
     session = model.session
     main(session)

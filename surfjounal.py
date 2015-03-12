@@ -21,6 +21,17 @@ app = Flask(__name__)
 app.secret_key = '\xf5!\x07!qj\xa4\x08\xc6\xf8\n\x8a\x95m\xe2\x04g\xbb\x98|U\xa2f\x03'
 app.jinja_env.undefined = jinja2.StrictUndefined
 
+"""
+TODO: 
+do I need teardown_request?
+"""
+# @app.teardown_request
+# def shutdown_session(exception = None):
+#     db_session.remove()
+
+@app.before_request
+def load_user_id():
+    g.user_id = session.get('user_id')
 
 @app.route("/")
 def index():
@@ -31,6 +42,9 @@ def index():
     And a logo. And maybe some inspirational text. 
     But first kborg has to build the rest of the damn site.
     """
+    ## include a redirect if user is logged in and goes back to index?
+    # if g.user_id:
+    #     return redirect("entries")
 
     return render_template("index.html")
 
@@ -38,7 +52,7 @@ def index():
 def list_entriesInfo():
 
     """
-    temp page while building -- or turn into intro/ about page.
+    temp page while building -- turn into intro/ about page.
     currently a list of all of the potential info that can be collected
     """
 
@@ -52,6 +66,12 @@ def go_to_addEntry():
     gets info from the db to send to/ populate the form.
     """
 
+
+    if not g.user_id:
+        flash("Please log in", "warning")
+        return redirect(url_for("index"))
+
+
     """
     TODO: add entry form:
     flesh out the locations dropdown with regions.
@@ -60,7 +80,7 @@ def go_to_addEntry():
 
     # get all locations from db and pass to template for dropdown
     loc_list = model.session.query(model.Location).all()
-    board_list = model.session.query(model.Board).all()
+    board_list = model.session.query(model.Board).filter_by(user_id=g.user_id)
     # print loc_list
 
     return render_template("surf_entry_add.html", locations = loc_list, boards = board_list)
@@ -70,13 +90,7 @@ def add_entry():
     """receive input from add_entry form, commit to db, then redirect to page 
     that lists existing entries."""
 
-    # temp hardwire user id to kborg
-    user_id = 1
-
-    """
-    TODO:
-    get user_id from session once log-in enabled
-    """
+    user_id = g.user_id
 
     # entry_date = request.args.get("entry_date")
     # start_time = request.args.get("start_time")
@@ -114,6 +128,9 @@ def add_entry():
     #rate_wave_fun
     #rate_crowd_den
     #rate_crowd_vibe
+    #rate_overall_fun
+    #buddy_name
+    #gen_notes
 
     # look up loc from loc table: from loc_id get msw_id
     loc_obj = model.session.query(model.Location).get(loc_id)
@@ -139,14 +156,14 @@ def add_entry():
     TODO: response is showing way more than wind.
     """
     # make API call for wind info using msw_id
-    msw_wind_json_obj = msw.getWind(msw_id)
+    # msw_wind_json_obj = msw.getWind(msw_id)
 
-    print "msw_wind_json_obj: ", msw_wind_json_obj
+    # print "msw_wind_json_obj: ", msw_wind_json_obj
     # parse msw response object for wind info into desired attr
-    wind_speed = msw_wind_json_obj['wind']['']
-    wind_dir_deg = msw_wind_json_obj['wind']['direction']
-    wind_dir_comp = msw_wind_json_obj['wind']['compassDirection']
-    wind_unit = msw_wind_json_obj['wind']['unit']
+    # wind_speed = msw_wind_json_obj['wind']['']
+    # wind_dir_deg = msw_wind_json_obj['wind']['direction']
+    # wind_dir_comp = msw_wind_json_obj['wind']['compassDirection']
+    # wind_unit = msw_wind_json_obj['wind']['unit']
     ## add to model
     # wind_gusts = msw_wind_json_obj['wind']['gusts']
     # wind_dir_deg_global = getGlobalDegrees(wind_dir_deg)
@@ -158,8 +175,8 @@ def add_entry():
                             loc_id = loc_id, spot_name = spot_name,
                             swell1_ht = swell1_ht, swell1_per = swell1_per, 
                             swell1_dir_deg = swell1_dir_deg, swell1_dir_comp = swell1_dir_comp,
-                            wind_speed = wind_speed, wind_dir_deg = wind_dir_deg,
-                            wind_dir_comp = wind_dir_comp, wind_unit = wind_unit,
+                            # wind_speed = wind_speed, wind_dir_deg = wind_dir_deg,
+                            # wind_dir_comp = wind_dir_comp, wind_unit = wind_unit,
                             board_id=board_id, board_pref = board_pref, board_notes = board_notes)
 
     model.session.add(new_entry)
@@ -172,7 +189,11 @@ def add_entry():
 def list_entries():
     """displays all of the surf entries logged so far"""
 
-    entry_list = model.session.query(model.Entry).all()
+    if not g.user_id:
+        flash("Please log in", "warning")
+        return redirect(url_for("index"))
+
+    entry_list = model.session.query(model.Entry).filter_by(user_id=g.user_id)
 
     # TODO -- want to filter entries by date. sort here or on display/ template side?
 
@@ -187,6 +208,10 @@ add ability to display details of a given journal entry.
 @app.route("/entryDetails")
 def list_entry_details():
     """displays full details of the selected surf entry"""
+
+    if not g.user_id:
+        flash("Please log in", "warning")
+        return redirect(url_for("index"))
 
     ### use this as ref for making "entry details" happen?
     # @app.route("/melon/<int:id>")
@@ -205,12 +230,7 @@ def list_entry_details():
 def add_board():
     """receive input from board_quiver form, commit to db, then redirect to quiver list page."""
 
-    """
-    TODO:
-    get user_id from session once log-in enabled
-    """
-    # temp hardwire user_id to kborg
-    user_id = 1
+    user_id = g.user_id
 
     # queries from user
     nickname = request.args.get("nickname")
@@ -236,17 +256,18 @@ def add_board():
 def edit_quiver():
     """display and edit existing quiver of boards"""
 
-    """
-    TODO quiver:
-    """
+    if not g.user_id:
+        flash("Please log in", "warning")
+        return redirect(url_for("index"))
 
     # get all boards from db and pass to template for display
-    board_list = model.session.query(model.Board).all()
+    board_list = model.session.query(model.Board).filter_by(user_id=g.user_id)
     # print board_list
     return render_template("board_quiver.html", boards = board_list)
 
 """
-TODO: log-in. reference code from ratings below.
+TODO:
+fix logout bug.
 additional goals:
 hash/ salt passwords.
 give different permissions to different users:
@@ -258,45 +279,51 @@ def show_login():
     return render_template("login.html")
 
 @app.route("/login", methods=["POST"])
-def process_login():
-    """TODO: Receive the user's login credentials located in the 'request.form'
-    dictionary, look up the user, and store them in the session."""
-    return "Oops! This needs to be implemented"
+def login():
+    email = request.form['email']
+    password = request.form['password']
 
-# @app.route("/login", methods=["POST"])
-# def login():
-#     email = request.form['email']
-#     password = request.form['password']
+    try:
+        user = model.session.query(model.User).filter_by(email=email, password=password).one()
+    except:
+        flash("Invalid username or password", "error")
+        return redirect(url_for("index"))
 
-#     try:
-#         user = db_session.query(User).filter_by(email=email, password=password).one()
-#     except:
-#         flash("Invalid username or password", "error")
-#         return redirect(url_for("index"))
+    session['user_id'] = user.id
+    return redirect("/entries")
 
-#     session['user_id'] = user.id
-#     return redirect(url_for("display_search"))
+# @app.route("/register", methods=["GET"])
+# def show_register():
+#     return render_template("register.html")
 
-# @app.route("/register", methods=["POST"])
-# def register():
-#     email = request.form['email']
-#     password = request.form['password']
-#     existing = db_session.query(User).filter_by(email=email).first()
-#     if existing:
-#         flash("Email already in use", "error")
-#         return redirect(url_for("index"))
+@app.route("/register", methods=["POST"])
+def register():
 
-#     u = User(email=email, password=password)
-#     db_session.add(u)
-#     db_session.commit()
-#     db_session.refresh(u)
-#     session['user_id'] = u.id 
-#     return redirect(url_for("display_search"))
+    username = request.form['username']
+    email = request.form['email']
+    password = request.form['password']
+    existing = model.session.query(model.User).filter_by(email=email).first()
 
-# @app.route("/logout")
-# def logout():
-#     del session['user_id']
-#     return redirect(url_for("index"))
+    if existing:
+        flash("Email already in use", "error")
+        return redirect(url_for("register"))
+
+    u = model.User(username=username, email=email, password=password)
+    model.session.add(u)
+    model.session.commit()
+    model.session.refresh(u)
+    session['user_id'] = u.id 
+    return redirect("/about")
+
+@app.route("/logout")
+def logout():
+
+    """
+    fix bug if button hit while not logged in.
+    """
+
+    del session['user_id']
+    return redirect(url_for("index"))
 
 if __name__ == "__main__":
     port = int(os.environ.get("PORT", 5000))
