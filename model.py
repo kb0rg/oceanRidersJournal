@@ -27,8 +27,9 @@ class User(Base):
     password = Column(String(64), nullable = True)
     firstname = Column(String(64), nullable = True)
     lastname = Column(String(64), nullable = True)
+    
     """
-    todo region: tie this to loc table?
+    TODO: user region: tie this to loc table?
     """
     home_region = Column(String(64), nullable = True)
 
@@ -59,7 +60,7 @@ class Location(Base):
     msw_beach_name = Column(String(64), nullable = False)
 
     """
-    todo latlong:
+    TODO: latlong:
     should these be left as strings, or converted to another format?
     # USING STRING FOR NOW
     """
@@ -82,12 +83,12 @@ class Board(Base):
     id = Column(Integer, primary_key = True)
 
     """
-    TODO boards general:
+    TODO: boards general:
     --> ?? make field to note if board is borrowed/ whose it is?
     (for purposes of db, each board has only one user)
     """
     """
-    todo board user: 
+    TODO: board user: 
     -> need to get this from login info
     """
     user_id = Column(Integer, ForeignKey('users.id'))
@@ -118,7 +119,7 @@ class Entry(Base):
     id = Column(Integer, primary_key = True)
 
     """
-    todo entry user: 
+    TODO: entry user: 
     -> should get this from login info
     """
     user_id = Column(Integer, ForeignKey('users.id'))
@@ -127,7 +128,7 @@ class Entry(Base):
         backref=backref("entries", order_by=id))
 
     """
-    todo entry datetime:
+    TODO: entry datetime:
     -> set up form to make inputs, not just use datetime.now 
     --> format in a way MSW can read, or do that conversion at API call?
     """
@@ -135,7 +136,7 @@ class Entry(Base):
     date_time_end = Column(DateTime, nullable = False)
 
     """
-    todo entry location:
+    TODO: entry location:
     -> make not nullable? or give warning in form that if not provided, 
     no weather info will be given?
     """
@@ -149,7 +150,7 @@ class Entry(Base):
         backref=backref("entries", order_by=id))
 
     """
-    todo entry board:
+    TODO: entry board:
     --> ?? (entry has only one board, or multiple?)
     --> ? make ability to add to quiver?
     """
@@ -162,7 +163,7 @@ class Entry(Base):
         backref=backref("entries", order_by=id))
 
     """
-    todo API:
+    TODO: API:
     -> add swell2 and swell3?
     -> add tide height and state
     -> add air and water temp

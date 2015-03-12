@@ -19,7 +19,6 @@
 
   	</tr>
  
-    {% for entry in entries %}
 	<tr>    
     	<td>{{entry.date_time_start.strftime('%m/%d/%Y %I:%m %p')}}</td>
     	<td>{{entry.loc.beach_name}}</td>
@@ -40,7 +39,7 @@
         {% endif %}
 
     </tr>
-	{% endfor %}
+
 </table>
 <br>
 <br>

@@ -1,6 +1,14 @@
-norCal|USA|CA|San Francisco|Ocean Beach|255|T|Ocean Beach|37.7594 N|122.5108 W
-norCal|USA|CA|Marin|Bolinas|4215|T|Bolinas Jetty|37.9094 N|122.6864 W
-norCal|USA|CA|Marin|Stinson Beach|4216|T|Stinson Beach|37.9006 N|122.6444 W
-norCal|USA|CA|San Mateo|Linda Mar|819|T|Linda Mar|37.6011 N|122.4992 W
-norCal|USA|CA|San Mateo|Rockaway|819|F|Linda Mar|37.6100 N|122.4975 W
-norCal|USA|CA|San Mateo|Montara|819|F|Linda Mar|37.5481 N|122.5136 W
+1|norCal|USA|CA|San Francisco|Ocean Beach|255|T|Ocean Beach|37.7594 N|122.5108 W
+2|norCal|USA|CA|Marin|Bolinas|4215|T|Bolinas Jetty|37.9094 N|122.6864 W
+3|norCal|USA|CA|Marin|Stinson Beach|4216|T|Stinson Beach|37.9006 N|122.6444 W
+4|norCal|USA|CA|San Mateo|Linda Mar|819|T|Linda Mar|37.6011 N|122.4992 W
+5|norCal|USA|CA|San Mateo|Rockaway|819|F|Linda Mar|37.6100 N|122.4975 W
+6|norCal|USA|CA|San Mateo|Montara|819|F|Linda Mar|37.5481 N|122.5136 W
+7|norCal|USA|CA|San Mateo|Mavericks|162|T|Mavericks|37.492673 N|122.499522 W
+8|norCal|USA|CA|San Mateo|HMB Jetty|3679|T|Princeton Jetty|37.501056 N|122.48294 W
+9|centralCal|USA|CA|Santa Cruz|Four Mile|257|T|Four Mile|36.970239 N|122.119418 W
+10|centralCal|USA|CA|Santa Cruz|Three Mile|257|F|Four Mile|36.9616172 N|122.1127436 W
+11|centralCal|USA|CA|Santa Cruz|Steamer Lane|163|T|Steamer Lane|36.9538394 N|122.0241292 W
+12|centralCal|USA|CA|Santa Cruz|Cowell's|163|F|Steamer Lane|36.9610613 N|122.0249626 W
+13|centralCal|USA|CA|Santa Cruz|Pleasure Point|644|T|Pleasure Point|36.9577281 N|121.9688491 W
+14|centralCal|USA|CA|Santa Cruz|Hook|644|F|Pleasure Point|36.9597689 N|121.9654961 W

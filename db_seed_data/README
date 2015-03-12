@@ -3,7 +3,7 @@ index of seed data files:
 -->location_data:
 a pipe-separated file of location information:
 
-Region|Country|State or Province|County|Beach Name|MSW_ID used|msw id exists for this location?|Beach Name of closest MSW data|lat|lon|
+loc_id|Region|Country|State or Province|County|Beach Name|MSW_ID used|msw id exists for this location?|Beach Name of closest MSW data|lat|lon|
 
 -->user_data: 
 a pipe-separated file of user information:

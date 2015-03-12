@@ -50,7 +50,7 @@ def load_locations(session):
 
         reader = csv.reader(f, delimiter="|")
         for row in reader:
-            region, country, state_or_prov, county, beach_name, msw_id, msw_unique_id_exists, msw_beach_name, lat, long = row
+            loc_id, region, country, state_or_prov, county, beach_name, msw_id, msw_unique_id_exists, msw_beach_name, lat, long = row
 
             # convert string to Boolean:
             if msw_unique_id_exists == "T":
@@ -58,7 +58,7 @@ def load_locations(session):
             else:
                 msw_unique_id_exists = False
 
-            m = model.Location(region=region, country=country, state_or_prov=state_or_prov,
+            m = model.Location(loc_id=loc_id, region=region, country=country, state_or_prov=state_or_prov,
                 county=county, beach_name = beach_name, 
                 msw_id=msw_id, msw_unique_id_exists=msw_unique_id_exists, msw_beach_name=msw_beach_name,
                 lat=lat, long=long)

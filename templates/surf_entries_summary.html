@@ -28,8 +28,10 @@
         <td>{{entry.swell1_ht}} @ {{entry.swell1_per}} sec</td>
         <td><div class="msw-ssa msw-ssa-35"> </div> {{entry.wind_dir_deg}} {{entry.wind_dir_comp}} @ {{entry.wind_speed}} {{entry.wind_unit}}</td>
         <td>{{entry.board.id}} {{entry.board.nickname}} {{entry.board.length_ft}}' {{entry.board.length_in}}" {{entry.board.fins}}</td>
-
+        <td><a class="btn btn-primary" href="/entryDetails/{{entry.id}}">Details</a></td>
     </tr>
+
+
 	{% endfor %}
 </table>
 <br>

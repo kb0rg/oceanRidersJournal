@@ -205,26 +205,28 @@ entries details:
 add ability to display details of a given journal entry.
 """
 
-@app.route("/entryDetails")
-def list_entry_details():
+### use this as ref for making "entry details" happen?
+# @app.route("/melon/<int:id>")
+# def show_melon(id):
+#     """This page shows the details of a given melon, as well as giving an
+#     option to buy the melon."""
+#     melon = model.get_melon_by_id(id)
+#     print melon
+#     return render_template("melon_details.html",
+#                   display_melon = melon)
+
+@app.route("/entryDetails/<int:id>")
+def list_entry_details(id):
     """displays full details of the selected surf entry"""
 
     if not g.user_id:
         flash("Please log in", "warning")
         return redirect(url_for("index"))
 
-    ### use this as ref for making "entry details" happen?
-    # @app.route("/melon/<int:id>")
-    # def show_melon(id):
-    #     """This page shows the details of a given melon, as well as giving an
-    #     option to buy the melon."""
-    #     melon = model.get_melon_by_id(id)
-    #     print melon
-    #     return render_template("melon_details.html",
-    #                   display_melon = melon)
+    entry = model.session.query(model.Entry).filter_by(id = id).one()
+    print entry
 
-    return render_template("surf_entry_details.html")
-
+    return render_template("surf_entry_details.html", entry = entry)
 
 @app.route("/addBoardToDB")
 def add_board():
