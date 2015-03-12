@@ -23,9 +23,9 @@
     	<td>{{entry.date_time_start.strftime('%m/%d/%Y %I:%m %p')}}</td>
     	<td>{{entry.loc.beach_name}}</td>
         <td>{{entry.spot_name}}</td>
-        <td><div class="msw-swa msw-swa-215"> </div> {{entry.swell1_dir_deg}} {{entry.swell1_dir_comp}}</td>
+        <td><div class="msw-swa msw-swa-{{entry.swell1_arrow_deg}}"> </div> {{entry.swell1_dir_deg_global}} {{entry.swell1_dir_comp}}</td>
         <td>{{entry.swell1_ht}} @ {{entry.swell1_per}} sec</td>
-        <td><div class="msw-ssa msw-ssa-35"> </div> {{entry.wind_dir_deg}} {{entry.wind_dir_comp}} @ {{entry.wind_speed}} {{entry.wind_unit}}</td>
+        <td><div class="msw-ssa msw-ssa-{{entry.wind_arrow_deg}}"> </div> {{entry.wind_dir_deg}} {{entry.wind_dir_comp}} @ {{entry.wind_speed}} {{entry.wind_unit}}</td>
     	<td>{{entry.board.nickname}} {{entry.board.length_ft}}' {{entry.board.length_in}}" {{entry.board.fins}}</td>
     	{% if entry.board_pref == "ok" %}
             <td>{{entry.board_pref}}
@@ -55,7 +55,8 @@
 <li>fix broken conditional in board_notes display (kill ":" if no notes)</li>
 <li>&#10004; get MSW graphics (arrows) to add to swell dir display</li>
 <li>&#10004; get MSW graphics (arrows) to add to wind dir display</li>
-<li>more info from API(s): wind, other swell, temps, tides</li>
+<li>&#10004; more info from API(s): wind </li>
+<li>more info from API(s): other swell, temps, tides</li>
 <br>
 
 <!-- MVP and stretch goal list, functionality-->

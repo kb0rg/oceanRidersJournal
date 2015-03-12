@@ -13,7 +13,7 @@
         <th>Which Spot?</th>
         <th>Swell Direction</th>
         <th>Swell Height/ Interval</th>
-        <th>Wind </th>
+        <th>Wind</th>
         <th>Which Board?</th>
 
 
@@ -24,9 +24,9 @@
     	<td>{{entry.date_time_start.strftime('%m/%d/%Y %I:%m %p')}}</td>
     	<td>{{entry.loc.beach_name}}</td>
         <td>{{entry.spot_name}}</td>
-        <td><div class="msw-swa msw-swa-215"> </div> {{entry.swell1_dir_deg}} {{entry.swell1_dir_comp}}</td>
+        <td><div class="msw-swa msw-swa-{{entry.swell1_arrow_deg}}"> </div> {{entry.swell1_dir_deg_global}} {{entry.swell1_dir_comp}}</td>
         <td>{{entry.swell1_ht}} @ {{entry.swell1_per}} sec</td>
-        <td><div class="msw-ssa msw-ssa-35"> </div> {{entry.wind_dir_deg}} {{entry.wind_dir_comp}} @ {{entry.wind_speed}} {{entry.wind_unit}}</td>
+        <td><div class="msw-ssa msw-ssa-{{entry.wind_arrow_deg}}"> </div> {{entry.wind_dir_deg}} {{entry.wind_dir_comp}} @ {{entry.wind_speed}} {{entry.wind_unit}}</td>
         <td>{{entry.board.id}} {{entry.board.nickname}} {{entry.board.length_ft}}' {{entry.board.length_in}}" {{entry.board.fins}}</td>
         <td><a class="btn btn-primary" href="/entryDetails/{{entry.id}}">Details</a></td>
     </tr>
@@ -53,16 +53,16 @@ test msw swell arrow sprite:
 <li>&#10004; fix datetime format to display more human-readably</li>
 <li>&#10004; display beach name (get from loc_id)</li>
 <li>&#10004; get MSW graphics (arrows) to add to swell dir display</li>
-<li>get swell dir_deg convert from MSW format to global for display </li>
-<li>get converted swell dir_deg rounded to nearest 5 deg to get correct arrow</li>
-<li>fix getting same arrows for swell and wind</li>
+<li>&#10004; get swell dir_deg convert from MSW format to global for display </li>
+<li>&#10004; get converted swell dir_deg rounded to nearest 5 deg to get correct arrow</li>
+<li>&#10004; fix getting same arrows for swell and wind</li>
 <br>
 
 <!-- MVP and stretch goal list, functionality-->
 
 <h4>core functionality todo:</h4>
 <li>&#10004; simple list synopsis of all sessions</li>
-<li>ability to jump to details page for any session</li>
+<li>&#10004; ability to jump to details page for any session</li>
 <br>
 <br>
 <h4>Additional features:</h4>

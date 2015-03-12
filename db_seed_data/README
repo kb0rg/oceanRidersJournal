@@ -8,7 +8,7 @@ loc_id|Region|Country|State or Province|County|Beach Name|MSW_ID used|msw id exi
 -->user_data: 
 a pipe-separated file of user information:
 
-username|firstname|lastname|home region
+id|username|email|password|firstname|lastname|home region
 
 -->board (quiver) data:
 user|nickname|category|length_ft|length_in|shaper|shape(model)|fins

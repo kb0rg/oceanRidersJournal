@@ -64,8 +64,8 @@ class Location(Base):
     should these be left as strings, or converted to another format?
     # USING STRING FOR NOW
     """
-    # lat long for reloacting later (in case API changes)
-    # (or in case I wanna do something fancy)
+    ## lat long for possible future use 
+    ## (in case API changes or if adding ability to find nearest from current loc)
     lat = Column(String(64), nullable = False)
     long = Column(String(64), nullable = False)
     # lat = Column(Float, nullable = False)
@@ -84,13 +84,12 @@ class Board(Base):
 
     """
     TODO: boards general:
-    --> ?? make field to note if board is borrowed/ whose it is?
+    --> make field to note if board is borrowed/ whose it is?
     (for purposes of db, each board has only one user)
+    --> ability to "retire" a board
+    (keep it in quiver but remove from add entry dropdown list)
     """
-    """
-    TODO: board user: 
-    -> need to get this from login info
-    """
+
     user_id = Column(Integer, ForeignKey('users.id'))
 
     user = relationship("User",
@@ -118,10 +117,6 @@ class Entry(Base):
     # automatically generated when instance is created
     id = Column(Integer, primary_key = True)
 
-    """
-    TODO: entry user: 
-    -> should get this from login info
-    """
     user_id = Column(Integer, ForeignKey('users.id'))
 
     user = relationship("User",
@@ -137,14 +132,15 @@ class Entry(Base):
 
     """
     TODO: entry location:
-    -> make not nullable? or give warning in form that if not provided, 
+    -> make not nullable? 
+    or give warning in form that if not provided, 
     no weather info will be given?
     """
 
     # beach from location ID (uses loc table's loc_id)
     loc_id = Column(Integer, ForeignKey('locations.id'))
     spot_name = Column(String(64), nullable = True)
-    # go_out = Column(Boolean, nullable = True)
+    go_out = Column(Boolean, nullable = True)
 
     loc = relationship("Location",
         backref=backref("entries", order_by=id))
@@ -172,14 +168,18 @@ class Entry(Base):
     ## pull swell1 data from apis and add to entry
     swell1_ht = Column(Float, nullable = True)
     swell1_per = Column(Integer, nullable = True)
-    swell1_dir_deg = Column(Float, nullable = True)
+    swell1_dir_deg_msw = Column(Float, nullable = True)
+    swell1_dir_deg_global = Column(Float, nullable = True)
     swell1_dir_comp = Column(String(4), nullable = True)
+    swell1_arrow_deg = Column(Integer, nullable = True)
 
     ## pull wind data from apis and add to entry
     wind_speed = Column(Float, nullable = True)
+    wind_gust = Column(Float, nullable = True)
     wind_dir_deg = Column(Float, nullable = True)
     wind_dir_comp = Column(String(4), nullable = True)
     wind_unit = Column(String(10), nullable = True)
+    wind_arrow_deg = Column(Integer, nullable = True)
 
     ## pull swell2 and 3, and temp data from MSW api and add to entry
     ## tide data from .... api?  and add to entry
@@ -189,15 +189,15 @@ class Entry(Base):
     temp_air = Column(Integer, nullable = True)
 
     ## subjective user ratings
-    #rate_wave_challenge = Column(Integer, nullable = True)
-    #rate_wave_fun = Column(Integer, nullable = True)
-    #rate_crowd_den = Column(Integer, nullable = True)
-    #rate_crowd_vibe = Column(Integer, nullable = True)
-    #rate_overall_fun = Column(Integer, nullable = True)
+    rate_wave_challenge = Column(Integer, nullable = True)
+    rate_wave_fun = Column(Integer, nullable = True)
+    rate_crowd_den = Column(Integer, nullable = True)
+    rate_crowd_vibe = Column(Integer, nullable = True)
+    rate_overall_fun = Column(Integer, nullable = True)
 
     ## additional user inputs
-    #buddy_name = Column(String(64), nullable = True)
-    #gen_notes = Column(String(140), nullable = True)
+    buddy_name = Column(String(64), nullable = True)
+    gen_notes = Column(String(140), nullable = True)
 
 
     def __repr__(self):
@@ -229,12 +229,7 @@ if __name__ == "__main__":
 """
 NOTE!!!!
 *****
-when db needs to be deleted and rebuilt:
-
-1) run model.py in interactive mode (while in venv):
+when db needs to be deleted and rebuilt,
+run model.py in interactive mode (while in venv):
 python -i model.py
-2) enter this in interactive python shell 
-engine = create_engine("sqlite:///db_surfjournal.db", echo=True)
-Base.metadata.create_all(engine)
-
 """

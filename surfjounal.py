@@ -146,11 +146,11 @@ def add_entry():
     # parse msw response object for swell1 info into desired attr
     swell1_ht = msw_swell1_json_obj['swell']['components']['primary']['height']
     swell1_per = msw_swell1_json_obj['swell']['components']['primary']['period']
-    swell1_dir_deg = msw_swell1_json_obj['swell']['components']['primary']['direction']
+    swell1_dir_deg_msw = msw_swell1_json_obj['swell']['components']['primary']['direction']
     swell1_dir_comp = msw_swell1_json_obj['swell']['components']['primary']['compassDirection']
     ## add to model:
-    # swell1_dir_deg_global = getGlobalDegrees(swell1_dir_deg)
-    # swell1_arrow_deg = getArrowDegrees(swell1_dir_deg_disp)
+    swell1_dir_deg_global = getGlobalDegrees(swell1_dir_deg)
+    swell1_arrow_deg = getArrowDegrees(swell1_dir_deg_disp)
 
     """
     TODO: response is showing way more than wind.
@@ -193,8 +193,12 @@ def list_entries():
         flash("Please log in", "warning")
         return redirect(url_for("index"))
 
+    print "g.user_id: ", g.user_id
     entry_list = model.session.query(model.Entry).filter_by(user_id=g.user_id)
 
+    print "*" * 30
+    print entry_list
+    
     # TODO -- want to filter entries by date. sort here or on display/ template side?
 
     return render_template("surf_entries_summary.html", entries = entry_list)
