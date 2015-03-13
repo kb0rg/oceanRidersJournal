@@ -4,9 +4,6 @@ from sqlalchemy import Boolean, Column, Integer, Float, String, DateTime, func
 from sqlalchemy import ForeignKey
 from sqlalchemy.orm import sessionmaker, scoped_session, relationship, backref
 
-# not sure if I need regex -- was used in one of the examples I may not be using
-# import re
-
 engine = create_engine("sqlite:///db_surfjournal.db", echo=False) 
 session = scoped_session(sessionmaker(bind=engine,
                          autocommit = False,
@@ -96,12 +93,10 @@ class Board(Base):
         backref=backref("boards", order_by=id))
 
     nickname = Column(String(64), nullable = False)
-    # changed "type" to "category" -- reserved
     category = Column(String(64), nullable = False)
     length_ft = Column(Integer, nullable = True)
     length_in = Column(Integer, nullable = True)
     shaper = Column(String(64), nullable = True)
-    # changed "model" to "shape" -- reserved
     shape = Column(String(64), nullable = True)
     fins = Column(String(64), nullable = True)
 
@@ -116,7 +111,6 @@ class Entry(Base):
 
     # automatically generated when instance is created
     id = Column(Integer, primary_key = True)
-
     user_id = Column(Integer, ForeignKey('users.id'))
 
     user = relationship("User",
@@ -162,8 +156,6 @@ class Entry(Base):
     TODO: API:
     -> add swell2 and swell3?
     -> add tide height and state
-    -> add air and water temp
-    -> remove dirComp if function converts to global degrees?
     """
     ## pull swell1 data from apis and add to entry
     swell1_ht = Column(Float, nullable = True)

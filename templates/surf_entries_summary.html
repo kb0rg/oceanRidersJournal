@@ -1,8 +1,6 @@
 {% extends 'base.html' %}
 {% block body %}
 
-<link rel="stylesheet" href="/static/css/msw_arrowSprites.css" />
-
 <h3>Display all of the previously logged journal entries:</h3>
 
 <table style="width:100%">
@@ -14,7 +12,6 @@
         <th>Swell Direction</th>
         <th>Swell Height/ Interval</th>
         <th>Wind</th>
-        <th>Which Board?</th>
 
 
   	</tr>
@@ -26,8 +23,7 @@
         <td>{{entry.spot_name}}</td>
         <td><div class="msw-swa msw-swa-{{entry.swell1_arrow_deg}}"> </div> {{entry.swell1_dir_deg_global}} {{entry.swell1_dir_comp}}</td>
         <td>{{entry.swell1_ht}} @ {{entry.swell1_per}} sec</td>
-        <td><div class="msw-ssa msw-ssa-{{entry.wind_arrow_deg}}"> </div> {{entry.wind_dir_deg}} {{entry.wind_dir_comp}} @ {{entry.wind_speed}} {{entry.wind_unit}}</td>
-        <td>{{entry.board.id}} {{entry.board.nickname}} {{entry.board.length_ft}}' {{entry.board.length_in}}" {{entry.board.fins}}</td>
+        <td><div class="msw-ssa msw-ssa-{{entry.wind_arrow_deg}}"> </div> {{entry.wind_speed}} ({{entry.wind_gust}})</td>
         <td><a class="btn btn-primary" href="/entryDetails/{{entry.id}}">Details</a></td>
     </tr>
 

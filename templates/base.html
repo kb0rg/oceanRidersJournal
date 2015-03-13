@@ -2,6 +2,7 @@
     <head>
         <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.min.css"/>
         <link rel="stylesheet" href="/static/css/style.css" />
+        <link rel="stylesheet" href="/static/css/msw_arrowSprites.css" />
     </head>
     <body>
         <div class="navbar navbar-inverse navbar-static-top">
@@ -11,9 +12,21 @@
                 </div>
                 <div class="navbar-collapse collapse">
                     <ul class="nav navbar-nav navbar-right">
-                        <li><a href="/about">Home/ About</a></li>
+                        <li><a href="/about">Home/ About</a></li>               
                         <li><a href="/login">Log In/ Register</a></li>
                         <li><a href="/logout">Log Out</a></li>
+                   
+<!-- 
+want to show log-in/ log-out buttons only if not alread logged in/ out
+conditional not working -- need to look up session
+ -->
+<!--                
+                         <%If Session.user_id Then%>
+                        <li><a href="/logout">Log Out</a></li>
+                        <%Else%>
+                        <li><a href="/login">Log In/ Register</a></li>
+                        <%End If%> 
+                    -->
                     </ul>
                 </div>
             </div>

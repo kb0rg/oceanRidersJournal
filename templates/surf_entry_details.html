@@ -1,49 +1,64 @@
 {% extends 'base.html' %}
 {% block body %}
 
-<link rel="stylesheet" href="/static/css/msw_arrowSprites.css" />
-
 <h3>Displays all detailed of selected surf journal entry:</h3>
 
-<table style="width:100%">
+<table>
 <!-- saw examples using table id, and others using class. class is for css, right? -- what's id for? -->
 	<tr>
     	<th>Date: start time</th>
     	<th>Which Beach</th>
         <th>Which Spot?</th>
+        <th>With Anyone?</th>
         <th>Swell Direction</th>
         <th>Swell Height/ Interval</th>
         <th>Wind </th>
     	<th>Which Board?</th>
     	<th>Right Board/ Notes?</th>
-
   	</tr>
  
 	<tr>    
     	<td>{{entry.date_time_start.strftime('%m/%d/%Y %I:%m %p')}}</td>
     	<td>{{entry.loc.beach_name}}</td>
         <td>{{entry.spot_name}}</td>
+        <td>{{entry.buddy_name}}</td>
         <td><div class="msw-swa msw-swa-{{entry.swell1_arrow_deg}}"> </div> {{entry.swell1_dir_deg_global}} {{entry.swell1_dir_comp}}</td>
         <td>{{entry.swell1_ht}} @ {{entry.swell1_per}} sec</td>
-        <td><div class="msw-ssa msw-ssa-{{entry.wind_arrow_deg}}"> </div> {{entry.wind_dir_deg}} {{entry.wind_dir_comp}} @ {{entry.wind_speed}} {{entry.wind_unit}}</td>
+        <td><div class="msw-ssa msw-ssa-{{entry.wind_arrow_deg}}"> </div> {{entry.wind_speed}} ({{entry.wind_gust}})</td>
     	<td>{{entry.board.nickname}} {{entry.board.length_ft}}' {{entry.board.length_in}}" {{entry.board.fins}}</td>
     	{% if entry.board_pref == "ok" %}
             <td>{{entry.board_pref}}
         {% else %}
             <td>wanted {{entry.board_pref}}
         {% endif %}
-        {% if entry.board_notes == "None" %}
-            </td>
-        {% else %}
-            : {{entry.board_notes}}</td>
+        {% if entry.board_notes%}
+            : {{entry.board_notes}}
         {% endif %}
-
+        </td>
     </tr>
-
 </table>
 <br>
 <br>
-
+<!-- MOOOOOAR DETAILS TO DEAL WITH
+temporaily put into another ugly table -->
+<table>
+    <tr>
+        <th>Who With?</th>
+        <th>Overall Fun</th>
+        <th>How challenging?</th>
+        <th>Fun waves?</th>
+        <th>How Crowded?</th>
+        <th>Crowd Vibe?</th>
+    </tr>
+        <td>{{entry.buddy_name}}</td>
+        <td>{{entry.rate_overall_fun}}</td>
+        <td>{{entry.rate_wave_challenge}}</td>
+        <td>{{entry.rate_wave_fun}}</td>
+        <td>{{entry.rate_crowd_den}}</td>
+        <td>{{entry.rate_crowd_vibe}}</td>
+</table>
+<h5>Your overall notes:</h5>
+{{entry.gen_notes}}
 
 <!-- MVP and stretch goal list, style-->
 <br>
@@ -52,19 +67,20 @@
 
 <li>&#10004; fix broken conditional in board_pref display</li>
 <li>&#10004; fix wording of board pref (in table-to-entry, or entry-to-display?)</li>
-<li>fix broken conditional in board_notes display (kill ":" if no notes)</li>
+<li>&#10004; fix broken conditional in board_notes display (kill ":" if no notes)</li>
 <li>&#10004; get MSW graphics (arrows) to add to swell dir display</li>
 <li>&#10004; get MSW graphics (arrows) to add to wind dir display</li>
 <li>&#10004; more info from API(s): wind </li>
-<li>more info from API(s): other swell, temps, tides</li>
 <br>
 
 <!-- MVP and stretch goal list, functionality-->
 
 <h4>core functionality todo:</h4>
+<li>&#10004; get all the relevant fields displayed</li>
 <br>
 <br>
 <h4>Additional features:</h4>
+<li>more info from API(s): other swell, temps, tides</li>
 <li>ability to edit a previously entered session?</li>
 <li>ability to sort/ filter by various fields (date, board, wavesize, location, friend, swell dir)</li>
 <br>

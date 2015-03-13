@@ -30,12 +30,6 @@ def load_users(session):
                             firstname=firstname, lastname=lastname, home_region=home_region)
             session.add(u)
         
-        ## based on func from ratings app, not sure about the use of try/ except
-        # try:
-        #     session.commit()
-        # except sqlalchemy.exc.IntegrityError, e:
-        #     session.rollback()
-        
         session.commit()
         print "users table seeded."
 
@@ -60,17 +54,13 @@ def load_locations(session):
             else:
                 msw_unique_id_exists = False
 
-            m = model.Location(id=id, region=region, country=country, state_or_prov=state_or_prov,
+            m = model.Location(
+                id=id, region=region, country=country, state_or_prov=state_or_prov,
                 county=county, beach_name = beach_name, 
                 msw_id=msw_id, msw_unique_id_exists=msw_unique_id_exists, msw_beach_name=msw_beach_name,
-                lat=lat, long=long)
+                lat=lat, long=long
+                )
             session.add(m)
-         
-        ## based on func from ratings app, not sure about the use of try/ except
-        # try:
-        #     session.commit()
-        # except:
-        #     session.rollback()
 
         session.commit()
         print "locations table seeded."
@@ -132,6 +122,7 @@ def load_entries(session):
             
             ## convert string to datetime
             date_time_start = datetime.strptime(datetime_start, "%Y-%m-%d %H:%M")
+            ## temp using same start and end time. 
             date_time_end = date_time_start
 
             ## convert string to Boolean:
@@ -160,11 +151,6 @@ def load_entries(session):
                             rate_overall_fun=rate_overall_fun)
             session.add(u)
         
-        ## based on func from ratings app, not sure about the use of try/ except
-        # try:
-        #     session.commit()
-        # except sqlalchemy.exc.IntegrityError, e:
-        #     session.rollback()
         
         session.commit()
         print "entries table seeded." 

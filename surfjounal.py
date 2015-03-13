@@ -1,3 +1,4 @@
+# controller file for surf journal webapp
 from flask import Flask, request, session, render_template, g, redirect, url_for, flash
 import jinja2
 import os
@@ -7,27 +8,9 @@ from datetime import datetime
 import model
 import api_msw as msw
 
-
-"""
-TODO: general:
-review post/ get methods and see if/ where post should be used
-"""
-
-"""
-TODO:
-app.secret.key = do I need to change this, or hide it in a secrets file?
-"""
 app = Flask(__name__)
-app.secret_key = '\xf5!\x07!qj\xa4\x08\xc6\xf8\n\x8a\x95m\xe2\x04g\xbb\x98|U\xa2f\x03'
+app.secret_key = os.environ['APP_SECRET_KEY']
 app.jinja_env.undefined = jinja2.StrictUndefined
-
-"""
-TODO: 
-do I need teardown_request?
-"""
-# @app.teardown_request
-# def shutdown_session(exception = None):
-#     db_session.remove()
 
 @app.before_request
 def load_user_id():
@@ -40,11 +23,7 @@ def index():
     This is the 'cover' page of kborg's surf journal site.
     It will contain some kind of awesome background image.
     And a logo. And maybe some inspirational text. 
-    But first kborg has to build the rest of the damn site.
     """
-    ## include a redirect if user is logged in and goes back to index?
-    # if g.user_id:
-    #     return redirect("entries")
 
     return render_template("index.html")
 
@@ -66,43 +45,49 @@ def go_to_addEntry():
     gets info from the db to send to/ populate the form.
     """
 
-
     if not g.user_id:
         flash("Please log in", "warning")
         return redirect(url_for("index"))
 
-
     """
     TODO: add entry form:
-    flesh out the locations dropdown with regions.
     flesh out the boards dropdown with categories.
     """
 
     # get all locations from db and pass to template for dropdown
+    # and set of counties for organizing locations dropdown
     loc_list = model.session.query(model.Location).all()
+    loc_county_list = set(model.session.query(model.Location.county).all())
+
+    # get all boards for user from db and pass to template for dropdown
+    # and set of board categorys for organizing boards dropdown
     board_list = model.session.query(model.Board).filter_by(user_id=g.user_id)
-    # print loc_list
+    board_cat_list = set(model.session.query(model.Board.category).all())
 
-    return render_template("surf_entry_add.html", locations = loc_list, boards = board_list)
+    # print "*" * 30
+    # print loc_county_list
+    # print board_cat_list
 
-@app.route("/addEntryToDB")
+    return render_template("surf_entry_add.html", locations = loc_list, counties=loc_county_list,
+                                                    boards = board_list, categories = board_cat_list)
+
+@app.route("/addEntryToDB", methods=["POST"])
 def add_entry():
     """receive input from add_entry form, commit to db, then redirect to page 
     that lists existing entries."""
 
     user_id = g.user_id
 
-    # entry_date = request.args.get("entry_date")
-    # start_time = request.args.get("start_time")
-    # end_time = request.args.get("end_time")
+    # entry_date = request.form.get("entry_date")
+    # start_time = request.form.get("start_time")
+    # end_time = request.form.get("end_time")
     # date_time_start = datetime.strptime((entry_date + " " + start_time), "%Y-%m-%d %H:%M")
     # date_time_end = datetime.strptime((entry_date + " " + end_time), "%Y-%m-%d %H:%M")
 
     ## temporarily rewire start and end times to datetime.now()
     date_time_start = datetime.now()
     date_time_end = datetime.now()
-
-    print "\n" * 3, "date_time_start: ", date_time_start, "date_time_end: ", date_time_end
+    # print "\n" * 3, "date_time_start: ", date_time_start, "date_time_end: ", date_time_end
 
     """
     TODO:
@@ -110,27 +95,24 @@ def add_entry():
     - decide whether endtime triggers another 
     query to get changes in conditions, or 
     if it's just for personal record of duration
-    - if no cron:
-        - keep start as datetime now 
-    - if cron:
+    - if cron job created to store API data:
         - find closest report time to start time
         and plug THAT into db query
     """
 
     # queries from user
-    loc_id = request.args.get("loc_id")
-    spot_name = request.args.get("spot_name")
-    board_id = request.args.get("board_id")
-    board_pref = request.args.get("board_pref")
-    board_notes = request.args.get("board_notes")
-    ## add to model
-    #rate_wave_challenge
-    #rate_wave_fun
-    #rate_crowd_den
-    #rate_crowd_vibe
-    #rate_overall_fun
-    #buddy_name
-    #gen_notes
+    loc_id = request.form.get("loc_id")
+    spot_name = request.form.get("spot_name")
+    buddy_name = request.form.get("buddy_name")
+    board_id = request.form.get("board_id")
+    board_pref = request.form.get("board_pref")
+    board_notes = request.form.get("board_notes")
+    rate_overall_fun = request.form.get("rate_overall_fun")
+    rate_wave_challenge = request.form.get("rate_wave_challenge")
+    rate_wave_fun = request.form.get("rate_wave_fun")
+    rate_crowd_den = request.form.get("rate_crowd_den")
+    rate_crowd_vibe = request.form.get("rate_crowd_vibe")
+    gen_notes = request.form.get("gen_notes")
 
     # look up loc from loc table: from loc_id get msw_id
     loc_obj = model.session.query(model.Location).get(loc_id)
@@ -148,42 +130,43 @@ def add_entry():
     swell1_per = msw_swell1_json_obj['swell']['components']['primary']['period']
     swell1_dir_deg_msw = msw_swell1_json_obj['swell']['components']['primary']['direction']
     swell1_dir_comp = msw_swell1_json_obj['swell']['components']['primary']['compassDirection']
-    ## add to model:
-    swell1_dir_deg_global = getGlobalDegrees(swell1_dir_deg)
-    swell1_arrow_deg = getArrowDegrees(swell1_dir_deg_disp)
+    swell1_dir_deg_global = msw.getGlobalDegrees(swell1_dir_deg_msw)
+    swell1_arrow_deg = msw.getArrowDegrees(swell1_dir_deg_global)
 
+
+    ## make API call for wind info using msw_id
+    msw_wind_json_obj = msw.getWind(msw_id)
     """
     TODO: response is showing way more than wind.
+    clean up query? combine with swell call?
     """
-    # make API call for wind info using msw_id
-    # msw_wind_json_obj = msw.getWind(msw_id)
-
-    # print "msw_wind_json_obj: ", msw_wind_json_obj
-    # parse msw response object for wind info into desired attr
-    # wind_speed = msw_wind_json_obj['wind']['']
-    # wind_dir_deg = msw_wind_json_obj['wind']['direction']
-    # wind_dir_comp = msw_wind_json_obj['wind']['compassDirection']
-    # wind_unit = msw_wind_json_obj['wind']['unit']
-    ## add to model
-    # wind_gusts = msw_wind_json_obj['wind']['gusts']
-    # wind_dir_deg_global = getGlobalDegrees(wind_dir_deg)
-    # wind_arrow_deg = (wind_dir_deg_global)
+    print "msw_wind_json_obj: ", msw_wind_json_obj
+    ## parse msw response object for wind info into desired attr
+    wind_speed = msw_wind_json_obj['wind']['speed']
+    wind_gust = msw_wind_json_obj['wind']['gusts']
+    wind_dir_deg = msw_wind_json_obj['wind']['direction']
+    wind_dir_comp = msw_wind_json_obj['wind']['compassDirection']
+    wind_unit = msw_wind_json_obj['wind']['unit']
+    wind_arrow_deg = msw.getArrowDegrees(wind_dir_deg)
 
     # add info from user and api to this instance of model.Entry
     new_entry = model.Entry(user_id = user_id,
                             date_time_start = date_time_start, date_time_end=date_time_end,
-                            loc_id = loc_id, spot_name = spot_name,
-                            swell1_ht = swell1_ht, swell1_per = swell1_per, 
-                            swell1_dir_deg = swell1_dir_deg, swell1_dir_comp = swell1_dir_comp,
-                            # wind_speed = wind_speed, wind_dir_deg = wind_dir_deg,
-                            # wind_dir_comp = wind_dir_comp, wind_unit = wind_unit,
-                            board_id=board_id, board_pref = board_pref, board_notes = board_notes)
+                            loc_id = loc_id, spot_name = spot_name, buddy_name = buddy_name,
+                            swell1_ht = swell1_ht, swell1_per = swell1_per, swell1_dir_deg_msw = swell1_dir_deg_msw,
+                            swell1_dir_comp = swell1_dir_comp, swell1_dir_deg_global =swell1_dir_deg_global, 
+                            swell1_arrow_deg = swell1_arrow_deg,
+                            wind_speed = wind_speed, wind_gust= wind_gust, wind_dir_deg = wind_dir_deg,
+                            wind_dir_comp = wind_dir_comp, wind_unit = wind_unit, wind_arrow_deg = wind_arrow_deg,
+                            board_id = board_id, board_pref = board_pref, board_notes = board_notes,
+                            rate_overall_fun = rate_overall_fun, rate_wave_challenge = rate_wave_challenge,
+                            rate_wave_fun = rate_wave_fun, rate_crowd_den = rate_crowd_den,
+                            rate_crowd_vibe = rate_crowd_vibe, gen_notes = gen_notes)
 
     model.session.add(new_entry)
     model.session.commit()
 
     return redirect("/entries")
-
 
 @app.route("/entries")
 def list_entries():
@@ -198,26 +181,8 @@ def list_entries():
 
     print "*" * 30
     print entry_list
-    
-    # TODO -- want to filter entries by date. sort here or on display/ template side?
 
     return render_template("surf_entries_summary.html", entries = entry_list)
-
-"""
-TODO:
-entries details:
-add ability to display details of a given journal entry.
-"""
-
-### use this as ref for making "entry details" happen?
-# @app.route("/melon/<int:id>")
-# def show_melon(id):
-#     """This page shows the details of a given melon, as well as giving an
-#     option to buy the melon."""
-#     melon = model.get_melon_by_id(id)
-#     print melon
-#     return render_template("melon_details.html",
-#                   display_melon = melon)
 
 @app.route("/entryDetails/<int:id>")
 def list_entry_details(id):
@@ -232,32 +197,6 @@ def list_entry_details(id):
 
     return render_template("surf_entry_details.html", entry = entry)
 
-@app.route("/addBoardToDB")
-def add_board():
-    """receive input from board_quiver form, commit to db, then redirect to quiver list page."""
-
-    user_id = g.user_id
-
-    # queries from user
-    nickname = request.args.get("nickname")
-    category = request.args.get("category")
-    length_ft = request.args.get("length_ft")
-    length_in = request.args.get("length_in")
-    shaper = request.args.get("shaper")
-    shape = request.args.get("shape")
-    fins = request.args.get("fins")
-     # = request.args.get("")
-
-    new_entry = model.Board(user_id = user_id,
-                            nickname = nickname, category = category,
-                            length_ft = length_ft, length_in = length_in,
-                            shaper = shaper, shape = shape, fins = fins)
-
-    model.session.add(new_entry)
-    model.session.commit()
-
-    return redirect("/board_quiver")
-
 @app.route("/board_quiver")
 def edit_quiver():
     """display and edit existing quiver of boards"""
@@ -271,21 +210,50 @@ def edit_quiver():
     # print board_list
     return render_template("board_quiver.html", boards = board_list)
 
-"""
-TODO:
-fix logout bug.
-additional goals:
-hash/ salt passwords.
-give different permissions to different users:
-ie, kborg = admin, can access pages that add locations, edit db...
-"""
+@app.route("/addBoardToDB", methods=["POST"])
+def add_board():
+    """receive input from board_quiver form, commit to db, then redirect to quiver list page."""
+
+    user_id = g.user_id
+
+    # queries from user
+    nickname = request.form.get("nickname")
+    category = request.form.get("category")
+    length_ft = request.form.get("length_ft")
+    length_in = request.form.get("length_in")
+    shaper = request.form.get("shaper")
+    shape = request.form.get("shape")
+    fins = request.form.get("fins")
+
+    new_entry = model.Board(user_id = user_id,
+                            nickname = nickname, category = category,
+                            length_ft = length_ft, length_in = length_in,
+                            shaper = shaper, shape = shape, fins = fins)
+
+    model.session.add(new_entry)
+    model.session.commit()
+
+    flash("%s added!" % nickname)
+
+    return redirect("/board_quiver")
 
 @app.route("/login", methods=["GET"])
 def show_login():
+
+    """
+    TODO: 
+    - hide button/ page while logged in.
+    """
+
     return render_template("login.html")
 
 @app.route("/login", methods=["POST"])
 def login():
+
+    ## include a redirect if user is logged in and goes back to login page?
+    # if g.user_id:
+    #     return redirect("")
+
     email = request.form['email']
     password = request.form['password']
 
@@ -298,21 +266,18 @@ def login():
     session['user_id'] = user.id
     return redirect("/entries")
 
-# @app.route("/register", methods=["GET"])
-# def show_register():
-#     return render_template("register.html")
-
 @app.route("/register", methods=["POST"])
 def register():
 
     username = request.form['username']
     email = request.form['email']
     password = request.form['password']
-    existing = model.session.query(model.User).filter_by(email=email).first()
+    existing_email = model.session.query(model.User).filter_by(email=email).first()
+    existing_username = model.session.query(model.User).filter_by(username=username).first()
 
-    if existing:
-        flash("Email already in use", "error")
-        return redirect(url_for("register"))
+    if existing_email or existing_username:
+        flash("Email or username already in use: try again.", "error")
+        return redirect(url_for("login"))
 
     u = model.User(username=username, email=email, password=password)
     model.session.add(u)
@@ -325,11 +290,23 @@ def register():
 def logout():
 
     """
-    fix bug if button hit while not logged in.
+    TODO:    
+    - fix bug if button hit while not logged in.
+    - hide button/ page while not logged in.
     """
 
     del session['user_id']
     return redirect(url_for("index"))
+
+"""
+TODO before deploying:
+- turn off app.run debug 
+- hash/ salt passwords.
+- fix logout bug.
+super stretch goal:
+- give different permissions to different users:
+ie, kborg = admin, can access pages that add locations, edit db...
+"""
 
 if __name__ == "__main__":
     port = int(os.environ.get("PORT", 5000))

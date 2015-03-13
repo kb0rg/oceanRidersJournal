@@ -1,15 +1,10 @@
+<!-- form for user to add journal entry -->
 {% extends 'giantList_features.html' %}
-
 {% block body %}
 <h2>Enter info about your surf session:</h2>
-
 <div id="entries-list">
-<h4>(this form is a work in progress)</h4>
-
-<form action="/addEntryToDB">
-
-<!-- add start and end time again later. for now, datetime NOW
- -->
+<form action="/addEntryToDB" method="post">
+<!-- implement start and end time again later. for now, datetime NOW -->
 <!-- Date:<br>
 <input type="date" name = "entry_date">
 <br>
@@ -20,57 +15,115 @@ End Time (as HH:MM with "AM" or "PM"):<br>
 <input type="time" name="end_time"> -->
 <!--  -->
 <!--  -->
-<!-- 
-TODO:
-add region to dropdown. 
-not sure how to do this. 
-sort query before passing to template?
-conditional within template?
-tried putting optgoup label = loc.county in jinja, 
-got blanks before each beach
--->
+<h4> This entry will be automatically created with today's date and the current time.</h4>
+<!-- <h5> Ability to specify past dates/ times will be implemented later.</h5>
+ -->
+<br>
+<!-- location info -->
+<br>
 Beach Name:<br>
 <select name = "loc_id">
-	{% for loc in locations %}
-	<option value="{{loc.id}}">{{loc.beach_name}}</option>
+	{% for county in counties %}
+	<optgroup label="{{county[0]}}">
+		{% for loc in locations %}
+			{% if loc.county == county[0] %}
+			<option value="{{loc.id}}">{{loc.beach_name}}</option>
+			{% endif %}
+		{% endfor %}	
+	</optgroup>	
 	{% endfor %}
-</select>
+<br>
+</select> (if not on the list, pick the nearest beach)
 <br>
 Spot Name:<br>
-<input type="text" name = "spot_name"> (eg: patch, Sloat)
+<input type="text" name = "spot_name"> (more specific, eg: patch, Sloat)
+<br>
+Did you go out with a buddy?<br>
+<input type="text" name = "buddy_name"> (put their names here)
 <br>
 <br>
 <!-- board info -->
-<!-- 
-TODO:
-add board categories to dropdown. 
-(see loactions: regions issue)
--->
 Board Ridden:<br>
 <select name = "board_id">
-	{% for board in boards %}
-	<option value="{{board.id}}">{{board.nickname}}</option>
+	{% for category in categories %}
+	<optgroup label="{{category[0]}}">
+		{% for board in boards %}
+			{% if board.category == category[0] %}
+			<option value="{{board.id}}">{{board.nickname}}</option>
+			{% endif %}
+		{% endfor %}
+	</optgroup>	
 	{% endfor %}
 </select>
+<a href="/board_quiver" class="btn btn-sm btn-default">add a board to quiver</a>
 <!-- 
 TODO:
-make this button *temp* redirect to quiver, w/o lising existing input?
+make "add board" button *temp* redirect to quiver, w/o losing existing input?
  -->
-<a href="/board_quiver" class="btn btn-sm btn-default">add a board to quiver</a>
 <br>
 Did you wish you'd brought a different board?:<br>
 <input type="radio" name = "board_pref" required value = "smaller">(smaller)
 <input type="radio" name = "board_pref" value = "ok">(just right)
 <input type="radio" name = "board_pref" value = "bigger">(bigger)
 <br>
-<input type="text" name = "board_notes">Any notes on board choice?
+<h5>Any notes on board choice?</h5>
+<input type="text" name = "board_notes">
 <br>
-<h4> This entry will be automatically created with today's date and the current time.</h4>
-<h3> Ability to specify past dates/ times will be implemented later.</h3>
+<br>
+<h4>Please rate how much you enjoyed the session overall:</h4>
+<br>
+(should've gone for a bike ride)
+<input type="radio" name = "rate_overall_fun" required value = "1">
+<input type="radio" name = "rate_overall_fun" value = "2">
+<input type="radio" name = "rate_overall_fun" value = "3">
+<input type="radio" name = "rate_overall_fun" value = "4">
+<input type="radio" name = "rate_overall_fun" value = "5">(made my day!)<br>
+<br>
+<h4>The specific ratings below are optional, but the more you answer, the better:</h4>
+<br>
+How crowded was it?:<br>
+(just me and the marine mammals)
+<input type="radio" name = "rate_crowd_den" value = "1">
+<input type="radio" name = "rate_crowd_den" value = "2">
+<input type="radio" name = "rate_crowd_den" value = "3">
+<input type="radio" name = "rate_crowd_den" value = "4">
+<input type="radio" name = "rate_crowd_den" value = "5">(human obstacle course)
+<br>
+<br>
+How was the crowd's vibe?:<br>
+(grrr)
+<input type="radio" name = "rate_crowd_vibe" value = "1">
+<input type="radio" name = "rate_crowd_vibe" value = "2">
+<input type="radio" name = "rate_crowd_vibe" value = "3">
+<input type="radio" name = "rate_crowd_vibe" value = "4">
+<input type="radio" name = "rate_crowd_vibe" value = "5">(yeah!)
+<br>
+<br>
+How challenging were the waves for you?:<br>
+(easy)
+<input type="radio" name = "rate_wave_challenge" value = "1">
+<input type="radio" name = "rate_wave_challenge" value = "2">
+<input type="radio" name = "rate_wave_challenge" value = "3">
+<input type="radio" name = "rate_wave_challenge" value = "4">
+<input type="radio" name = "rate_wave_challenge" value = "5">(intense!)
+<br>
+<br>
+How FUN were the waves for you?:<br>
+(meh)
+<input type="radio" name = "rate_wave_fun" value = "1">
+<input type="radio" name = "rate_wave_fun" value = "2">
+<input type="radio" name = "rate_wave_fun" value = "3">
+<input type="radio" name = "rate_wave_fun" value = "4">
+<input type="radio" name = "rate_wave_fun" value = "5">(epic!)
+<br>
+<br>
+<h4>Other notes about your overall experience:</h4>
+<h5>(keep it tweet-sized: 140 char limit)</h5>
+<input type="text" name = "gen_notes">
+<!-- TODO: make this input bigger, and specify char limit -->
 <br>
 <input type="submit" value = "Add Entry to the Journal">
 </form>
-<br>
 <br>
 <br>
 <br>
@@ -84,8 +137,9 @@ Did you wish you'd brought a different board?:<br>
 <li>&#10004; board info (input field)</li>
 <li>&#10004; board preference (buttons)</li>
 <li>required fields?<br>
-(right now board is required because of how display template is working -- fix this
-to implement "did not go out" option)</li>
+(right now board is required because of how display template is working -- 
+also need to add null/ none to pulldown
+fix this to implement "did not go out" option)</li>
 <br>
 <br>
 <h4>Near-term stretch Goals: Additional features:</h4>
@@ -94,12 +148,12 @@ to implement "did not go out" option)</li>
 <li>&#10004; make ability to edit/ add to quiver</li>
 <li>if not right board, allow to choose other board (pref field) from quiver? (pulldown)</li>
 <li>ability to make entry for past date</li>
-<li>crowd density (buttons?)</li>
-<li>crowd vibe (buttons?)</li>
+<li>&#10004; crowd density (buttons?)</li>
+<li>&#10004; crowd vibe (buttons?)</li>
 <li>start and end time (or start time/ duration)</li>
-<li>challenge level</li>
-<li>overall enjoyment of session</li>
-<li>input: additional notes</li>
+<li>&#10004; challenge level</li>
+<li>&#10004; overall enjoyment of session</li>
+<li>&#10004; input: additional notes</li>
 <li>surfed vs/ just observed<br>
 	(and if not surfed, input field for: why not surfed)<br>
 	(see above re: required fields issue)
