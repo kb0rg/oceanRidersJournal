@@ -242,19 +242,15 @@ def add_board():
 @app.route("/login", methods=["GET"])
 def show_login():
 
-    """
-    TODO: 
-    - hide button/ page while logged in.
-    """
+    ## include a redirect if user is logged in and goes back to login page?
+    if g.user_id:
+        username = model.session.query(model.User).filter_by(id=g.user_id).one().username
+        flash("Hey %s! You're already logged in!" % username, "error")
 
     return render_template("login.html")
 
 @app.route("/login", methods=["POST"])
 def login():
-
-    ## include a redirect if user is logged in and goes back to login page?
-    # if g.user_id:
-    #     return redirect("")
 
     email = request.form['email']
     password = request.form['password']
@@ -277,8 +273,12 @@ def register():
     existing_email = model.session.query(model.User).filter_by(email=email).first()
     existing_username = model.session.query(model.User).filter_by(username=username).first()
 
-    if existing_email or existing_username:
-        flash("Email or username already in use: try again.", "error")
+    if existing_email:
+        flash("This email is already registered: please log in!", "error")
+        return redirect(url_for("login"))
+
+    if existing_username:
+        flash("This username is already in use: pick another one.", "error")
         return redirect(url_for("login"))
 
     u = model.User(username=username, email=email, password=password)
@@ -291,14 +291,14 @@ def register():
 @app.route("/logout")
 def logout():
 
-    """
-    TODO:    
-    - fix bug if button hit while not logged in.
-    - hide button/ page while not logged in.
-    """
-
-    del session['user_id']
-    return redirect(url_for("index"))
+    if g.user_id:
+        username = model.session.query(model.User).filter_by(id=g.user_id).one().username
+        flash("See you soon, %s. Now go get in the water." % username, "error")
+        del session['user_id']
+        return redirect(url_for("index"))
+    else:
+        flash("You can't log out, you're not logged in! Please log in to use the journal.", "error")
+        return render_template("login.html")
 
 @app.route("/temp_bootstrap")
 def bootstrap():
@@ -309,10 +309,6 @@ def bootstrap():
 TODO before deploying:
 - turn off app.run debug 
 - hash/ salt passwords.
-- fix logout bug.
-super stretch goal:
-- give different permissions to different users:
-ie, kborg = admin, can access pages that add locations, edit db...
 """
 
 if __name__ == "__main__":

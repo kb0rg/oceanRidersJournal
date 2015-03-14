@@ -10,11 +10,15 @@
                 <div class="navbar-header">
                     <img src="/static/img/temp_logo.jpg"><a class="navbar-brand" href="/">OceanLogNameHere</a>
                 </div>
-                <div class="navbar-collapse collapse">
+                <div class="navbar-collapse collapse" >
                     <ul class="nav navbar-nav navbar-right">
                         <li><a href="/about">Home/ About</a></li>               
                         <li><a href="/login">Log In/ Register</a></li>
                         <li><a href="/logout">Log Out</a></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
 
 <!-- 
 want to show log-in/ log-out buttons only if not alread logged in/ out
@@ -28,15 +32,12 @@ below seems to work for logout, but crashes at splash page enter button.
                         {% endif %}              
             #}
 
-                    </ul>
-                </div>
-            </div>
-        </div>
         <div class="inner cover">
             <a href="/entries" class="btn btn-sm btn-default">view existing entries</a>
             <a href="/addEntryForm" class="btn btn-sm btn-default">create a new entry</a>
             <a href="/board_quiver" class="btn btn-sm btn-default">view/ edit quiver</a>
         </div>
+
         <div class="container">
             {% with messages = get_flashed_messages() %}
             {% if messages %}
