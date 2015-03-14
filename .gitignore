@@ -14,7 +14,6 @@ _noCommit_*
 ref_fromMelonApp
 spitcast_ref.txt
 todo_*.txt
-temp_*.txt
-temp_*.py
+temp_*
 
 

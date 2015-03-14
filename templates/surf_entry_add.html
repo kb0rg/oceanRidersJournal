@@ -1,4 +1,4 @@
-<!-- form for user to add journal entry -->
+<!-- template form for user to add journal entry -->
 {% extends 'giantList_features.html' %}
 {% block body %}
 <h2>Enter info about your surf session:</h2>
@@ -24,13 +24,13 @@ End Time (as HH:MM with "AM" or "PM"):<br>
 Beach Name:<br>
 <select name = "loc_id">
 	{% for county in counties %}
-	<optgroup label="{{county[0]}}">
-		{% for loc in locations %}
-			{% if loc.county == county[0] %}
-			<option value="{{loc.id}}">{{loc.beach_name}}</option>
-			{% endif %}
-		{% endfor %}	
-	</optgroup>	
+		<optgroup label="{{county[0]}}">
+			{% for loc in locations %}
+				{% if loc.county == county[0] %}
+				<option value="{{loc.id}}">{{loc.beach_name}}</option>
+				{% endif %}
+			{% endfor %}	
+		</optgroup>	
 	{% endfor %}
 <br>
 </select> (if not on the list, pick the nearest beach)
@@ -46,13 +46,13 @@ Did you go out with a buddy?<br>
 Board Ridden:<br>
 <select name = "board_id">
 	{% for category in categories %}
-	<optgroup label="{{category[0]}}">
-		{% for board in boards %}
-			{% if board.category == category[0] %}
-			<option value="{{board.id}}">{{board.nickname}}</option>
-			{% endif %}
-		{% endfor %}
-	</optgroup>	
+		<optgroup label="{{category[0]}}">
+			{% for board in boards %}
+				{% if board.category == category[0] %}
+				<option value="{{board.id}}">{{board.nickname}}</option>
+				{% endif %}
+			{% endfor %}
+		</optgroup>	
 	{% endfor %}
 </select>
 <a href="/board_quiver" class="btn btn-sm btn-default">add a board to quiver</a>
@@ -166,9 +166,6 @@ fix this to implement "did not go out" option)</li>
 <li>add photo(s)</li>
 <li>set location by map</li>
 <li>set location from photo metadata</li>
-
-<!-- <li></li>
-<li></li> -->
 
 <!-- 
 this is a checkmark!

@@ -178,11 +178,13 @@ def list_entries():
 
     print "g.user_id: ", g.user_id
     entry_list = model.session.query(model.Entry).filter_by(user_id=g.user_id)
+    username = model.session.query(model.User).filter_by(id=g.user_id).one().username
 
     print "*" * 30
-    print entry_list
+    # print entry_list
+    print username
 
-    return render_template("surf_entries_summary.html", entries = entry_list)
+    return render_template("surf_entries_summary.html", entries = entry_list, username = username)
 
 @app.route("/entryDetails/<int:id>")
 def list_entry_details(id):
@@ -297,6 +299,11 @@ def logout():
 
     del session['user_id']
     return redirect(url_for("index"))
+
+@app.route("/temp_bootstrap")
+def bootstrap():
+
+    return render_template("temp_bootstrap.html")
 
 """
 TODO before deploying:

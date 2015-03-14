@@ -15,26 +15,27 @@
                         <li><a href="/about">Home/ About</a></li>               
                         <li><a href="/login">Log In/ Register</a></li>
                         <li><a href="/logout">Log Out</a></li>
-                   
+
 <!-- 
 want to show log-in/ log-out buttons only if not alread logged in/ out
-conditional not working -- need to look up session
- -->
-<!--                
-                         <%If Session.user_id Then%>
-                        <li><a href="/logout">Log Out</a></li>
-                        <%Else%>
-                        <li><a href="/login">Log In/ Register</a></li>
-                        <%End If%> 
-                    -->
+below seems to work for logout, but crashes at splash page enter button.
+ -->     
+            {#
+                        {% if not session.user_id %}
+                           <li> <a href="{{ url_for('login') }}">Log In/ Register</a></li> 
+                        {% else %}
+                           <li> <a href="{{ url_for('logout') }}">Log Out</a></li> 
+                        {% endif %}              
+            #}
+
                     </ul>
                 </div>
             </div>
         </div>
         <div class="inner cover">
-            <a href="/entries" class="btn btn-lg btn-default">view existing entries</a>
-            <a href="/addEntryForm" class="btn btn-lg btn-default">create a new entry</a>
-            <a href="/board_quiver" class="btn btn-lg btn-default">view/ edit quiver</a>
+            <a href="/entries" class="btn btn-sm btn-default">view existing entries</a>
+            <a href="/addEntryForm" class="btn btn-sm btn-default">create a new entry</a>
+            <a href="/board_quiver" class="btn btn-sm btn-default">view/ edit quiver</a>
         </div>
         <div class="container">
             {% with messages = get_flashed_messages() %}

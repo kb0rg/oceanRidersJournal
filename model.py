@@ -1,3 +1,4 @@
+# database model for surf journal
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy import create_engine
 from sqlalchemy import Boolean, Column, Integer, Float, String, DateTime, func

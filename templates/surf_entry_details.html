@@ -1,9 +1,11 @@
+<!-- template to display details page of a surf journal entry -->
 {% extends 'base.html' %}
 {% block body %}
 
 <h3>Displays all detailed of selected surf journal entry:</h3>
 
-<table>
+
+<table class="entry">
 <!-- saw examples using table id, and others using class. class is for css, right? -- what's id for? -->
 	<tr>
     	<th>Date: start time</th>
@@ -94,7 +96,4 @@ temporaily put into another ugly table -->
 <br>
 <a href="http://magicseaweed.com"><img src="http://im-1-uk.msw.ms/msw_powered_by.png"></a>
 
-
 {% endblock %}
-
-
