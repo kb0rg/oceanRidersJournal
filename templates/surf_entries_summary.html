@@ -1,7 +1,7 @@
 {% extends 'base.html' %}
 {% block body %}
 
-<h3>journal entries for {{username}}:</h3>
+<h3> Welcome back {{username}}! Here's a summary of your journal entries:</h3>
 
 <table class="table table-hover">
 	<tr>
@@ -29,48 +29,6 @@
 <br>
 <br>
 
-<!-- 
-test msw swell arrow sprite:
- -->
-<!-- <div class="msw-swa msw-swa-215"> </div>
- -->
-
-<!-- MVP and stretch goal list, style-->
-<br>
-<br>
-<h4>core styling tasks to do:</h4>
-
-<li><strike>scale table elements, getting crowded</strike></li>
-<li>&#10004; split entry display into summary and details pages</li>
-<li>&#10004; fix datetime format to display more human-readably</li>
-<li>&#10004; display beach name (get from loc_id)</li>
-<li>&#10004; get MSW graphics (arrows) to add to swell dir display</li>
-<li>&#10004; get swell dir_deg convert from MSW format to global for display </li>
-<li>&#10004; get converted swell dir_deg rounded to nearest 5 deg to get correct arrow</li>
-<li>&#10004; fix getting same arrows for swell and wind</li>
-<br>
-
-<!-- MVP and stretch goal list, functionality-->
-
-<h4>core functionality todo:</h4>
-<li>&#10004; simple list synopsis of all sessions</li>
-<li>&#10004; ability to jump to details page for any session</li>
-<br>
-<br>
-<h4>Additional features:</h4>
-<li>ability to edit a previously entered session?</li>
-<li>ability to dynamically expand view for each session (instead of going to details page)</li>
-<li>ability to sort/ filter by various fields (date, board, wavesize, location, friend, swell dir)</li>
-<br>
-<br>
-<h4>extra bonus options:</h4>
-<li>pull a screengrab from surfline's video feed from that day and time????</li>
-<li>link back to "add entry" with some info seeded from currently selected entry?</li>
-(ie "create new entry like this one")
-<li>tell user what (nearest) beach's msw is displayed if entry's beach has no msw forecast</li>
-<li>additional query/ graphs for end time if duration > n?</li>
-<br>
-<br>
 <a href="http://magicseaweed.com"><img src="http://im-1-uk.msw.ms/msw_powered_by.png"></a>
 
 {% endblock %}

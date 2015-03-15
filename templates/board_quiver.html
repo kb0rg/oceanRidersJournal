@@ -3,100 +3,77 @@
 
 <div id="entries-list">
 
-<h2>(display/edit existing boards and add new boards)</h2>
-<!-- 
-add ability to re-sort? by: type, length, shaper, (fin setup?)
- -->
-<table style="width:100%">
-<!-- saw examples using table id, and others using class. class is for css, right? -- what's id for? -->
-	<tr>
-    	<th>Board's nickname</th>
-    	<th>Length</th> 
-        <th>Type</th>
-        <th>Shaper</th>
-        <th>Model</th>
-    	<th>Fin Setup</th>
+    <h2>{{username}}'s Quiver:</h2>
 
-  	</tr>
- 
-    {% for board in boards %}
-	<tr>    
-    	<td>{{board.nickname}} </td>
-    	<td>{{board.length_ft}}' {{board.length_in}}"</td>
-    	<td>{{board.category}}</td>
-    	<td>{{board.shaper}}</td>
-    	<td>{{board.shape}}</td>
-    	<td>{{board.fins}} </td>
+    <table class="table table-hover">
+    <!-- saw examples using table id, and others using class. class is for css, right? -- what's id for? -->
+    	<tr>
+        	<th>Board's nickname</th>
+        	<th>Length</th> 
+            <th>Type</th>
+            <th>Shaper</th>
+            <th>Model</th>
+        	<th>Fin Setup</th>
 
-    </tr>
-	{% endfor %}
-</table>
+      	</tr>
+     
+        {% for board in boards %}
+    	<tr>    
+        	<td>{{board.nickname}} </td>
+        	<td>{{board.length_ft}}' {{board.length_in}}"</td>
+        	<td>{{board.category}}</td>
+        	<td>{{board.shaper}}</td>
+        	<td>{{board.shape}}</td>
+        	<td>{{board.fins}} </td>
+
+        </tr>
+    	{% endfor %}
+    </table>
+
 <br>
 <br>
 <br>
 
-<form action="/addBoardToDB" method="post">
-    <!-- 
-    make input fields allow autofill if existing board info matches typing?
- -->
-    <h3>Add a Board to your Quiver:</h3>
-    Board's nickname:<br>
-        <input type="text" name = "nickname" required>
-    <br>
-<!--
-    how to provide a set list to feed into dropdown?
-    cat_list == [longboard, shortboard, fish, gun, SUP, other]
- -->    
-    <br>
-    Board Type:<br>
-        <select name = category required>
-        <option value="longboard">longboard</option>
-        <option value="shortboard">shortboard</option>
-        <option value="fish">fish</option>
-        <option value="gun">gun</option>
-        <option value="SUP">SUP</option>
-        <option value="other">other</option>
-        </select>
-    <!-- option to add category if "other"? -->
-    <br>
-    <!-- length: make input boxes smaller or convert to dropdowns? -->
-    Length:<br>
-        <input type="text" name = "length_ft">feet <input type="text" name = "length_in">inches
-    <br>
-    Shaper:<br>
-        <input type="text" name = "shaper">
-    <br>
-    Model or Description:<br>
-        <input type="text" name = "shape" required>
-    <br>
-    Fin Setup:<br>
-        <input type="text" name = "fins"> (eg: 2+1, singlefin, thruster)      
-    <br>
-    <br>
-    <input type="submit" value = "Add Board to your Quiver">
-</form>
-
-<h4>core info to include:</h4>
-<li>&#10004; implement add board functionality</li>
-<li>implement ability to edit or delete existing boards</li>
-<li>&#10004;nickname</li>
-<li>&#10004;length (in x&#39; x&#34;)</li>
-<li>&#10004;brand/ shaper</li>
-<li>fix display of edge cases (ie handplane no dimensions given, don't display '&"</li>
-<br>
-<br>
-<h4>Additional features:</h4>
-<li>photo(s) of board</li>
-<li>set as default board?</li>
-<li>mark as borrowed/ who does it belong to?</li>
-<li>mark board as retired?</li>
-<li>field to denote whether custom shaped? or input into model ok?</li>
-<li>field for specific measurements</li>
-<li>field for serial #</li>
-<br>
-<br>
-<h4>extra bonus options:</h4>
-<li>link back to session view and display all sessions using that board?</li>
+    <form action="/addBoardToDB" method="post">
+        <!-- 
+        make input fields allow autofill if existing board info matches typing?
+     -->
+        <h3>Add a Board to your Quiver:</h3>
+        Board's nickname:<br>
+            <input type="text" name = "nickname" required>
+        <br>
+    <!--
+        how to provide a set list to feed into dropdown?
+        cat_list == [longboard, shortboard, fish, gun, SUP, other]
+     -->    
+        <br>
+        Board Type:<br>
+            <select name = category required>
+            <option value="longboard">longboard</option>
+            <option value="shortboard">shortboard</option>
+            <option value="fish">fish</option>
+            <option value="gun">gun</option>
+            <option value="SUP">SUP</option>
+            <option value="other">other</option>
+            </select>
+        <!-- option to add category if "other"? -->
+        <br>
+        <!-- length: make input boxes smaller or convert to dropdowns? -->
+        Length:<br>
+            <input type="text" name = "length_ft">feet <input type="text" name = "length_in">inches
+        <br>
+        Shaper:<br>
+            <input type="text" name = "shaper">
+        <br>
+        Model or Description:<br>
+            <input type="text" name = "shape" required>
+        <br>
+        Fin Setup:<br>
+            <input type="text" name = "fins"> (eg: 2+1, singlefin, thruster)      
+        <br>
+        <br>
+        <input type="submit" value = "Add Board to your Quiver">
+    </form>
 
 
 </div>

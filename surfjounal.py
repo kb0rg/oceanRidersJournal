@@ -1,4 +1,4 @@
-# controller file for surf journal webapp
+## controller file for kborg's surf journal webapp
 from flask import Flask, request, session, render_template, g, redirect, url_for, flash
 import jinja2
 import os
@@ -7,6 +7,7 @@ import json
 from datetime import datetime
 import model
 import api_msw as msw
+from pprint import pprint
 
 app = Flask(__name__)
 app.secret_key = os.environ['APP_SECRET_KEY']
@@ -45,22 +46,18 @@ def go_to_addEntry():
     gets info from the db to send to/ populate the form.
     """
 
+    ## make page available only if logged in
     if not g.user_id:
-        flash("Please log in", "warning")
-        return redirect(url_for("index"))
+        flash("You must be logged in to add to your journal.", "warning")
+        return redirect("/about")
 
-    """
-    TODO: add entry form:
-    flesh out the boards dropdown with categories.
-    """
-
-    # get all locations from db and pass to template for dropdown
-    # and set of counties for organizing locations dropdown
+    ## get all locations from db and pass to template for dropdown
+    ## and set of counties for organizing locations dropdown
     loc_list = model.session.query(model.Location).all()
     loc_county_list = set(model.session.query(model.Location.county).all())
 
-    # get all boards for user from db and pass to template for dropdown
-    # and set of board categorys for organizing boards dropdown
+    ## get all boards for current user from db and pass to template for dropdown
+    ## and set of board categorys for organizing boards dropdown
     board_list = model.session.query(model.Board).filter_by(user_id=g.user_id)
     board_cat_list = set(model.session.query(model.Board.category).all())
 
@@ -73,34 +70,20 @@ def go_to_addEntry():
 
 @app.route("/addEntryToDB", methods=["POST"])
 def add_entry():
-    """receive input from add_entry form, commit to db, then redirect to page 
-    that lists existing entries."""
 
+    """
+    receive input from add_entry form, commit to db, 
+    then redirect to page that displays summary of existing entries.
+    """
+
+    ## get user id from session
     user_id = g.user_id
 
-    # entry_date = request.form.get("entry_date")
-    # start_time = request.form.get("start_time")
-    # end_time = request.form.get("end_time")
-    # date_time_start = datetime.strptime((entry_date + " " + start_time), "%Y-%m-%d %H:%M")
-    # date_time_end = datetime.strptime((entry_date + " " + end_time), "%Y-%m-%d %H:%M")
-
-    ## temporarily rewire start and end times to datetime.now()
+    ## wire start and end times to datetime.now for MVP
     date_time_start = datetime.now()
     date_time_end = datetime.now()
-    # print "\n" * 3, "date_time_start: ", date_time_start, "date_time_end: ", date_time_end
 
-    """
-    TODO:
-    rewire start and end time functionality
-    - decide whether endtime triggers another 
-    query to get changes in conditions, or 
-    if it's just for personal record of duration
-    - if cron job created to store API data:
-        - find closest report time to start time
-        and plug THAT into db query
-    """
-
-    # queries from user
+    ## get info from user input
     loc_id = request.form.get("loc_id")
     spot_name = request.form.get("spot_name")
     buddy_name = request.form.get("buddy_name")
@@ -114,18 +97,15 @@ def add_entry():
     rate_crowd_vibe = request.form.get("rate_crowd_vibe")
     gen_notes = request.form.get("gen_notes")
 
-    # look up loc from loc table: from loc_id get msw_id
+    ## access loc table: from loc_id get msw_id
     loc_obj = model.session.query(model.Location).get(loc_id)
-    # assign db's msw_id to this function's msw_id var
+    ## store msw_id from db for this loc
     msw_id = loc_obj.msw_id
 
-    """
-    TODO: should I make just one API call, get everything?
-    """
-    # make API call for swell1 info using msw_id
+    ## make API call for swell1 info using msw_id
     msw_swell1_json_obj = msw.getSwell1(msw_id)
 
-    # parse msw response object for swell1 info into desired attr
+    ## parse msw response object for swell1 info into desired attr
     swell1_ht = msw_swell1_json_obj['swell']['components']['primary']['height']
     swell1_per = msw_swell1_json_obj['swell']['components']['primary']['period']
     swell1_dir_deg_msw = msw_swell1_json_obj['swell']['components']['primary']['direction']
@@ -136,11 +116,9 @@ def add_entry():
 
     ## make API call for wind info using msw_id
     msw_wind_json_obj = msw.getWind(msw_id)
-    """
-    TODO: response is showing way more than wind.
-    clean up query? combine with swell call?
-    """
-    print "msw_wind_json_obj: ", msw_wind_json_obj
+    print "*" * 30, "\n msw_wind_json_obj:"
+    pprint(msw_wind_json_obj)
+
     ## parse msw response object for wind info into desired attr
     wind_speed = msw_wind_json_obj['wind']['speed']
     wind_gust = msw_wind_json_obj['wind']['gusts']
@@ -149,7 +127,7 @@ def add_entry():
     wind_unit = msw_wind_json_obj['wind']['unit']
     wind_arrow_deg = msw.getArrowDegrees(wind_dir_deg)
 
-    # add info from user and api to this instance of model.Entry
+    ## add info from user and api to this instance of model.Entry
     new_entry = model.Entry(user_id = user_id,
                             date_time_start = date_time_start, date_time_end=date_time_end,
                             loc_id = loc_id, spot_name = spot_name, buddy_name = buddy_name,
@@ -170,55 +148,71 @@ def add_entry():
 
 @app.route("/entries")
 def list_entries():
-    """displays all of the surf entries logged so far"""
+
+    """
+    displays all of the surf entries logged for current user.
+    """
 
     if not g.user_id:
-        flash("Please log in", "warning")
-        return redirect(url_for("index"))
+        flash("You must be logged in to view your journal entries.", "warning")
+        return redirect("/about")
 
-    print "g.user_id: ", g.user_id
+    ## get all entries and username for current user from db and pass to template for display
     entry_list = model.session.query(model.Entry).filter_by(user_id=g.user_id)
     username = model.session.query(model.User).filter_by(id=g.user_id).one().username
-
-    print "*" * 30
-    # print entry_list
-    print username
-
+    # print username
     return render_template("surf_entries_summary.html", entries = entry_list, username = username)
 
 @app.route("/entryDetails/<int:id>")
 def list_entry_details(id):
-    """displays full details of the selected surf entry"""
 
+    """
+    displays full details of the selected surf entry.
+    """
+
+    ## make page available only if logged in
     if not g.user_id:
         flash("Please log in", "warning")
-        return redirect(url_for("index"))
+        # return redirect(url_for("index"))
 
+    ## get all fields from db for entry selected and pass to template for display
     entry = model.session.query(model.Entry).filter_by(id = id).one()
-    print entry
-
+    # print entry
     return render_template("surf_entry_details.html", entry = entry)
 
 @app.route("/board_quiver")
 def edit_quiver():
-    """display and edit existing quiver of boards"""
 
+    """
+    display and edit existing quiver of boards.
+    """
+
+    ## make page available only if logged in
     if not g.user_id:
-        flash("Please log in", "warning")
-        return redirect(url_for("index"))
+        flash("You must be logged in to add or view your boards.", "warning")
+        return redirect("/about")
 
-    # get all boards from db and pass to template for display
+    ## get all boards and username for current user from db and pass to template for display
     board_list = model.session.query(model.Board).filter_by(user_id=g.user_id)
+    username = model.session.query(model.User).filter_by(id=g.user_id).one().username
     # print board_list
-    return render_template("board_quiver.html", boards = board_list)
+    # print username
+
+    return render_template("board_quiver.html", boards = board_list, username = username)
 
 @app.route("/addBoardToDB", methods=["POST"])
 def add_board():
-    """receive input from board_quiver form, commit to db, then redirect to quiver list page."""
 
+    """
+    receive input from board_quiver form, 
+    commit to db, then redirect to quiver list page
+    and flash message confirming board was added.
+    """
+
+    ## get user id from session
     user_id = g.user_id
 
-    # queries from user
+    ## get info from user input
     nickname = request.form.get("nickname")
     category = request.form.get("category")
     length_ft = request.form.get("length_ft")
@@ -227,6 +221,7 @@ def add_board():
     shape = request.form.get("shape")
     fins = request.form.get("fins")
 
+    ## add info from user to this instance of model.Board
     new_entry = model.Board(user_id = user_id,
                             nickname = nickname, category = category,
                             length_ft = length_ft, length_in = length_in,
@@ -235,14 +230,18 @@ def add_board():
     model.session.add(new_entry)
     model.session.commit()
 
-    flash("%s added!" % nickname)
+    flash("%s added you your quiver!" % nickname)
 
     return redirect("/board_quiver")
 
 @app.route("/login", methods=["GET"])
 def show_login():
 
-    ## include a redirect if user is logged in and goes back to login page?
+    """
+    display log-in/ register form.
+    """
+
+    ## flash message if user is logged in and goes back to login page
     if g.user_id:
         username = model.session.query(model.User).filter_by(id=g.user_id).one().username
         flash("Hey %s! You're already logged in!" % username, "error")
@@ -252,21 +251,35 @@ def show_login():
 @app.route("/login", methods=["POST"])
 def login():
 
+    """
+    validate input from log-in form and start user session,
+    redirect to user's entries summary page.
+    """
+
+    ## get info from user input
     email = request.form['email']
     password = request.form['password']
 
+    ## make sure log-in info is valid
     try:
         user = model.session.query(model.User).filter_by(email=email, password=password).one()
     except:
         flash("Invalid username or password", "error")
-        return redirect(url_for("index"))
+        # return redirect(url_for("index"))
 
+    ## start session for user and redirect to user's journal summary
     session['user_id'] = user.id
     return redirect("/entries")
 
 @app.route("/register", methods=["POST"])
 def register():
 
+    """
+    validate input from registration form and start user session,
+    redirect to user's entries summary page.
+    """
+
+    ## get info from user input
     username = request.form['username']
     email = request.form['email']
     password = request.form['password']
@@ -291,9 +304,13 @@ def register():
 @app.route("/logout")
 def logout():
 
+    """
+    log out user or redirect to log-in page.
+    """
+
     if g.user_id:
         username = model.session.query(model.User).filter_by(id=g.user_id).one().username
-        flash("See you soon, %s. Now go get in the water." % username, "error")
+        flash("See you again soon, %s. Now go get in the water." % username, "error")
         del session['user_id']
         return redirect(url_for("index"))
     else:
@@ -307,7 +324,7 @@ def bootstrap():
 
 """
 TODO before deploying:
-- turn off app.run debug 
+- turn off app.run(debug=True) 
 - hash/ salt passwords.
 """
 

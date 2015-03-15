@@ -1,6 +1,6 @@
 <html>
     <head>
-        <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.min.css"/>
+        <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css"/>
         <link rel="stylesheet" href="/static/css/style.css" />
         <link rel="stylesheet" href="/static/css/msw_arrowSprites.css" />
     </head>
@@ -17,6 +17,7 @@
                         <li><a href="/logout">Log Out</a></li>
                     </ul>
                 </div>
+
             </div>
         </div>
 
@@ -32,22 +33,26 @@ below seems to work for logout, but crashes at splash page enter button.
                         {% endif %}              
             #}
 
+<!-- show flashed messages just under navbar -->
         <div class="inner cover">
-            <a href="/entries" class="btn btn-sm btn-default">view existing entries</a>
-            <a href="/addEntryForm" class="btn btn-sm btn-default">create a new entry</a>
-            <a href="/board_quiver" class="btn btn-sm btn-default">view/ edit quiver</a>
+            <div class="btn-group btn-group-sm">
+                <a href="/entries" class="btn btn-primary navbar-btn">view existing entries</a>
+                <a href="/addEntryForm" class="btn btn-primary navbar-btn">create a new entry</a>
+                <a href="/board_quiver" class="btn btn-primary navbar-btn">view/ edit quiver</a>
+            </div>
+            {% with messages = get_flashed_messages() %}
+                {% if messages %}
+                    {% for message in messages %}
+                    <h3 class="flashes">{{message}}</h3>
+                    {% endfor %}
+                {% endif %}
+            {% endwith %}
+
         </div>
 
+
         <div class="container">
-            {% with messages = get_flashed_messages() %}
-            {% if messages %}
-            {% for message in messages %}
-            <ul class="flashes">
-                <li>{{message}}</li>
-            </ul>
-            {% endfor %}
-            {% endif %}
-            {% endwith %}
+
             {% block body %}{% endblock %}
             {% block giantList %}{% endblock %}
 
