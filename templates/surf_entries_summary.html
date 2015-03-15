@@ -3,33 +3,42 @@
 
 <h3> Welcome back {{username}}! Here's a summary of your journal entries:</h3>
 
-<table class="table table-hover">
-	<tr>
-    	<th>When?</th>
-    	<th>Where?</th>
-        <th>Swell</th>
-        <th>Wind</th>
-        <th>Your Rating</th>
-        <th>MSW Rating</th>
-  	</tr>
- 
-    {% for entry in entries %}
-	<tr>    
-    	<td>{{entry.date_time_start.strftime('%m/%d/%Y')}}<br>{{entry.date_time_start.strftime('%I:%m %p')}}</td>
-    	<td>{{entry.loc.beach_name}}<br>{{entry.spot_name}}</td>
-        <td><div title="{{entry.swell1_dir_deg_global}} {{entry.swell1_dir_comp}}" class="msw-swa msw-swa-{{entry.swell1_arrow_deg}}"> </div>
-            {{entry.swell1_ht}} @ {{entry.swell1_per}} sec</td>
-        <td><div class="msw-ssa msw-ssa-{{entry.wind_arrow_deg}}"> </div> <br> {{entry.wind_speed}} ({{entry.wind_gust}})</td>
-        <td>{{entry.rate_overall_fun}}</td>
-        <td></td>
-        <td><a class="btn btn-primary" href="/entryDetails/{{entry.id}}">Details</a></td>
-    </tr>
-	{% endfor %}
+<table class="table table-hover table-condensed">
+
+    <thead>
+    	<tr>
+        	<th>When?</th>
+        	<th>Where?</th>
+            <th>Swell</th>
+            <th>Wind</th>
+            <th>Your Rating</th>
+            <th>MSW Rating</th>
+      	</tr>
+    </thead>
+     
+    <tbody>
+        {% for entry in entries %}
+    	<tr>    
+        	<td>{{entry.date_time_start.strftime('%m/%d/%Y')}}<br>{{entry.date_time_start.strftime('%I:%m %p')}}</td>
+        	<td>{{entry.loc.beach_name}}<br>{{entry.spot_name}}</td>
+            <td><div title="{{entry.swell1_dir_deg_global}} {{entry.swell1_dir_comp}}" class="msw-swa msw-swa-{{entry.swell1_arrow_deg}}"> </div>
+                {{entry.swell1_ht}} @ {{entry.swell1_per}} sec</td>
+            <td><div class="msw-ssa msw-ssa-{{entry.wind_arrow_deg}}"> </div> <br> {{entry.wind_speed}} ({{entry.wind_gust}})</td>
+            <td>{{entry.rate_overall_fun}}</td>
+            <td></td>
+            <td><a class="btn btn-primary" href="/entryDetails/{{entry.id}}">Details</a></td>
+        </tr>
+    	{% endfor %}
+    </tbody>
+
 </table>
 <br>
 <br>
 
-<a href="http://magicseaweed.com"><img src="http://im-1-uk.msw.ms/msw_powered_by.png"></a>
+<div class = "msw">
+    <a href="http://magicseaweed.com"><img src="http://im-1-uk.msw.ms/msw_powered_by.png"></a>
+    <br>
+    <h5 class = "msw">Surf condtion data from magicseaweed.com</h5> 
+</div>
 
 {% endblock %}
-

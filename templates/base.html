@@ -5,10 +5,11 @@
         <link rel="stylesheet" href="/static/css/msw_arrowSprites.css" />
     </head>
     <body>
-        <div class="navbar navbar-inverse navbar-static-top">
-            <div class="container">
+        <nav class="navbar navbar-inverse navbar-static-top">
+            
+            <div class="container-fluid">
                 <div class="navbar-header">
-                    <img src="/static/img/temp_logo.jpg"><a class="navbar-brand" href="/">OceanLogNameHere</a>
+                    <img src="/static/img/temp_logo.jpg"><a class="navbar-brand" href="/">Ocean Riders' Journal</a>
                 </div>
                 <div class="navbar-collapse collapse" >
                     <ul class="nav navbar-nav navbar-right">
@@ -17,9 +18,40 @@
                         <li><a href="/logout">Log Out</a></li>
                     </ul>
                 </div>
+            </div>
+
+            <div class = "container-fluid" id = "nav-lower">
+                
+<!--                 <div class="btn-group btn-group-xs">
+                    <a href="/entries" class="btn btn-primary navbar-btn">view existing entries</a>
+                    <a href="/addEntryForm" class="btn btn-primary navbar-btn">create a new entry</a>
+                    <a href="/board_quiver" class="btn btn-primary navbar-btn">view/ edit quiver</a>
+                </div> -->
+
+                <div class = "nav-lower-text">
+                    <a href="/entries">view existing entries</a> | 
+                    <a href="/addEntryForm">create a new entry</a> | 
+                    <a href="/board_quiver">view/ edit quiver</a> |
+
+
+                    {% with messages = get_flashed_messages() %}
+                        {% if messages %}
+                            {% for message in messages %}
+                                <div class="nav navbar navbar-right" id = "flashes-main">
+
+                                    {{message}}
+                                </div>
+                            {% endfor %}
+                        {% endif %}
+                    {% endwith %}
+
+                </div>
 
             </div>
-        </div>
+
+        </nav>
+
+
 
 <!-- 
 want to show log-in/ log-out buttons only if not alread logged in/ out
@@ -32,23 +64,6 @@ below seems to work for logout, but crashes at splash page enter button.
                            <li> <a href="{{ url_for('logout') }}">Log Out</a></li> 
                         {% endif %}              
             #}
-
-<!-- show flashed messages just under navbar -->
-        <div class="inner cover">
-            <div class="btn-group btn-group-sm">
-                <a href="/entries" class="btn btn-primary navbar-btn">view existing entries</a>
-                <a href="/addEntryForm" class="btn btn-primary navbar-btn">create a new entry</a>
-                <a href="/board_quiver" class="btn btn-primary navbar-btn">view/ edit quiver</a>
-            </div>
-            {% with messages = get_flashed_messages() %}
-                {% if messages %}
-                    {% for message in messages %}
-                    <h3 class="flashes">{{message}}</h3>
-                    {% endfor %}
-                {% endif %}
-            {% endwith %}
-
-        </div>
 
 
         <div class="container">

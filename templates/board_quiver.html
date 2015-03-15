@@ -6,35 +6,37 @@
     <h2>{{username}}'s Quiver:</h2>
 
     <table class="table table-hover">
-    <!-- saw examples using table id, and others using class. class is for css, right? -- what's id for? -->
-    	<tr>
-        	<th>Board's nickname</th>
-        	<th>Length</th> 
-            <th>Type</th>
-            <th>Shaper</th>
-            <th>Model</th>
-        	<th>Fin Setup</th>
+        <thead>
+        	<tr>
+            	<th>Board's nickname</th>
+            	<th>Length</th> 
+                <th>Type</th>
+                <th>Shaper</th>
+                <th>Model</th>
+            	<th>Fin Setup</th>
 
-      	</tr>
-     
-        {% for board in boards %}
-    	<tr>    
-        	<td>{{board.nickname}} </td>
-        	<td>{{board.length_ft}}' {{board.length_in}}"</td>
-        	<td>{{board.category}}</td>
-        	<td>{{board.shaper}}</td>
-        	<td>{{board.shape}}</td>
-        	<td>{{board.fins}} </td>
-
-        </tr>
-    	{% endfor %}
+          	</tr>
+        </thead>
+         
+        <tbody>
+            {% for board in boards %}
+        	<tr>    
+            	<td>{{board.nickname}} </td>
+            	<td>{{board.length_ft}}' {{board.length_in}}"</td>
+            	<td>{{board.category}}</td>
+            	<td>{{board.shaper}}</td>
+            	<td>{{board.shape}}</td>
+            	<td>{{board.fins}} </td>
+            </tr>
+    	   {% endfor %}
+        </tbody>
     </table>
 
 <br>
 <br>
 <br>
 
-    <form action="/addBoardToDB" method="post">
+    <form class="quiver" action="/addBoardToDB" method="post">
         <!-- 
         make input fields allow autofill if existing board info matches typing?
      -->
@@ -48,7 +50,7 @@
      -->    
         <br>
         Board Type:<br>
-            <select name = category required>
+            <select name = "category" required>         
             <option value="longboard">longboard</option>
             <option value="shortboard">shortboard</option>
             <option value="fish">fish</option>
@@ -60,7 +62,7 @@
         <br>
         <!-- length: make input boxes smaller or convert to dropdowns? -->
         Length:<br>
-            <input type="text" name = "length_ft">feet <input type="text" name = "length_in">inches
+            <input type="text" name = "length_ft" size = "5" >feet <input type="text" name = "length_in" size = "5">inches
         <br>
         Shaper:<br>
             <input type="text" name = "shaper">
@@ -69,7 +71,7 @@
             <input type="text" name = "shape" required>
         <br>
         Fin Setup:<br>
-            <input type="text" name = "fins"> (eg: 2+1, singlefin, thruster)      
+            <input type="text" name = "fins" placeholder="(eg: 2+1, singlefin, thruster)">      
         <br>
         <br>
         <input type="submit" value = "Add Board to your Quiver">

@@ -1,6 +1,6 @@
 /* css style sheet for base.html and pages inheriting from base */
 
-/* navbar image scale and placement*/
+/* navbar image scale and placement */
 div.navbar-header img {
     width: 30px;
     float: left;
@@ -8,22 +8,68 @@ div.navbar-header img {
     margin-right: 7px;
 }
 
-/* 
-can't figure out how to change color of navbar text?!
-*/
-/*.navbar-right {
-  color: SteelBlue;
-}*/
+/* navbar links placement */
+.navbar-right {
+    margin-right: 7px;
+}
 
-/* styling for primary buttons */
+/* sub-navbar links and messages */
+#nav-lower{
+    height: 25px;
+    background-color: DimGray;
+}
+
+.nav-lower-text, .nav-lower-text a{
+    color: rgb(62, 175, 190);
+}
+
+/* sub-navbar flashed messages */
+#flashes-main{
+    float: right;
+    color: rgb(62, 175, 190);
+    min-height: 0px; 
+    margin-bottom: 0px; 
+}
+
+/* entries summary primary buttons */
 .btn-primary {
   background-color: #007C7D;
 }
 
 .btn-primary:hover{
-    background: Red;
+    background: rgb(62, 175, 190);
 }
 
+/* page bottom credit to magicseaweed */
+.msw { 
+    float: right; 
+    text-align: right;
+    margin-top: 0 px;
+    margin-bottom: 15px; 
+    margin-right: 7px; 
+}
+
+.msw img { 
+    float: right; 
+/*    width: 150 px;
+*/    margin-top: 7px;
+    margin-right: 7px; 
+}
+
+/* add board form */
+.quiver{
+
+  
+}
+
+
+/*
+need to demystify everything below this line
+*/
+
+/*
+not sure this is in use
+*/
 /* Extra markup and styles for table-esque vertical and horizontal centering */
 .site-wrapper {
 
@@ -32,31 +78,38 @@ can't figure out how to change color of navbar text?!
   height: 100%; /* For at least Firefox */
   min-height: 100%;
 }
+
 .site-wrapper-inner {
 
   display: table-cell;
   vertical-align: top;
 }
-.cover-container {
+
+/*
+not sure this is in use
+*/
+/*.cover-container {
   background-color: Green;
   margin-right: auto;
   margin-left: auto;
-}
+}*/
 
+/*
+not sure this is in use
+*/
 /* Padding for spacing */
-.inner {
+/*.inner {
   padding: 30px;
-}
+}*/
  
 
-/*li.warning {
-    color: red;
-}*/
 
-/*img.product-img {
-    display: inline-block;
-    max-width: 400px;
-}*/
+
+/*
+need to clean up unused stuff
+*/
+
+/* log-in/ register forms */
 
 .form-signin {
   max-width: 330px;
@@ -97,4 +150,3 @@ can't figure out how to change color of navbar text?!
   border-top-left-radius: 0;
   border-top-right-radius: 0;
 }
-
