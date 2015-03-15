@@ -11,10 +11,9 @@ _noCommit_*
 *.db
 
 # ignore specified ref stuff and notes to self
-ref_fromMelonApp
+ref*
 spitcast_ref.txt
 todo_*.txt
 temp_*
 bak_*
-
 

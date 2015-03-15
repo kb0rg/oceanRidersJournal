@@ -62,38 +62,11 @@ temporaily put into another ugly table -->
 <h5>Your overall notes:</h5>
 {{entry.gen_notes}}
 
-<!-- MVP and stretch goal list, style-->
-<br>
-<br>
-<h4>core styling tasks to do:</h4>
-
-<li>&#10004; fix broken conditional in board_pref display</li>
-<li>&#10004; fix wording of board pref (in table-to-entry, or entry-to-display?)</li>
-<li>&#10004; fix broken conditional in board_notes display (kill ":" if no notes)</li>
-<li>&#10004; get MSW graphics (arrows) to add to swell dir display</li>
-<li>&#10004; get MSW graphics (arrows) to add to wind dir display</li>
-<li>&#10004; more info from API(s): wind </li>
-<br>
-
-<!-- MVP and stretch goal list, functionality-->
-
-<h4>core functionality todo:</h4>
-<li>&#10004; get all the relevant fields displayed</li>
-<br>
-<br>
-<h4>Additional features:</h4>
-<li>more info from API(s): other swell, temps, tides</li>
-<li>ability to edit a previously entered session?</li>
-<li>ability to sort/ filter by various fields (date, board, wavesize, location, friend, swell dir)</li>
-<br>
-<br>
-<h4>extra bonus options:</h4>
-<li>pull a screengrab from surfline's video feed from that day and time????</li>
-<li>link back to "add entry" with some info seeded from currently selected entry?</li>
-(ie "create new entry like this one")
-<li>tell user what (nearest) beach's msw is displayed if entry's beach has no msw forecast</li>
-<li>additional query/ graphs for end time if duration > n?</li>
-<br>
-<a href="http://magicseaweed.com"><img src="http://im-1-uk.msw.ms/msw_powered_by.png"></a>
+<!-- credit to the API -->
+<div class = "msw">
+    <a href="http://magicseaweed.com"><img src="http://im-1-uk.msw.ms/msw_powered_by.png"></a>
+    <br>
+    <h5 class = "msw">Surf condtion data from magicseaweed.com</h5> 
+</div>
 
 {% endblock %}

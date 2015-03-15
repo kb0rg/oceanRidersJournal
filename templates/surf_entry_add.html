@@ -1,5 +1,5 @@
 <!-- template form for user to add journal entry -->
-{% extends 'giantList_features.html' %}
+{% extends 'base.html' %}
 {% block body %}
 <h2>Enter info about your surf session:</h2>
 <div id="entries-list">
@@ -128,48 +128,5 @@ How FUN were the waves for you?:<br>
 <br>
 <br>
 
-<h2>DEV NOTES</h2>
-<h4>core info to include:<br>
-	(prioritized  from the "all potential info list, below)")
-</h4>
-<li>&#10004; date and time (use dateime.now as a starting point.</li>
-<li>&#10004; location pulldown (pick from existing options, limited to CA for now)</li>
-<li>&#10004; board info (input field)</li>
-<li>&#10004; board preference (buttons)</li>
-<li>required fields?<br>
-(right now board is required because of how display template is working -- 
-also need to add null/ none to pulldown
-fix this to implement "did not go out" option)</li>
-<br>
-<br>
-<h4>Near-term stretch Goals: Additional features:</h4>
-<li>&#10004; location nickname/ additional info (specific break w/in named beach)</li>
-<li>&#10004; link board form to stored board quiver </li>
-<li>&#10004; make ability to edit/ add to quiver</li>
-<li>if not right board, allow to choose other board (pref field) from quiver? (pulldown)</li>
-<li>ability to make entry for past date</li>
-<li>&#10004; crowd density (buttons?)</li>
-<li>&#10004; crowd vibe (buttons?)</li>
-<li>start and end time (or start time/ duration)</li>
-<li>&#10004; challenge level</li>
-<li>&#10004; overall enjoyment of session</li>
-<li>&#10004; input: additional notes</li>
-<li>surfed vs/ just observed<br>
-	(and if not surfed, input field for: why not surfed)<br>
-	(see above re: required fields issue)
-</li>
-<li>iconify the subjective stuff (board pref, crowds, challenge level, etc</li>
-<br>
-<br>
-<h4>SUPER optimistic stretch goals: Additional features:</h4>
-<li>more locations</li>
-<li>add photo(s)</li>
-<li>set location by map</li>
-<li>set location from photo metadata</li>
-
-<!-- 
-this is a checkmark!
-&#10004; 
- -->
 </div>
 {% endblock %}

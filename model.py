@@ -10,154 +10,135 @@ session = scoped_session(sessionmaker(bind=engine,
                          autocommit = False,
                          autoflush = False))
 
-### Class declarations go here
+## Class declarations:
+
 Base = declarative_base()
 
 class User(Base):
+
     """
     makes a row in the users table.
     """
     __tablename__ = "users"
 
+    ## automatically generated when instance is created
     id = Column(Integer, primary_key = True)
     username = Column(String(64), nullable = False)
-    email = Column(String(64), nullable = True)
-    password = Column(String(64), nullable = True)
+    email = Column(String(64), nullable = False)
+    password = Column(String(64), nullable = False)
+
+    ## optional, for possible future use
     firstname = Column(String(64), nullable = True)
     lastname = Column(String(64), nullable = True)
-    
-    """
-    TODO: user region: tie this to loc table?
-    """
     home_region = Column(String(64), nullable = True)
 
     def __repr__(self):
         return "%d, %s, %s, %s, %s" % (self.id, self.username, self.firstname, self.lastname, self.home_region)
 
 class Location(Base):
+
     """
     makes a row in the locations table.
     """
     __tablename__ = "locations"
 
+    ## automatically generated when instance is created
     id = Column(Integer, primary_key = True)
-    # general location name, ie Bolinas or Ocean Beach
-    beach_name = Column(String(64), nullable = False)
 
-    # human-readable location info:
-    # (allowing for future expansion beyond CA)
+    ## general location name, ie Bolinas or Ocean Beach
+    beach_name = Column(String(64), nullable = False)
+    ## human-readable location info:
+    ## (allowing for future expansion beyond CA)
     region = Column(String(64), nullable = False)
     country = Column(String(64), nullable = False)
     state_or_prov = Column(String(64), nullable = False)
     county = Column(String(64), nullable = False)
 
-    # API-readable location info:
+    ## API-readable location info:
     msw_id = Column(Integer, nullable = True)
     msw_unique_id_exists = Column(Boolean, nullable = True)
-    # which beach's MSW report is being displayed:
+    ## which beach's MSW report is being displayed:
     msw_beach_name = Column(String(64), nullable = False)
 
-    """
-    TODO: latlong:
-    should these be left as strings, or converted to another format?
-    # USING STRING FOR NOW
-    """
     ## lat long for possible future use 
     ## (in case API changes or if adding ability to find nearest from current loc)
+    ## storing as string until use-case determines necessary format
     lat = Column(String(64), nullable = False)
     long = Column(String(64), nullable = False)
-    # lat = Column(Float, nullable = False)
-    # long = Column(Float, nullable = False)
 
     def __repr__(self):
         return "<Location: %d, %s, MSW (or nearest) ID: %d >"%(self.id, self.beach_name, self.msw_id) 
 
 class Board(Base):
+
     """
     makes a row in the boards table.
     """
     __tablename__ = "boards"
 
+    ## automatically generated when instance is created
     id = Column(Integer, primary_key = True)
-
-    """
-    TODO: boards general:
-    --> make field to note if board is borrowed/ whose it is?
-    (for purposes of db, each board has only one user)
-    --> ability to "retire" a board
-    (keep it in quiver but remove from add entry dropdown list)
-    """
 
     user_id = Column(Integer, ForeignKey('users.id'))
 
     user = relationship("User",
         backref=backref("boards", order_by=id))
 
+    ## required fields: 
     nickname = Column(String(64), nullable = False)
+    ## type of board (long, short, fish, etc)
+    ## used in add entry dropdown
     category = Column(String(64), nullable = False)
+
+    ## optional fields:
     length_ft = Column(Integer, nullable = True)
     length_in = Column(Integer, nullable = True)
     shaper = Column(String(64), nullable = True)
+    ## modelname or desciption of board
     shape = Column(String(64), nullable = True)
     fins = Column(String(64), nullable = True)
 
     def __repr__(self):
-        return "<Board: %d, %s, %s %d\' %d\">"%(self.id, self.nickname, self.shaper, self.length_ft, self.length_in) 
+        return "<Board: %d, %s, %s %s>"%(self.id, self.nickname, self.shaper, self.shape) 
 
 class Entry(Base):
+
     """
     makes a row in the entries table.
     """
     __tablename__ = "entries"
 
-    # automatically generated when instance is created
+    ## automatically generated when instance is created
     id = Column(Integer, primary_key = True)
     user_id = Column(Integer, ForeignKey('users.id'))
 
+    ## Entry/ Yser tables relationship
     user = relationship("User",
         backref=backref("entries", order_by=id))
 
-    """
-    TODO: entry datetime:
-    -> set up form to make inputs, not just use datetime.now 
-    --> format in a way MSW can read, or do that conversion at API call?
-    """
     date_time_start = Column(DateTime, nullable = False)
     date_time_end = Column(DateTime, nullable = False)
-
-    """
-    TODO: entry location:
-    -> make not nullable? 
-    or give warning in form that if not provided, 
-    no weather info will be given?
-    """
-
-    # beach from location ID (uses loc table's loc_id)
-    loc_id = Column(Integer, ForeignKey('locations.id'))
-    spot_name = Column(String(64), nullable = True)
+    ## whether surfed or just observed (for future feature expansion)
     go_out = Column(Boolean, nullable = True)
 
+    ## loc_id grabbed from dropdown (uses loc table's loc_id)
+    loc_id = Column(Integer, ForeignKey('locations.id'))
+    ## more specific/ desciptive location from user input
+    spot_name = Column(String(64), nullable = True)
+
+    ## Entry/ Location tables relationship
     loc = relationship("Location",
         backref=backref("entries", order_by=id))
 
-    """
-    TODO: entry board:
-    --> ?? (entry has only one board, or multiple?)
-    --> ? make ability to add to quiver?
-    """
+    ## board_id grabbed from dropdown (uses board table's id)
     board_id = Column(Integer, ForeignKey('boards.id'))
-
     board_pref = Column(String(64), nullable = False)
     board_notes = Column(String(64), nullable = True)
 
+    ## Entry/ Board tables relationship
     board = relationship("Board",
         backref=backref("entries", order_by=id))
 
-    """
-    TODO: API:
-    -> add swell2 and swell3?
-    -> add tide height and state
-    """
     ## pull swell1 data from apis and add to entry
     swell1_ht = Column(Float, nullable = True)
     swell1_per = Column(Integer, nullable = True)
@@ -174,10 +155,7 @@ class Entry(Base):
     wind_unit = Column(String(10), nullable = True)
     wind_arrow_deg = Column(Integer, nullable = True)
 
-    ## pull swell2 and 3, and temp data from MSW api and add to entry
-    ## tide data from .... api?  and add to entry
-
-    ## pull water and air temp from API 
+    ## water and air pulled temp from API (for future feature expansion)
     temp_h2o = Column(Integer, nullable = True)
     temp_air = Column(Integer, nullable = True)
 
@@ -190,6 +168,7 @@ class Entry(Base):
 
     ## additional user inputs
     buddy_name = Column(String(64), nullable = True)
+    ## general notes about the session
     gen_notes = Column(String(140), nullable = True)
 
 
@@ -197,11 +176,15 @@ class Entry(Base):
         return "%d, %d, %s, %s, %s" % (self.id, self.loc_id, self.spot_name, self.board.nickname, self.board_pref)
 
 
-### End class declarations
+## End class declarations
 
 
 def main():
-    """In case we need this for something"""
+
+    """
+    when model is called directly,
+    prints helpful info in console for db rebuilding.
+    """
     
     print "\nWelcome to your surfjournal's model.\n" + \
     "I suspect you are here to rebuild the database schema.\n" + \
@@ -217,7 +200,6 @@ def main():
 
 if __name__ == "__main__":
     main()
-
 
 """
 NOTE!!!!

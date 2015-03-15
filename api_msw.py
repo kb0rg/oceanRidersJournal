@@ -18,22 +18,6 @@ MSW_API_KEY = os.environ['MSW_ACCESS_TOKEN']
 # base URL for MSW API requests (adding spot_id required for all queries)
 MSW_API_URL = "http://magicseaweed.com/api/"+MSW_API_KEY+"/forecast/?spot_id="
 
-"""
-api call TODO:
--> find response by time closest to time of query?
-(for now, filtering out FIRST index of list from response)
-
-More calls:
--> air temp: condition.temperature
--> wave heights: minBreakingHeight, maxBreakingHeight
-
-Other calls (stretch goal):
--> ratings?: fadedRating, solidRating
--> ? weather icon?: condition.weather
--> charts?: charts.swell, charts.period, charts.wind
-(I'd have to save and store these)
-
-"""
 
 def getUrlBySpot(spot_id):
     
@@ -87,8 +71,7 @@ def getWind(spot_id):
 def getGlobalDegrees(degrees):
 
     """
-    convert degress from API (relative to 180) to global 
-    (relative to 0/360)
+    convert degress from API (rotate 180)
     """
 
     degreesGlobal = (degrees + 180.0) % 360
@@ -111,9 +94,3 @@ def getArrowDegrees(degrees):
             degrees = degrees - (degrees % 5)
 
     return int(degrees)
-
-"""
-TODO: need to source other (non MSW) APIs:
--> water temp?
--> tides (chart or info to build chart)
-"""
