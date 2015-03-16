@@ -2,65 +2,110 @@
 {% extends 'base.html' %}
 {% block body %}
 
-<h3>Displays all detailed of selected surf journal entry:</h3>
+<div>
+    <h3>{{entry.date_time_start.strftime('%m/%d/%Y %I:%m %p')}}
+    at {{entry.loc.beach_name}}
+    {% if entry.spot_name %}
+        ({{entry.spot_name}})
+    {% endif %}
+    {% if entry.buddy_name %}
+        with {{entry.buddy_name}}
+    {% else %}
+        (Solo)
+    {% endif %}
+    </h3>
 
+</div>
 
-<table class="entry">
-<!-- saw examples using table id, and others using class. class is for css, right? -- what's id for? -->
-	<tr>
-    	<th>Date: start time</th>
-    	<th>Which Beach</th>
-        <th>Which Spot?</th>
-        <th>With Anyone?</th>
-        <th>Swell Direction</th>
-        <th>Swell Height/ Interval</th>
-        <th>Wind </th>
-    	<th>Which Board?</th>
-    	<th>Right Board/ Notes?</th>
-  	</tr>
- 
-	<tr>    
-    	<td>{{entry.date_time_start.strftime('%m/%d/%Y %I:%m %p')}}</td>
-    	<td>{{entry.loc.beach_name}}</td>
-        <td>{{entry.spot_name}}</td>
-        <td>{{entry.buddy_name}}</td>
-        <td><div class="msw-swa msw-swa-{{entry.swell1_arrow_deg}}"> </div> {{entry.swell1_dir_deg_global}} {{entry.swell1_dir_comp}}</td>
-        <td>{{entry.swell1_ht}} @ {{entry.swell1_per}} sec</td>
-        <td><div class="msw-ssa msw-ssa-{{entry.wind_arrow_deg}}"> </div> {{entry.wind_speed}} ({{entry.wind_gust}})</td>
-    	<td>{{entry.board.nickname}} {{entry.board.length_ft}}' {{entry.board.length_in}}" {{entry.board.fins}}</td>
-    	{% if entry.board_pref == "ok" %}
-            <td>{{entry.board_pref}}
+<div>
+    <h4>
+        Board: {{entry.board.nickname}}
+        {% if entry.board.length_ft %}
+            {{entry.board.length_ft}}' {{entry.board.length_in}}"
+        {% endif %}
+        {% if entry.board.fins %}
+            ({{entry.board.fins}})
+        {% endif %}
+
+        {% if entry.board_pref == "ok" %}
         {% else %}
-            <td>wanted {{entry.board_pref}}
+            <td>(wanted a {{entry.board_pref}} board)
         {% endif %}
         {% if entry.board_notes%}
             : {{entry.board_notes}}
         {% endif %}
-        </td>
-    </tr>
-</table>
+    </h4>
+
+{#
+        {% if entry. %}
+            <li>: {{entry.}}</li>
+        {% endif %}
+#}
+
+</div>
+
+<div>
+
+    {% if entry.gen_notes %}
+        <h4>
+        Overall experience: {{entry.gen_notes}}
+        </h4>
+    {% endif %}
+
+</div>
+
 <br>
 <br>
-<!-- MOOOOOAR DETAILS TO DEAL WITH
-temporaily put into another ugly table -->
-<table>
-    <tr>
-        <th>Who With?</th>
-        <th>Overall Fun</th>
-        <th>How challenging?</th>
-        <th>Fun waves?</th>
-        <th>How Crowded?</th>
-        <th>Crowd Vibe?</th>
-    </tr>
-        <td>{{entry.buddy_name}}</td>
-        <td>{{entry.rate_overall_fun}}</td>
-        <td>{{entry.rate_wave_challenge}}</td>
-        <td>{{entry.rate_wave_fun}}</td>
-        <td>{{entry.rate_crowd_den}}</td>
-        <td>{{entry.rate_crowd_vibe}}</td>
-</table>
-<h5>Your overall notes:</h5>
-{{entry.gen_notes}}
+
+<!-- MSW data -->
+<div>
+    <table class="table-nonfluid">
+        <thead>
+            <tr>
+                <th>Swell</th>
+                <th>Wind</th>
+            </tr>
+        </thead>
+         
+        <tbody>
+            <tr>    
+                <td><div title="{{entry.swell1_dir_deg_global}} {{entry.swell1_dir_comp}}" class="msw-swa msw-swa-{{entry.swell1_arrow_deg}}"> </div>
+                    {{entry.swell1_ht}} @ {{entry.swell1_per}} sec</td>
+                <td><div class="msw-ssa msw-ssa-{{entry.wind_arrow_deg}}"> </div> <br> {{entry.wind_speed}} ({{entry.wind_gust}})</td>
+            </tr>
+        </tbody>
+    </table>
+</div>
+
+<br>
+<br>
+
+<!-- user ratings -->
+<div>
+    <h4>
+        {% if entry.rate_wave_challenge %}
+            Challenge level: {{entry.rate_wave_challenge}}<br>
+        {% endif %}
+
+        {% if entry.rate_wave_fun %}
+            Wave fun level: {{entry.rate_wave_fun}}<br>
+        {% endif %}
+
+        {% if entry.rate_crowd_den %}
+            The crowd density was: {{entry.rate_crowd_den}}<br>
+        {% endif %}
+
+        {% if entry.rate_crowd_vibe %}
+            The crowd vibe was: {{entry.rate_crowd_vibe}}<br>
+        {% endif %}
+
+        {% if entry.rate_overall_fun %}
+            Your overall enjoyment was: {{entry.rate_overall_fun}}<br>
+        {% endif %}
+    </h4>
+</div>
+
+
 
 <!-- credit to the API -->
 <div class = "msw">

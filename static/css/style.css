@@ -62,6 +62,10 @@ div.navbar-header img {
   
 }
 
+/* entry details MSW info table */
+.table-nonfluid {
+   width: auto !important;
+}
 
 /*
 need to demystify everything below this line
