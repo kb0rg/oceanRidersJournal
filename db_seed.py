@@ -131,9 +131,8 @@ def load_entries(session):
             else:
                 go_out = False
 
-            ## convert from global deg back to deg as msw would provide?
-
-            swell1_dir_deg_global = int(swell1_dir_deg_global)
+            swell1_dir_deg_global = float(swell1_dir_deg_global)
+            ## convert from global deg back to deg as msw would provide
             swell1_dir_deg_msw = (swell1_dir_deg_global - 180)%360
             print "swell1_dir_deg_global: ", swell1_dir_deg_global
             print "swell1_dir_deg_msw: ", swell1_dir_deg_msw
