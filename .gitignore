@@ -17,3 +17,6 @@ todo_*.txt
 temp_*
 bak_*
 
+
+# ignore until decided whether or not using:
+canvasjs.min.js

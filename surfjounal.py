@@ -317,10 +317,6 @@ def logout():
         flash("You can't log out, you're not logged in! Please log in to use the journal.", "error")
         return render_template("login.html")
 
-@app.route("/temp_bootstrap")
-def bootstrap():
-
-    return render_template("temp_bootstrap.html")
 
 """
 TODO before deploying:
