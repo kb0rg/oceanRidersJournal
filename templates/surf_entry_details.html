@@ -2,109 +2,132 @@
 {% extends 'base.html' %}
 {% block body %}
 
-<div>
-    <h3>{{entry.date_time_start.strftime('%m/%d/%Y %I:%m %p')}}
-    at {{entry.loc.beach_name}}
-    {% if entry.spot_name %}
-        ({{entry.spot_name}})
-    {% endif %}
-    {% if entry.buddy_name %}
-        with {{entry.buddy_name}}
-    {% else %}
-        (Solo)
-    {% endif %}
-    </h3>
+    {% block bg %}
+    <style>
+        body {
+            background: url("../static/img/bg_swellLines_detail.png") no-repeat center center fixed; 
+            -webkit-background-size: cover;
+            -moz-background-size: cover;
+            -o-background-size: cover;
+            background-size: cover;
+            background-position: bottom; 
+            background-position-y: 15%;
+        }
 
-</div>
-
-<div>
-    <h4>
-        Board: {{entry.board.nickname}}
-        {% if entry.board.length_ft %}
-            {{entry.board.length_ft}}' {{entry.board.length_in}}"
+    </style>
+    {% endblock %}
+<div class="content-container">
+    <div>
+        <h3>{{entry.date_time_start.strftime('%m/%d/%Y %I:%m %p')}}
+        at {{entry.loc.beach_name}}
+        {% if entry.spot_name %}
+            ({{entry.spot_name}})
         {% endif %}
-        {% if entry.board.fins %}
-            ({{entry.board.fins}})
-        {% endif %}
-
-        {% if entry.board_pref == "ok" %}
+        {% if entry.buddy_name %}
+            with {{entry.buddy_name}}
         {% else %}
-            <td>(wanted a {{entry.board_pref}} board)
+            (Solo)
         {% endif %}
-        {% if entry.board_notes%}
-            : {{entry.board_notes}}
-        {% endif %}
-    </h4>
+        </h3>
 
-{#
-        {% if entry. %}
-            <li>: {{entry.}}</li>
-        {% endif %}
-#}
+    </div>
 
-</div>
-
-<div>
-
-    {% if entry.gen_notes %}
+    <div>
         <h4>
-        Overall experience: {{entry.gen_notes}}
+            Board: {{entry.board.nickname}}
+            {% if entry.board.length_ft %}
+                {{entry.board.length_ft}}' {{entry.board.length_in}}"
+            {% endif %}
+            {% if entry.board.fins %}
+                ({{entry.board.fins}})
+            {% endif %}
+
+            {% if entry.board_pref == "ok" %}
+            {% else %}
+                <td>(wanted a {{entry.board_pref}} board)
+            {% endif %}
+            {% if entry.board_notes%}
+                : {{entry.board_notes}}
+            {% endif %}
+            {% if entry.board.category %}
+                <div class="icon-board">
+                    <img src="/static/img/icon_board_{{entry.board.category}}.png" title="{{entry.board.category}}"</a>
+                </div>
+            {% endif %}
+
+
         </h4>
-    {% endif %}
+
+    {#
+            {% if entry. %}
+                <li>: {{entry.}}</li>
+            {% endif %}
+    #}
+
+    </div>
+
+    <div>
+
+        {% if entry.gen_notes %}
+            <h4>
+            Overall experience: {{entry.gen_notes}}
+            </h4>
+        {% endif %}
+
+    </div>
+
+    <br>
+    <br>
+
+    <!-- MSW data -->
+    <div>
+        <table class="table-nonfluid">
+            <thead>
+                <tr>
+                    <th>Swell</th>
+                    <th>Wind</th>
+                </tr>
+            </thead>
+             
+            <tbody>
+                <tr>    
+                    <td><div title="{{entry.swell1_dir_deg_global}} {{entry.swell1_dir_comp}}" class="msw-swa msw-swa-{{entry.swell1_arrow_deg}}"> </div>
+                        {{entry.swell1_ht}} @ {{entry.swell1_per}} sec</td>
+                    <td><div title="{{entry.wind_dir_deg}} {{entry.wind_dir_comp}}" class="msw-ssa msw-ssa-{{entry.wind_arrow_deg}}"> </div> <br> {{entry.wind_speed}} ({{entry.wind_gust}})</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <br>
+    <br>
+
+    <!-- user ratings -->
+    <div>
+        <h4>
+            {% if entry.rate_wave_challenge %}
+                Challenge level: {{entry.rate_wave_challenge}}<br>
+            {% endif %}
+
+            {% if entry.rate_wave_fun %}
+                Wave fun level: {{entry.rate_wave_fun}}<br>
+            {% endif %}
+
+            {% if entry.rate_crowd_den %}
+                The crowd density was: {{entry.rate_crowd_den}}<br>
+            {% endif %}
+
+            {% if entry.rate_crowd_vibe %}
+                The crowd vibe was: {{entry.rate_crowd_vibe}}<br>
+            {% endif %}
+
+            {% if entry.rate_overall_fun %}
+                Your overall enjoyment was: {{entry.rate_overall_fun}}<br>
+            {% endif %}
+        </h4>
+    </div>
 
 </div>
-
-<br>
-<br>
-
-<!-- MSW data -->
-<div>
-    <table class="table-nonfluid">
-        <thead>
-            <tr>
-                <th>Swell</th>
-                <th>Wind</th>
-            </tr>
-        </thead>
-         
-        <tbody>
-            <tr>    
-                <td><div title="{{entry.swell1_dir_deg_global}} {{entry.swell1_dir_comp}}" class="msw-swa msw-swa-{{entry.swell1_arrow_deg}}"> </div>
-                    {{entry.swell1_ht}} @ {{entry.swell1_per}} sec</td>
-                <td><div class="msw-ssa msw-ssa-{{entry.wind_arrow_deg}}"> </div> <br> {{entry.wind_speed}} ({{entry.wind_gust}})</td>
-            </tr>
-        </tbody>
-    </table>
-</div>
-
-<br>
-<br>
-
-<!-- user ratings -->
-<div>
-    <h4>
-        {% if entry.rate_wave_challenge %}
-            Challenge level: {{entry.rate_wave_challenge}}<br>
-        {% endif %}
-
-        {% if entry.rate_wave_fun %}
-            Wave fun level: {{entry.rate_wave_fun}}<br>
-        {% endif %}
-
-        {% if entry.rate_crowd_den %}
-            The crowd density was: {{entry.rate_crowd_den}}<br>
-        {% endif %}
-
-        {% if entry.rate_crowd_vibe %}
-            The crowd vibe was: {{entry.rate_crowd_vibe}}<br>
-        {% endif %}
-
-        {% if entry.rate_overall_fun %}
-            Your overall enjoyment was: {{entry.rate_overall_fun}}<br>
-        {% endif %}
-    </h4>
-</div>
-
 
 
 <!-- credit to the API -->

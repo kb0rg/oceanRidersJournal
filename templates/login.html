@@ -1,20 +1,39 @@
 {% extends 'base.html' %}
 {% block body %}
 
-<form action="{{url_for("login")}}" class="form-signin" method="POST">
- 	<h2 class="form-signin-heading">Please Sign In</h2>
-    <input type="email" name="email" class="form-control" placeholder="Email Address" required autofocus />
-    <input type="password" name="password" class="form-control" placeholder="Password" required />
-    <button type="btn btn-lg btn-primary btn-block" type="submit">Sign In</button>
-</form>
+    {% block bg %}
+    <style>
+        body {
+            background: url("../static/img/bg_swellLines.png") no-repeat center center fixed; 
+            -webkit-background-size: cover;
+            -moz-background-size: cover;
+            -o-background-size: cover;
+            background-size: cover;
+            background-position: bottom; 
+            background-position-y: 15%;
+        }
 
-<form action="{{url_for("register")}}" class="form-signin" method="POST">
- 	<h2 class="form-signin-heading">Register to start using Ocean Journal</h2>
-    <input type="username" name="username" class="form-control" placeholder="pick a username" required autofocus />
-    <input type="email" name="email" class="form-control" placeholder="Email Address" required autofocus />
-    <input type="password" name="password" class="form-control" placeholder="Password" required />
-    <button type="btn btn-lg btn-primary btn-block" type="submit">Sign Up</button>
-    
-</form>
+    </style>
+    {% endblock %}
+
+<div class="content-container">
+
+	<form action="{{url_for("login")}}" class="form-signin" method="POST">
+	 	<h2 class="form-signin-heading">Please Sign In</h2>
+	    <input type="email" name="email" class="form-control" placeholder="Email Address" required autofocus />
+	    <input type="password" name="password" class="form-control" placeholder="Password" required />
+	    <button type="btn btn-lg btn-primary btn-block" type="submit">Sign In</button>
+	</form>
+
+	<form action="{{url_for("register")}}" class="form-signin" method="POST">
+	 	<h2 class="form-signin-heading">Register to start using Ocean Journal</h2>
+	    <input type="username" name="username" class="form-control" placeholder="pick a username" required autofocus />
+	    <input type="email" name="email" class="form-control" placeholder="Email Address" required autofocus />
+	    <input type="password" name="password" class="form-control" placeholder="Password" required />
+	    <button type="btn btn-lg btn-primary btn-block" type="submit">Sign Up</button>
+	    
+	</form>
+
+</div>
 
 {% endblock %}

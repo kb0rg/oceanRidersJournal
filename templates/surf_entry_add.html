@@ -1,132 +1,151 @@
 <!-- template form for user to add journal entry -->
 {% extends 'base.html' %}
 {% block body %}
-<h2>Enter info about your surf session:</h2>
-<div id="entries-list">
-<form action="/addEntryToDB" method="post">
-<!-- implement start and end time again later. for now, datetime NOW -->
-<!-- Date:<br>
-<input type="date" name = "entry_date">
-<br>
-Start Time (as HH:MM with "AM" or "PM"):<br>
-<input type="time" name="start_time">
-<br>
-End Time (as HH:MM with "AM" or "PM"):<br>
-<input type="time" name="end_time"> -->
-<!--  -->
-<!--  -->
-<h4> This entry will be automatically created with today's date and the current time.</h4>
-<!-- <h5> Ability to specify past dates/ times will be implemented later.</h5>
- -->
-<br>
-<!-- location info -->
-<br>
-Beach Name:<br>
-<select name = "loc_id">
-	{% for county in counties %}
-		<optgroup label="{{county[0]}}">
-			{% for loc in locations %}
-				{% if loc.county == county[0] %}
-				<option value="{{loc.id}}">{{loc.beach_name}}</option>
-				{% endif %}
-			{% endfor %}	
-		</optgroup>	
-	{% endfor %}
-<br>
-</select> (if not on the list, pick the nearest beach)
-<br>
-Spot Name:<br>
-<input type="text" name = "spot_name"> (more specific, eg: patch, Sloat)
-<br>
-Did you go out with a buddy?<br>
-<input type="text" name = "buddy_name"> (put their names here)
-<br>
-<br>
-<!-- board info -->
-Board Ridden:<br>
-<select name = "board_id">
-	{% for category in categories %}
-		<optgroup label="{{category[0]}}">
-			{% for board in boards %}
-				{% if board.category == category[0] %}
-				<option value="{{board.id}}">{{board.nickname}}</option>
-				{% endif %}
-			{% endfor %}
-		</optgroup>	
-	{% endfor %}
-</select>
-<a href="/board_quiver" class="btn btn-sm btn-default">add a board to quiver</a>
-<!-- 
-TODO:
-make "add board" button *temp* redirect to quiver, w/o losing existing input?
- -->
-<br>
-Did you wish you'd brought a different board?:<br>
-<input type="radio" name = "board_pref" required value = "smaller">(smaller)
-<input type="radio" name = "board_pref" value = "ok">(just right)
-<input type="radio" name = "board_pref" value = "bigger">(bigger)
-<br>
-<h5>Any notes on board choice?</h5>
-<input type="text" name = "board_notes">
-<br>
-<br>
-<h4>Please rate how much you enjoyed the session overall:</h4>
-<br>
-(should've gone for a bike ride)
-<input type="radio" name = "rate_overall_fun" required value = "1">
-<input type="radio" name = "rate_overall_fun" value = "2">
-<input type="radio" name = "rate_overall_fun" value = "3">
-<input type="radio" name = "rate_overall_fun" value = "4">
-<input type="radio" name = "rate_overall_fun" value = "5">(made my day!)<br>
-<br>
-<h4>The specific ratings below are optional, but the more you answer, the better:</h4>
-<br>
-How crowded was it?:<br>
-(just me and the marine mammals)
-<input type="radio" name = "rate_crowd_den" value = "1">
-<input type="radio" name = "rate_crowd_den" value = "2">
-<input type="radio" name = "rate_crowd_den" value = "3">
-<input type="radio" name = "rate_crowd_den" value = "4">
-<input type="radio" name = "rate_crowd_den" value = "5">(human obstacle course)
-<br>
-<br>
-How was the crowd's vibe?:<br>
-(grrr)
-<input type="radio" name = "rate_crowd_vibe" value = "1">
-<input type="radio" name = "rate_crowd_vibe" value = "2">
-<input type="radio" name = "rate_crowd_vibe" value = "3">
-<input type="radio" name = "rate_crowd_vibe" value = "4">
-<input type="radio" name = "rate_crowd_vibe" value = "5">(yeah!)
-<br>
-<br>
-How challenging were the waves for you?:<br>
-(easy)
-<input type="radio" name = "rate_wave_challenge" value = "1">
-<input type="radio" name = "rate_wave_challenge" value = "2">
-<input type="radio" name = "rate_wave_challenge" value = "3">
-<input type="radio" name = "rate_wave_challenge" value = "4">
-<input type="radio" name = "rate_wave_challenge" value = "5">(intense!)
-<br>
-<br>
-How FUN were the waves for you?:<br>
-(meh)
-<input type="radio" name = "rate_wave_fun" value = "1">
-<input type="radio" name = "rate_wave_fun" value = "2">
-<input type="radio" name = "rate_wave_fun" value = "3">
-<input type="radio" name = "rate_wave_fun" value = "4">
-<input type="radio" name = "rate_wave_fun" value = "5">(epic!)
-<br>
-<br>
-<h4>Other notes about your overall experience:</h4>
-<h5>(keep it tweet-sized: 140 char limit)</h5>
-<input type="text" name = "gen_notes">
-<!-- TODO: make this input bigger, and specify char limit -->
-<br>
-<input type="submit" value = "Add Entry to the Journal">
-</form>
-<br>
-<br>
-<br>
+
+    {% block bg %}
+    <style>
+        body {
+            background: url("../static/img/bg_swellLines_breaking.png") no-repeat center center fixed; 
+            -webkit-background-size: cover;
+            -moz-background-size: cover;
+            -o-background-size: cover;
+            background-size: cover;
+            background-position: bottom; 
+            background-position-y: 15%;
+        }
+
+    </style>
+    {% endblock %}
+
+<div class="content-container">
+
+	<h2>Enter info about your surf session:</h2>
+	<div id="entries-list">
+	<form action="/addEntryToDB" method="post">
+	<!-- implement start and end time again later. for now, datetime NOW -->
+	<!-- Date:<br>
+	<input type="date" name = "entry_date">
+	<br>
+	Start Time (as HH:MM with "AM" or "PM"):<br>
+	<input type="time" name="start_time">
+	<br>
+	End Time (as HH:MM with "AM" or "PM"):<br>
+	<input type="time" name="end_time"> -->
+	<!--  -->
+	<!--  -->
+	<h4> This entry will be automatically created with today's date and the current time.</h4>
+	<!-- <h5> Ability to specify past dates/ times will be implemented later.</h5>
+	 -->
+	<br>
+	<!-- location info -->
+	<br>
+	Beach Name:<br>
+	<select name = "loc_id">
+		{% for county in counties %}
+			<optgroup label="{{county[0]}}">
+				{% for loc in locations %}
+					{% if loc.county == county[0] %}
+					<option value="{{loc.id}}">{{loc.beach_name}}</option>
+					{% endif %}
+				{% endfor %}	
+			</optgroup>	
+		{% endfor %}
+	<br>
+	</select> (if not on the list, pick the nearest beach)
+	<br>
+	Spot Name:<br>
+	<input type="text" name = "spot_name"> (more specific, eg: patch, Sloat)
+	<br>
+	Did you go out with a buddy?<br>
+	<input type="text" name = "buddy_name"> (put their names here)
+	<br>
+	<br>
+	<!-- board info -->
+	Board Ridden:<br>
+	<select name = "board_id">
+		{% for category in categories %}
+			<optgroup label="{{category[0]}}">
+				{% for board in boards %}
+					{% if board.category == category[0] %}
+					<option value="{{board.id}}">{{board.nickname}}</option>
+					{% endif %}
+				{% endfor %}
+			</optgroup>	
+		{% endfor %}
+	</select>
+
+	<a href="/board_quiver" class="btn btn-sm btn-default" target="_blank">add a board to quiver</a> 
+	<br>
+
+	Did you wish you'd brought a different board?:<br>
+	<input type="radio" name = "board_pref" required value = "smaller">(smaller)
+	<input type="radio" name = "board_pref" value = "ok">(just right)
+	<input type="radio" name = "board_pref" value = "bigger">(bigger)
+	<br>
+	<h5>Any notes on board choice?</h5>
+	<input type="text" name = "board_notes">
+	<br>
+	<br>
+	<h4>Please rate how much you enjoyed the session overall:</h4>
+	<br>
+	(should've gone for a bike ride)
+	<input type="radio" name = "rate_overall_fun" required value = "1">
+	<input type="radio" name = "rate_overall_fun" value = "2">
+	<input type="radio" name = "rate_overall_fun" value = "3">
+	<input type="radio" name = "rate_overall_fun" value = "4">
+	<input type="radio" name = "rate_overall_fun" value = "5">(made my day!)<br>
+	<br>
+	<h4>The specific ratings below are optional, but the more you answer, the better:</h4>
+	<br>
+	How crowded was it?:<br>
+	(just me and the marine mammals)
+	<input type="radio" name = "rate_crowd_den" value = "1">
+	<input type="radio" name = "rate_crowd_den" value = "2">
+	<input type="radio" name = "rate_crowd_den" value = "3">
+	<input type="radio" name = "rate_crowd_den" value = "4">
+	<input type="radio" name = "rate_crowd_den" value = "5">(human obstacle course)
+	<br>
+	<br>
+	How was the crowd's vibe?:<br>
+	(grrr)
+	<input type="radio" name = "rate_crowd_vibe" value = "1">
+	<input type="radio" name = "rate_crowd_vibe" value = "2">
+	<input type="radio" name = "rate_crowd_vibe" value = "3">
+	<input type="radio" name = "rate_crowd_vibe" value = "4">
+	<input type="radio" name = "rate_crowd_vibe" value = "5">(yeah!)
+	<br>
+	<br>
+	How challenging were the waves for you?:<br>
+	(easy)
+	<input type="radio" name = "rate_wave_challenge" value = "1">
+	<input type="radio" name = "rate_wave_challenge" value = "2">
+	<input type="radio" name = "rate_wave_challenge" value = "3">
+	<input type="radio" name = "rate_wave_challenge" value = "4">
+	<input type="radio" name = "rate_wave_challenge" value = "5">(intense!)
+	<br>
+	<br>
+	How FUN were the waves for you?:<br>
+	(meh)
+	<input type="radio" name = "rate_wave_fun" value = "1">
+	<input type="radio" name = "rate_wave_fun" value = "2">
+	<input type="radio" name = "rate_wave_fun" value = "3">
+	<input type="radio" name = "rate_wave_fun" value = "4">
+	<input type="radio" name = "rate_wave_fun" value = "5">(epic!)
+	<br>
+	<br>
+	<h4>Other notes about your overall experience:</h4>
+	<h5>(keep it tweet-sized: 140 char limit)</h5>
+	<input type="text" name = "gen_notes">
+	<!-- TODO: make this input bigger, and specify char limit -->
+	<br>
+	<input type="submit" value = "Add Entry to the Journal">
+	</form>
+	<br>
+	<br>
+	<br>
+
+	</div>
 
 </div>
+
 {% endblock %}

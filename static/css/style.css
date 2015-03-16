@@ -20,15 +20,23 @@ div.navbar-header img {
 }
 
 .nav-lower-text, .nav-lower-text a{
-    color: rgb(62, 175, 190);
+    color: #3EAFBE;   
 }
 
 /* sub-navbar flashed messages */
 #flashes-main{
     float: right;
-    color: rgb(62, 175, 190);
+    font-weight: bold;
+    color: #FF8629;
     min-height: 0px; 
     margin-bottom: 0px; 
+}
+
+/*  put content in reduced opacity container */
+.content-container {
+  background-color:rgba(255, 255, 255,.45);
+  padding:1.5%;
+  margin-bottom:50px;
 }
 
 /* entries summary primary buttons */
@@ -39,6 +47,12 @@ div.navbar-header img {
 .btn-primary:hover{
     background: rgb(62, 175, 190);
 }
+
+/* icons for boards on entry details page */
+.icon-board img { 
+  height: 150px;
+}
+
 
 /* page bottom credit to magicseaweed */
 .msw { 

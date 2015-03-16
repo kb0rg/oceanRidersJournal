@@ -1,8 +1,21 @@
 {% extends 'base.html' %}
 {% block body %}
 
-<div id="entries-list">
+    {% block bg %}
+    <style>
+        body {
+             background: url("../static/img/bg_quiver.png") no-repeat center center fixed; 
+              -webkit-background-size: cover;
+              -moz-background-size: cover;
+              -o-background-size: cover;
+              background-size: cover;
+              background-position-y: 15%;
+        }
 
+    </style>
+    {% endblock %}
+
+<div class="content-container">
     <h2>{{username}}'s Quiver:</h2>
 
     <table class="table table-hover">
@@ -22,7 +35,14 @@
             {% for board in boards %}
         	<tr>    
             	<td>{{board.nickname}} </td>
-            	<td>{{board.length_ft}}' {{board.length_in}}"</td>
+                <td>
+                {% if board.length_ft %}
+                    {{board.length_ft}}'
+                {% endif %}
+                {% if board.length_in %}
+                	 {{board.length_in}}"
+                {% endif %}
+                </td>
             	<td>{{board.category}}</td>
             	<td>{{board.shaper}}</td>
             	<td>{{board.shape}}</td>
@@ -31,11 +51,9 @@
     	   {% endfor %}
         </tbody>
     </table>
+</div>
 
-<br>
-<br>
-<br>
-
+<div class="content-container">
     <form class="quiver" action="/addBoardToDB" method="post">
         <!-- 
         make input fields allow autofill if existing board info matches typing?
@@ -76,8 +94,6 @@
         <br>
         <input type="submit" value = "Add Board to your Quiver">
     </form>
-
-
 </div>
 
 {% endblock %}

@@ -1,63 +1,86 @@
 {% extends 'base.html' %}
 {% block body %}
 
-<h2>TO DO:<br>
-rewrite list to turn into an "about" page 
-</h2>
+    {% block bg %}
+    <style>
+        body {
+            background: url("../static/img/bg_compass.png") no-repeat center center fixed; 
+            -webkit-background-size: cover;
+            -moz-background-size: cover;
+            -o-background-size: cover;
+            background-size: cover;
+            background-position: bottom; 
+            background-position-y: 15%;
+        }
 
-<div>
-	<h3>Make a journal report for today's session:</h3>
-	<br>
-	(Date/ time automatically generated at time of entry)
-	
+    </style>
+    {% endblock %}
+
+
+<div class="content-container">
+
+
+	<h2>TO DO:<br>
+	rewrite list to turn into an "about" page 
+	</h2>
+
 	<div>
-		<h4>User-supplied inputs:</h4>
-		<ul>
-			<br>
-			<h4>Location</h4>
-			<li>choose from list of northern and central ca beaches</li>
-			<li>add spot notes: specific part of beach or other beach near existing option</li>
-			<br>
-			<h4>Board used:</h4>
-			<li>Choose from (or add board to) stored quiver</li>
-			<li>rate whether board was right size for the conditions</li>
-			<li>optional notes about board</li>
-			<br>
-			<h4>Subjective User Ratings:</h4>
-			<li>Crowd density</li>
-			<li>Crowd vibe</li>
-			<li>Challenge level of waves</li>
-			<li>Fun level of waves</li>
-			<li>Fun level of session overall</li>
-			<br>
-			<h4>Additional (optional) User input:</h4>
-			<li>Who you surfed with, if anyone</li>
-			<li>general notes on the session</li>
-			<br>
-		</ul>
+		<h3>Make a journal report for today's session:</h3>
+		<br>
+		(Date/ time automatically generated at time of entry)
+		
+		<div>
+			<h4>User-supplied inputs:</h4>
+			<ul>
+				<br>
+				<h4>Location</h4>
+				<li>choose from list of northern and central ca beaches</li>
+				<li>add spot notes: specific part of beach or other beach near existing option</li>
+				<br>
+				<h4>Board used:</h4>
+				<li>Choose from (or add board to) stored quiver</li>
+				<li>rate whether board was right size for the conditions</li>
+				<li>optional notes about board</li>
+				<br>
+				<h4>Subjective User Ratings:</h4>
+				<li>Crowd density</li>
+				<li>Crowd vibe</li>
+				<li>Challenge level of waves</li>
+				<li>Fun level of waves</li>
+				<li>Fun level of session overall</li>
+				<br>
+				<h4>Additional (optional) User input:</h4>
+				<li>Who you surfed with, if anyone</li>
+				<li>general notes on the session</li>
+				<br>
+			</ul>
+		</div>
+
+		<div></div>
+			<h4>API-generated data based on date, time, and location of entry</h4>
+			<ul>
+				<li>Swell height </li>
+				<li>Swell period </li>
+				<li>Swell direction </li>
+				<li>Wind speed</li>
+				<li>Wind direction</li>
+			</ul>
+		</div>
 	</div>
 
-	<div></div>
-		<h4>API-generated data based on date, time, and location of entry</h4>
-		<ul>
-			<li>Swell height </li>
-			<li>Swell period </li>
-			<li>Swell direction </li>
-			<li>Wind speed</li>
-			<li>Wind direction</li>
-		</ul>
-	</div>
+	<!-- about me/ bio -->
+
+	<!-- about hackbright/ the project/ technology used -->
+
+	<!-- thanks to mentors, advisor, teachers, TAs -->
+
+	<!-- thanks to friends and family -->
+
+	<!-- credit to artists of images used? -->
+
 </div>
 
-<!-- about me/ bio -->
 
-<!-- about hackbright/ the project/ technology used -->
-
-<!-- thanks to mentors, advisor, teachers, TAs -->
-
-<!-- thanks to friends and family -->
-
-<!-- credit to artists of images used? -->
 
 <!-- credit to the API -->
 <div class = "msw">
