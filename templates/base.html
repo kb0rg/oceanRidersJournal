@@ -14,71 +14,52 @@
         
         {% block bg %}{% endblock %}
 
-        <nav class="navbar navbar-inverse navbar-static-top">
-            
-            <div class="container-fluid">
-                <div class="navbar-header">
-                    <img src="/static/img/oceanrider_logo.png"><a class="navbar-brand" href="/">Ocean Riders' Journal</a>
-                </div>
-                <div class="navbar-collapse collapse" >
-                    <ul class="nav navbar-nav navbar-right">
-                        <li><a href="/about">Home/ About</a></li>               
-                        <li><a href="/login">Log In/ Register</a></li>
-                        <li><a href="/logout">Log Out</a></li>
-                    </ul>
-                </div>
-            </div>
+            <nav class="navbar navbar-inverse navbar-static-top">
 
-            <div class = "container-fluid" id = "nav-lower">
-                
-<!--                 <div class="btn-group btn-group-xs">
-                    <a href="/entries" class="btn btn-primary navbar-btn">view existing entries</a>
-                    <a href="/addEntryForm" class="btn btn-primary navbar-btn">create a new entry</a>
-                    <a href="/board_quiver" class="btn btn-primary navbar-btn">view/ edit quiver</a>
-                </div> -->
+                <div class="container-fluid">
+                    
+                    <div class="navbar-header">
+                        <img src="/static/img/oceanrider_logo.png"><a class="navbar-brand" href="/">Ocean Riders' Journal</a>
+                    </div> <!--  closes nav upper left -->
 
-                <div class = "nav-lower-text">
-                    <a href="/entries">view existing entries</a> | 
-                    <a href="/addEntryForm">create a new entry</a> | 
-                    <a href="/board_quiver">view/ edit quiver</a> |
+                    <div class="navbar-collapse collapse" >
+                        <ul class="nav navbar-nav navbar-right">
+                            <li><a href="/about">Home/ About</a></li>               
+                            <li><a href="/login">Log In/ Register</a></li>
+                            <li><a href="/logout">Log Out</a></li>
+                        </ul>
+                    </div> <!--  closes nav upper right -->
 
+                </div> <!--  closes nav upper container fluid -->
 
-                    {% with messages = get_flashed_messages() %}
-                        {% if messages %}
-                            {% for message in messages %}
-                                <div class="nav navbar navbar-right" id = "flashes-main">
+                <div class="container-fluid" id = "nav-lower">
 
-                                    {{message}}
-                                </div>
-                            {% endfor %}
-                        {% endif %}
-                    {% endwith %}
+                    <div class = "nav-lower-text">
+                        <a href="/entries">view existing entries</a> | 
+                        <a href="/addEntryForm">create a new entry</a> | 
+                        <a href="/board_quiver">view/ edit quiver</a> |
 
-                </div>
+                        {% with messages = get_flashed_messages() %}
+                            {% if messages %}
+                                {% for message in messages %}
+                                    <div class="nav navbar navbar-right" id = "flashes-main">
 
-            </div>
+                                        {{message}}
+                                    </div>
+                                {% endfor %}
+                            {% endif %}
+                        {% endwith %}
+                    </div> <!--  closes nav lower text -->
 
-        </nav>
+                </div> <!--  closes nav lower container fluid -->
 
+            </nav> <!--  closes all nav -->
 
-
-<!-- 
-want to show log-in/ log-out buttons only if not alread logged in/ out
-below seems to work for logout, but crashes at splash page enter button.
- -->     
-            {#
-                        {% if not session.user_id %}
-                           <li> <a href="{{ url_for('login') }}">Log In/ Register</a></li> 
-                        {% else %}
-                           <li> <a href="{{ url_for('logout') }}">Log Out</a></li> 
-                        {% endif %}              
-            #}
-
-
-        <div class="container">
+        <div class="container-fluid">
 
             {% block body %}{% endblock %}
 
-        </div>
+        </div> <!--  closes body block container fluid -->
+
     </body>
 </html>

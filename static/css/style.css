@@ -32,9 +32,16 @@ div.navbar-header img {
     margin-bottom: 0px; 
 }
 
+/*  main container-fluid class */
+.container-fluid{
+  padding-right: 46px;
+  padding-left: 46px;
+  
+}
+
 /*  put content in reduced opacity container */
 .content-container {
-  background-color:rgba(255, 255, 255,.45);
+  background-color:rgba(200, 200, 200, .75);
   padding:1.5%;
   margin-bottom:50px;
 }
