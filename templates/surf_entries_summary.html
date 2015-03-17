@@ -77,14 +77,22 @@ $(function () {
             text: 'Ratings by Swell Size and Direction'
         },
 
+        tooltip: {
+            formatter: function () {
+                return this.x + 'ft @' + this.y +
+                    '°' + ' -> rated: ' + this.point.z;
+            }
+        },
+
         series: [{
             data: data.results,
-            name: 'testing'
+            name: 'Ratings of Overall Fun'
         },
-        {
-            data: data.results,
-            name: 'testing2'
-        }],
+        // {
+        //     data: data.results,
+        //     name: 'testing2'
+        // }
+        ],
 
         xAxis: {
             title: {
@@ -97,6 +105,12 @@ $(function () {
         },
 
         yAxis: {
+            labels: {
+                formatter: function() {
+                    return this.value + '°';
+                }
+            }, 
+
             title: {
                 enabled: true,
                 text: 'Swell Direction in Degrees',
