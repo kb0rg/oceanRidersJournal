@@ -100,7 +100,7 @@ def load_entries(session):
 
     user_id|datetime start|loc_id|spot_name|go_out|
     swell1_ht|swell1_per|swell1_dir_deg|swell1_arrow_deg|swell1_dir_comp|
-    wind_speed|wind_gust|wind_arrow_deg|
+    wind_speed|wind_gusts|wind_dir_deg|wind_arrow_deg|
     board_id|board_pref|board_notes|buddy|gen_notes
     rate_wave_challenge|rate_wave_fun|rate_crowd_den|rate_crowd_vibe|rate_overall_fun
 
@@ -115,7 +115,7 @@ def load_entries(session):
 
             (user_id, datetime_start, loc_id, spot_name, go_out,
             swell1_ht, swell1_per, swell1_dir_deg_global, swell1_arrow_deg, swell1_dir_comp, 
-            wind_speed, wind_gust, wind_arrow_deg, 
+            wind_speed, wind_gust, wind_dir_deg, wind_arrow_deg,
             board_id, board_pref, board_notes, buddy_name, gen_notes,
             rate_wave_challenge, rate_wave_fun, rate_crowd_den, rate_crowd_vibe,
             rate_overall_fun) = row
@@ -124,12 +124,6 @@ def load_entries(session):
             date_time_start = datetime.strptime(datetime_start, "%Y-%m-%d %H:%M")
             ## temp using same start and end time. 
             date_time_end = date_time_start
-
-            ## convert string to Boolean:
-            if go_out == "T":
-                go_out = True
-            else:
-                go_out = False
 
             swell1_dir_deg_global = float(swell1_dir_deg_global)
             ## convert from global deg back to deg as msw would provide
@@ -142,7 +136,8 @@ def load_entries(session):
                             loc_id=loc_id, spot_name=spot_name, go_out=go_out,
                             swell1_ht=swell1_ht, swell1_per=swell1_per, swell1_dir_deg_global=swell1_dir_deg_global,
                             swell1_dir_deg_msw=swell1_dir_deg_msw, swell1_arrow_deg=swell1_arrow_deg, swell1_dir_comp=swell1_dir_comp,
-                            wind_speed=wind_speed, wind_gust=wind_gust, wind_arrow_deg=wind_arrow_deg,
+                            wind_speed=wind_speed, wind_gust=wind_gust,
+                            wind_dir_deg = wind_dir_deg, wind_arrow_deg=wind_arrow_deg, 
                             board_id=board_id, board_pref=board_pref, board_notes=board_notes,
                             buddy_name=buddy_name, gen_notes=gen_notes,
                             rate_wave_challenge=rate_wave_challenge, rate_wave_fun=rate_wave_fun,

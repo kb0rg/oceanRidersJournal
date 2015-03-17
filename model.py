@@ -119,7 +119,7 @@ class Entry(Base):
     date_time_start = Column(DateTime, nullable = False)
     date_time_end = Column(DateTime, nullable = False)
     ## whether surfed or just observed (for future feature expansion)
-    go_out = Column(Boolean, nullable = True)
+    go_out = Column(String(1), nullable = False)
 
     ## loc_id grabbed from dropdown (uses loc table's loc_id)
     loc_id = Column(Integer, ForeignKey('locations.id'))
@@ -186,14 +186,13 @@ def main():
     prints helpful info in console for db rebuilding.
     """
     
-    print "\nWelcome to your surfjournal's model.\n" + \
-    "I suspect you are here to rebuild the database schema.\n" + \
-    "AGAIN\n" + \
-    "Here we go.\n"
+    print "\nWelcome to kborg's surfjournal model.\n"
     print "*" * 13, "\n"
     print "To proceed rebuilding the schema, run the following code:\n" + \
     "engine = create_engine(\"sqlite:///db_surfjournal.db\", echo=True)\n" + \
     "Base.metadata.create_all(engine)\n"
+    print "*" * 13
+    print "When complete, exit python and run python db_seed.py in the terminal."
     print "*" * 13, "\n"
     print "Otherwise please exit now."
 

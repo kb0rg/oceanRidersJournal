@@ -19,7 +19,7 @@ a pipe-separated file of example journal entry information, to get things rollin
 
 user_id|datetime start|loc_id|spot_name|go_out|
 swell1_ht|swell1_per|swell1_dir_deg_global|swell1_arrow_deg|swell1_dir_comp|
-wind_speed|wind_gusts|wind_arrow_deg|
+wind_speed|wind_gusts|wind_dir_deg|wind_arrow_deg|wind_dir_comp|
 board_id|board_pref|board_notes|buddy|gen_notes
 rate_wave_challenge|rate_wave_fun|rate_crowd_den|rate_crowd_vibe|rate_overall_fun
 
