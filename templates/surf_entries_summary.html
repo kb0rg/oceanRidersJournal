@@ -16,6 +16,11 @@
     </style>
     {% endblock %}
 
+<div class="content-container" id = "chart">
+
+</div>
+
+
 <div class="content-container">
 
     <h3> Welcome back {{username}}! Here's a summary of your journal entries:</h3>
@@ -56,5 +61,58 @@
     <br>
     <h5 class = "msw">Surf condtion data from magicseaweed.com</h5> 
 </div>
+
+<script type="text/javascript">
+
+$(function () {
+    $.get('/entries_data', function (data) {
+        $('#chart').highcharts({
+
+        chart: {
+            type: 'bubble',
+            zoomType: 'xy'
+        },
+
+        title: {
+            text: 'Ratings by Swell Size and Direction'
+        },
+
+        series: [{
+            data: data.results,
+            name: 'testing'
+        },
+        {
+            data: data.results,
+            name: 'testing2'
+        }],
+
+        xAxis: {
+            title: {
+                enabled: true,
+                text: 'Swell Height in Feet',
+                style: {
+                    fontWeight: 'bold'
+                }
+            }
+        },
+
+        yAxis: {
+            title: {
+                enabled: true,
+                text: 'Swell Direction in Degrees',
+                style: {
+                    fontWeight: 'bold'
+                }
+            }
+        },
+
+
+        });
+
+    })
+    
+});
+
+</script>
 
 {% endblock %}

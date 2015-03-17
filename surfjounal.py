@@ -1,5 +1,5 @@
 ## controller file for kborg's surf journal webapp
-from flask import Flask, request, session, render_template, g, redirect, url_for, flash
+from flask import Flask, request, session, render_template, g, redirect, url_for, flash, jsonify
 import jinja2
 import os
 import requests
@@ -55,6 +55,7 @@ def go_to_addEntry():
     ## and set of counties for organizing locations dropdown
     loc_list = model.session.query(model.Location).all()
     loc_county_list = set(model.session.query(model.Location.county).all())
+    pprint(loc_county_list)
 
     ## get all boards for current user from db and pass to template for dropdown
     ## and set of board categorys for organizing boards dropdown
@@ -159,9 +160,38 @@ def list_entries():
 
     ## get all entries and username for current user from db and pass to template for display
     entry_list = model.session.query(model.Entry).filter_by(user_id=g.user_id)
+    pprint(entry_list[7])
     username = model.session.query(model.User).filter_by(id=g.user_id).one().username
     # print username
     return render_template("surf_entries_summary.html", entries = entry_list, username = username)
+
+@app.route("/entries_data")
+def list_entries_data():
+    """
+    [{
+            data: [[97, 36, 79], [50, 20, 84]]
+        }, {
+            data: [[25, 10, 87], [10, 20, 3]]
+        }]
+    """
+
+    entry_list = model.session.query(model.Entry).filter_by(user_id=g.user_id)
+
+    # loc_list = set(model.session.query(model.Entry.loc_id).all())
+    # pprint(loc_list)
+
+    results = []
+
+    for entry in entry_list:
+        x = entry.swell1_ht
+        y = entry.swell1_dir_deg_global
+        size = entry.rate_overall_fun
+        if not isinstance(size, int ):
+            size = 0
+        results.append([x, y, size])
+
+    return jsonify(results=results)
+
 
 @app.route("/entryDetails/<int:id>")
 def list_entry_details(id):
