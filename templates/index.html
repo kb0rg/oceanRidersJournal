@@ -6,14 +6,14 @@
         <title>Ocean Riders' Journal</title>
         <style>
             body {
-                background-image: url("/static/img/temp_waves.jpg");
+                background-image: url("/static/img/cover_waves.png");
                 background-size: cover;
                 -webkit-background-size: cover;
                 -moz-background-size: cover;
             }
 
             div.inner.cover img {
-                width: 150px;
+                width: 200px;
             }
         </style>
     </head>
@@ -27,9 +27,9 @@
           <div class="inner cover">
               <img src="/static/img/oceanrider_logo.png">
               <h1 class="cover-heading">Ocean Riders' Journal</h1>
-              <p class="lead">placeholder surfer ipsum flotsam jetsam placeholder
-              <p class="lead">
-              <a href="/about" class="btn btn-lg btn-default">What Do I Do?!</a>
+              <p class="lead"> "You and I are all as much continuous with the physical universe as a wave is continuous with the ocean."
+              - Alan Watts </p>
+              <a href="/about" class="btn btn-lg btn-default">enter</a>
               </p>
               {% with messages = get_flashed_messages() %}
                 {% if messages %}
@@ -40,11 +40,11 @@
               {% endwith %}
           </div>
 
-          <div class="mastfoot">
+<!--           <div class="mastfoot">
             <div class="inner">
                 <p>Copyright? **If so, then put Something here about kborg and hackbright**</p>
             </div>
-          </div>
+          </div> -->
 
         </div>
 

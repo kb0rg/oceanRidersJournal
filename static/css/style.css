@@ -1,11 +1,12 @@
 /* css style sheet for base.html and pages inheriting from base */
 
-/* navbar image scale and placement */
+/* navbar logo image scale and placement */
 div.navbar-header img {
-    width: 30px;
+    width: 50px;
     float: left;
     margin-top: 7px;
     margin-right: 7px;
+    z-index: -15px;
 }
 
 /* navbar links placement */
@@ -36,7 +37,7 @@ div.navbar-header img {
 .container-fluid{
   padding-right: 46px;
   padding-left: 46px;
-  
+
 }
 
 /*  put content in reduced opacity container */
@@ -44,6 +45,10 @@ div.navbar-header img {
   background-color:rgba(200, 200, 200, .75);
   padding:1.5%;
   margin-bottom:50px;
+}
+
+/*  content container title row text formatting */
+#row-title{
 }
 
 /*  table hover styling */
