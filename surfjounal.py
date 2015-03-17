@@ -87,6 +87,7 @@ def add_entry():
     ## get info from user input
     loc_id = request.form.get("loc_id")
     spot_name = request.form.get("spot_name")
+    go_out = request.form.get("go_out")
     buddy_name = request.form.get("buddy_name")
     board_id = request.form.get("board_id")
     board_pref = request.form.get("board_pref")
@@ -131,7 +132,7 @@ def add_entry():
     ## add info from user and api to this instance of model.Entry
     new_entry = model.Entry(user_id = user_id,
                             date_time_start = date_time_start, date_time_end=date_time_end,
-                            loc_id = loc_id, spot_name = spot_name, buddy_name = buddy_name,
+                            loc_id = loc_id, spot_name = spot_name, go_out = go_out, buddy_name = buddy_name,
                             swell1_ht = swell1_ht, swell1_per = swell1_per, swell1_dir_deg_msw = swell1_dir_deg_msw,
                             swell1_dir_comp = swell1_dir_comp, swell1_dir_deg_global =swell1_dir_deg_global, 
                             swell1_arrow_deg = swell1_arrow_deg,
@@ -167,7 +168,10 @@ def list_entries():
 
 @app.route("/entries_data")
 def list_entries_data():
+
     """
+    sends json to the entry_details route to render bubble chart.
+    format needed by hicharts:
     [{
             data: [[97, 36, 79], [50, 20, 84]]
         }, {
@@ -175,8 +179,12 @@ def list_entries_data():
         }]
     """
 
+    ## get all entries for current user from db and pass to template for display
     entry_list = model.session.query(model.Entry).filter_by(user_id=g.user_id)
-
+    
+    # entry_list_oceanBeach = entry_list.filter_by(loc_id=1).all()
+    # pprint(entry_list_oceanBeach)
+    
     # loc_list = set(model.session.query(model.Entry.loc_id).all())
     # pprint(loc_list)
 

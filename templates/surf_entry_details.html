@@ -23,10 +23,15 @@
         {% if entry.spot_name %}
             ({{entry.spot_name}})
         {% endif %}
+        {% if entry.go_out == "N" %}
+            (condition check: did not go out)
+        {% endif %}
         {% if entry.buddy_name %}
             with {{entry.buddy_name}}
         {% else %}
+            {% if entry.go_out == "Y" %}
             (Solo)
+            {% endif %}
         {% endif %}
         </h3>
 
@@ -91,9 +96,9 @@
              
             <tbody>
                 <tr>    
-                    <td><div title="{{entry.swell1_dir_deg_global}} {{entry.swell1_dir_comp}}" class="msw-swa msw-swa-{{entry.swell1_arrow_deg}}"> </div>
-                        {{entry.swell1_ht}} @ {{entry.swell1_per}} sec</td>
-                    <td><div title="{{entry.wind_dir_deg}} {{entry.wind_dir_comp}}" class="msw-ssa msw-ssa-{{entry.wind_arrow_deg}}"> </div> <br> {{entry.wind_speed}} ({{entry.wind_gust}})</td>
+                    <td><div title="{{entry.swell1_dir_deg_global}}&deg; {{entry.swell1_dir_comp}}" class="msw-swa msw-swa-{{entry.swell1_arrow_deg}}"> </div>
+                        {{entry.swell1_ht}} ft. @ {{entry.swell1_per}} sec</td>
+                    <td><div title="{{entry.wind_dir_deg}}&deg;" class="msw-ssa msw-ssa-{{entry.wind_arrow_deg}}"> </div> <br> {{entry.wind_speed}} ({{entry.wind_gust}})</td>
                 </tr>
             </tbody>
         </table>
@@ -121,8 +126,11 @@
                 Crowd vibe: {{crowd_vibe_dict[entry.rate_crowd_vibe]}}<br>
             {% endif %}
 
-            {% if entry.rate_overall_fun %}
-                Overall fun level: {{overall_fun_dict[entry.rate_overall_fun]}}<br>
+            Overall fun level:
+            {% if entry.go_out == "N" %}
+                looked {{overall_fun_dict[entry.rate_overall_fun]}} (condition check)
+            {% else %}
+                {{overall_fun_dict[entry.rate_overall_fun]}} 
             {% endif %}
         </h4>
     </div>

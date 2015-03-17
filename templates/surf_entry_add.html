@@ -56,6 +56,11 @@
 	Spot Name:<br>
 	<input type="text" name = "spot_name"> (more specific, eg: patch, Sloat)
 	<br>
+	Did you go out?
+	<input type="radio" name = "go_out" required value = "Y"> Yes!
+	<input type="radio" name = "go_out" value = "N"> No (I just checked the conditions)
+	<br>
+	<br>
 	Did you go out with a buddy?<br>
 	<input type="text" name = "buddy_name"> (put their names here)
 	<br>
@@ -87,13 +92,15 @@
 	<br>
 	<br>
 	<h4>Please rate how much you enjoyed the session overall:</h4>
+	(or how good it looked, if you didn't go out)
 	<br>
 	(should've gone for a bike ride)
 	<input type="radio" name = "rate_overall_fun" required value = "1">
 	<input type="radio" name = "rate_overall_fun" value = "2">
 	<input type="radio" name = "rate_overall_fun" value = "3">
 	<input type="radio" name = "rate_overall_fun" value = "4">
-	<input type="radio" name = "rate_overall_fun" value = "5">(made my day!)<br>
+	<input type="radio" name = "rate_overall_fun" value = "5">(made my day!)
+	<br>
 	<br>
 	<h4>The specific ratings below are optional, but the more you answer, the better:</h4>
 	<br>
