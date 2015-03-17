@@ -184,7 +184,7 @@ def list_entries_data():
     
     # entry_list_oceanBeach = entry_list.filter_by(loc_id=1).all()
     # pprint(entry_list_oceanBeach)
-    
+
     # loc_list = set(model.session.query(model.Entry.loc_id).all())
     # pprint(loc_list)
 
@@ -315,12 +315,13 @@ def show_login():
     display log-in/ register form.
     """
 
-    ## flash message if user is logged in and goes back to login page
+    ## flash message and stay on same page if user is logged in and tries to go back to login page
     if g.user_id:
         username = model.session.query(model.User).filter_by(id=g.user_id).one().username
         flash("Hey %s! You're already logged in!" % username, "error")
-
-    return render_template("login.html")
+        return redirect(redirect_url())
+    else:
+        return render_template("login.html")
 
 @app.route("/login", methods=["POST"])
 def login():
@@ -391,6 +392,15 @@ def logout():
         flash("You can't log out, you're not logged in! Please log in to use the journal.", "error")
         return render_template("login.html")
 
+def redirect_url(default='index'):
+
+    """
+    flask helper function to redirect back to same page.
+    """
+
+    return request.args.get('next') or \
+           request.referrer or \
+           url_for(default)
 
 """
 TODO before deploying:
