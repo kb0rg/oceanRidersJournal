@@ -55,44 +55,46 @@
 
 <div class="content-container">
     <form class="quiver" action="/addBoardToDB" method="post">
-        <!-- 
-        make input fields allow autofill if existing board info matches typing?
-     -->
         <h3>Add a Board to your Quiver:</h3>
+
+        <div class = "form-group">
         Board's nickname:<br>
             <input type="text" name = "nickname" required placeholder="(name your board!)">
-        <br>
-    <!--
-        how to provide a set list to feed into dropdown?
-        cat_list == [longboard, shortboard, fish, gun, SUP, other]
-     -->    
-        <br>
+        </div>
+  
+        <div class = "form-group">
         Board Type:<br>
-            <select name = "category" required>         
-            <option value="longboard">longboard</option>
-            <option value="shortboard">shortboard</option>
-            <option value="fish">fish</option>
-            <option value="gun">gun</option>
-            <option value="SUP">SUP</option>
-            <option value="other">other</option>
+            <select name = "category" required>  
+            {% for category in categories %}     
+            <option value="category">{{category}}</option>
+           {% endfor %}
             </select>
-        <!-- option to add category if "other"? -->
-        <br>
+        <div>
+
         <!-- length: make input boxes smaller or convert to dropdowns? -->
+        <div class = "form-group">
         Length:<br>
             <input type="text" name = "length_ft" size = "5" placeholder="#">feet <input type="text" name = "length_in" size = "5" placeholder="#">inches
-        <br>
-        Shaper:<br>
-            <input type="text" name = "shaper" placeholder="(Shaper's Name)">
-        <br>
+        </div>
+
+        <div class = "form-group">
         Model or Description:<br>
             <input type="text" name = "shape" required placeholder="(Superfish, custom..?)">
-        <br>
+        </div>
+
+        <div class = "form-group">
+        Shaper:<br>
+            <input type="text" name = "shaper" placeholder="(Shaper's Name)">
+        </div>
+
+        <div class = "form-group">
         Fin Setup:<br>
             <input type="text" name = "fins" placeholder="(2+1, singlefin..?)">      
-        <br>
-        <br>
+        </div>
+
+        <div class = "form-group">
         <input type="submit" value = "Add Board to your Quiver">
+        </div>
     </form>
 </div>
 

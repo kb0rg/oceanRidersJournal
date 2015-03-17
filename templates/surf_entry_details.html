@@ -106,23 +106,23 @@
     <div>
         <h4>
             {% if entry.rate_wave_challenge %}
-                Challenge level: {{entry.rate_wave_challenge}}<br>
+                Wave challenge level: {{wave_challenge_dict[entry.rate_wave_challenge]}}<br>
             {% endif %}
 
             {% if entry.rate_wave_fun %}
-                Wave fun level: {{entry.rate_wave_fun}}<br>
+                Wave fun level: {{wave_fun_dict[entry.rate_wave_fun]}}<br>
             {% endif %}
 
             {% if entry.rate_crowd_den %}
-                The crowd density was: {{entry.rate_crowd_den}}<br>
+                Crowd density: {{crowd_den_dict[entry.rate_crowd_den]}}<br>
             {% endif %}
 
             {% if entry.rate_crowd_vibe %}
-                The crowd vibe was: {{entry.rate_crowd_vibe}}<br>
+                Crowd vibe: {{crowd_vibe_dict[entry.rate_crowd_vibe]}}<br>
             {% endif %}
 
             {% if entry.rate_overall_fun %}
-                Your overall enjoyment was: {{entry.rate_overall_fun}}<br>
+                Overall fun level: {{overall_fun_dict[entry.rate_overall_fun]}}<br>
             {% endif %}
         </h4>
     </div>

@@ -175,10 +175,43 @@ def list_entry_details(id):
         flash("Please log in", "warning")
         # return redirect(url_for("index"))
 
+    wave_challenge_dict = {1 : "easy",
+                            2 : "easy plus a little juice",
+                            3 : "just right/ neutral",
+                            4 : "little bit of a stretch",
+                            5 : "super intense"}
+
+    wave_fun_dict = {1 : "meh",
+                            2 : "kind of alright",
+                            3 : "just right/ neutral",
+                            4 : "fun!",
+                            5 : "epic!"}
+
+    crowd_den_dict = {1 : "just me and the marine mammals",
+                        2 : "lots of space",
+                        3 : "manageable lineup",
+                        4 : "kind of crowded",
+                        5 : "human obstacle course"}
+
+    crowd_vibe_dict = {1 : "grrrr", 
+                        2 : "arrgh",
+                        3 : "meh",
+                        4 : "alright!",
+                        5 : "wooooo!"}
+
+    overall_fun_dict = {1 : "should've gone for a bike ride",
+                            2 : "not too bad",
+                            3 : "alright/ neutral",
+                            4 : "pretty fun",
+                            5 : "made my day!"}
+
     ## get all fields from db for entry selected and pass to template for display
     entry = model.session.query(model.Entry).filter_by(id = id).one()
     # print entry
-    return render_template("surf_entry_details.html", entry = entry)
+    return render_template("surf_entry_details.html", entry = entry, 
+                            wave_challenge_dict = wave_challenge_dict, wave_fun_dict = wave_fun_dict,
+                            crowd_vibe_dict = crowd_vibe_dict, crowd_den_dict = crowd_den_dict,
+                            overall_fun_dict = overall_fun_dict)
 
 @app.route("/board_quiver")
 def edit_quiver():
@@ -192,13 +225,16 @@ def edit_quiver():
         flash("You must be logged in to add or view your boards.", "warning")
         return redirect("/about")
 
+    ## make category list to pass to dropdown
+    category_list = ["longboard", "shortboard", "fish", "gun", "SUP", "other"]
+
     ## get all boards and username for current user from db and pass to template for display
     board_list = model.session.query(model.Board).filter_by(user_id=g.user_id)
     username = model.session.query(model.User).filter_by(id=g.user_id).one().username
     # print board_list
     # print username
 
-    return render_template("board_quiver.html", boards = board_list, username = username)
+    return render_template("board_quiver.html", boards = board_list, username = username, categories = category_list)
 
 @app.route("/addBoardToDB", methods=["POST"])
 def add_board():

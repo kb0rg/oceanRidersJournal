@@ -39,6 +39,15 @@ div.navbar-header img {
   margin-bottom:50px;
 }
 
+/*  table hover styling */
+.table-hover tbody tr:hover td, .table-hover tbody tr:hover th {
+  background-color: rgba(62,175,190,.5);
+/*  background-color: #3EAFBE;
+*/
+/*  background-opacity: .1;
+*/
+}
+
 /* entries summary primary buttons */
 .btn-primary {
   background-color: #007C7D;
