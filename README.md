@@ -9,15 +9,11 @@ Ocean Rider’s Journal is a place for Northern and Central California surfers t
 
 ### Technology
 
-Ocean Rider’s Journal uses Python, Flask, Jinja2, SQLite, SQLAlchemy, HTML5, CSS, highcharts.js, and Bootstrap.
-Weather data is from the magicseaweed.com API.
+Ocean Rider’s Journal uses a Python controller and a Flask web framework. The SQLite database collects information provided by users about their surf sessions, the boards they ride, and the wind and swell conditions at the time of each journal entry. Weather data is gathered from the magicseaweed.com API. 
 
+Python, Flask, Jinja2, SQLite, SQLAlchemy, HTML5, CSS, highcharts.js, and Bootstrap. 
 (Dependencies are listed in requirements.txt)
 
-
-##### Database
-
-##### Frontend
 
 ##### Screengrabs
 
@@ -29,8 +25,10 @@ Weather data is from the magicseaweed.com API.
 ![QuiverAddBoardExample](https://raw.githubusercontent.com/kb0rg/hb_project/master/screengrabs/sg04_add.png)
 
 
+##### Contact Me
+
 Connect with the developer: www.linkedin.com/in/www.linkedin.com/in/kborges
 
-##### Credits
+##### Acknowledgements
 
-Many thanks to my mentors, all the Hackbright teachers and TAs (and especially my advisor Katie LeFevre), and all the friends and family who encouraged me to make the jump to Hackbright. 
+Many thanks to all the amazing Hackbright teachers and TAs (especially my advisor Katie LeFevre), my mentors, and the irreplaceable collection of friends and family who encouraged me to make the jump to Hackbright. 
