@@ -21,7 +21,9 @@ div.navbar-header img {
 }
 
 .nav-lower-text, .nav-lower-text a{
-    color: #3EAFBE;   
+/*    color: #3EAFBE;  
+*/
+  color: #7EC0C9;
 }
 
 /* sub-navbar flashed messages */
@@ -47,9 +49,6 @@ div.navbar-header img {
   margin-bottom:50px;
 }
 
-/*  content container title row text formatting */
-#row-title{
-}
 
 /*  table hover styling */
 .table-hover tbody tr:hover td, .table-hover tbody tr:hover th {
@@ -92,10 +91,36 @@ div.navbar-header img {
 }
 
 /* add board form */
-.quiver{
-
-  
+.quiver{  
 }
+
+/* bootstrap grid row formatting */
+.title-center{
+  text-align: center;
+}
+
+#entry-form-rating-overall{
+  margin-top:20px;
+  margin-bottom:50px;
+}
+
+#entry-form-ratings-specific{
+  margin-top:100px;
+  margin-bottom:10px;
+}
+
+#entry-notes-input{
+  margin-top:20px;
+}
+
+#entry-form-submit{
+  margin-top:20px;
+}
+
+.col-md-10 col-board{
+  align-items: center;
+}
+
 
 /* entry details MSW info table */
 .table-nonfluid {
