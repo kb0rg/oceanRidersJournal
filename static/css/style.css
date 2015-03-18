@@ -73,6 +73,11 @@ div.navbar-header img {
   height: 150px;
 }
 
+/* icons for boards on quiver page */
+.icon-board-sm img { 
+  height: 75px;
+}
+
 
 /* page bottom credit to magicseaweed */
 .msw { 
