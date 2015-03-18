@@ -54,48 +54,91 @@
 </div>
 
 <div class="content-container">
-    <form class="quiver" action="/addBoardToDB" method="post">
-        <h3>Add a Board to your Quiver:</h3>
+    <form class="form" action="/addBoardToDB" method="post">
 
-        <div class = "form-group">
-        Board's nickname:<br>
-            <input type="text" name = "nickname" required placeholder="(name your board!)">
-        </div>
-  
-        <div class = "form-group">
-        Board Type:<br>
-            <select name = "category" required>  
-            {% for category in categories %}     
-            <option value="category">{{category}}</option>
-           {% endfor %}
-            </select>
-        <div>
+        <div class="row"> <!-- top row -->
 
-        <!-- length: make input boxes smaller or convert to dropdowns? -->
-        <div class = "form-group">
-        Length:<br>
-            <input type="text" name = "length_ft" size = "5" placeholder="#">feet <input type="text" name = "length_in" size = "5" placeholder="#">inches
-        </div>
+                <span class="title-center">
+                    <h3>Add a Board to your Quiver:</h3>
+                </span>
 
-        <div class = "form-group">
-        Model or Description:<br>
-            <input type="text" name = "shape" required placeholder="(Superfish, custom..?)">
-        </div>
+        </div> <!-- closes top row -->
 
-        <div class = "form-group">
-        Shaper:<br>
-            <input type="text" name = "shaper" placeholder="(Shaper's Name)">
-        </div>
+        <div class="row"> <!-- bot row -->
 
-        <div class = "form-group">
-        Fin Setup:<br>
-            <input type="text" name = "fins" placeholder="(2+1, singlefin..?)">      
-        </div>
+                <div class="col-md-4"> <!-- left col -->
 
-        <div class = "form-group">
-        <input type="submit" value = "Add Board to your Quiver">
-        </div>
+                    <div class = "form-group">
+                        <label for="nickname">Board's nickname:</label>
+                        <input type="text" name = "nickname" required maxlength="30" size="30" placeholder="(name your board!)">
+                    </div>
+
+                    <div class = "form-group">
+                        <label for="category">Board Type:</label>
+                        <select name = "category" required>  
+                        {% for category in categories %}     
+                        <option value="category">{{category}}</option>
+                       {% endfor %}
+                        </select>
+                    </div>
+
+
+                    <div class = "form-group">            
+                    <h5>Length:</h5>
+                        <label for="length_ft">feet</label>
+                        <input type="text" id = "length_ft" maxlength="2" size="2" placeholder="#"> 
+                        <label for="length_in">in.</label>
+                        <input type="text" name = "length_in" maxlength="2" size="2"  placeholder="#">
+                    </div>
+
+                </div> <!-- closes left col -->
+
+
+                <div class="col-md-4"> <!-- mid col -->
+
+                    <div class = "form-group">
+                        <label for="shaper">Shaper:</label>
+                        <input type="text" id = "shaper" maxlength="30" size="30" placeholder="(Shaper's Name)">
+                    </div>
+
+                    <div class = "form-group">
+                        <label for="fins">Fin Setup:</label>
+                        <input type="text" id = "fins" maxlength="30" size="30" placeholder="(2+1, singlefin..?)">      
+                    </div>
+
+                </div> <!-- closes mid col -->
+
+                <div class="col-md-4"> <!-- right col -->
+
+                    <div class="row"> <!-- right-top row -->
+
+                        <div class = "form-group">
+                            <label for="shape">Model or Description:</label>
+                            <input type="text" id = "shape" required maxlength="30" size="30" placeholder="(Superfish, custom..?)">
+                        </div>
+
+                    </div> <!-- closes right-top row -->
+
+                    <div class="row"> <!-- right-mid row -->
+                        <!-- spacer -->
+                    </div> <!-- closes right-mid row -->
+
+                    <div class="row"> <!-- right-bot row -->
+
+                        <div class = "form-group"id = "quiver-form-submit">
+                            <input type="submit" value = "Add Board to your Quiver">
+                        </div>
+
+                    </div> <!-- closes right-bot row -->
+
+
+                </div> <!-- closes right col -->
+
+        </div> <!-- closes bot row -->
+
+
     </form>
-</div>
+
+</div> <!-- closes content container -->
 
 {% endblock %}

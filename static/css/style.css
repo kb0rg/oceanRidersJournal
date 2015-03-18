@@ -90,9 +90,6 @@ div.navbar-header img {
     margin-right: 7px; 
 }
 
-/* add board form */
-.quiver{  
-}
 
 /* bootstrap grid row formatting */
 .title-center{
@@ -100,12 +97,12 @@ div.navbar-header img {
 }
 
 #entry-form-rating-overall{
-  margin-top:20px;
-  margin-bottom:50px;
+  margin-top:50px;
+  margin-bottom:25px;
 }
 
 #entry-form-ratings-specific{
-  margin-top:100px;
+  margin-top:75px;
   margin-bottom:10px;
 }
 
@@ -115,6 +112,11 @@ div.navbar-header img {
 
 #entry-form-submit{
   margin-top:20px;
+}
+
+#quiver-form-submit{
+  margin-top:75px;
+  margin-left:200px;
 }
 
 .col-md-10 col-board{
