@@ -15,80 +15,43 @@
         }
     </style>
     {% endblock %}
+
 <div class="content-container">
 
+    <div class="row"> <!-- most of the content -->
 
-    <div class="row"> <!-- top row -->
+        <div class="col-md-3"> <!-- col-left -->
 
-        <!-- when, where, with whom -->
-        <div class="col-md-9"> <!-- beach col -->
-
-            <h2>{{entry.loc.beach_name}}
-            {% if entry.spot_name %}
-                <small>({{entry.spot_name}})</small>
-            {% endif %}
-            </h2>
-
-            <h3>{{entry.date_time_start.strftime('%m/%d/%Y')}}
-                <small>{{entry.date_time_start.strftime('%I:%m %p')}}</small>
-            {% if entry.go_out == "N" %}
-                <small>(condition check: did not go out)</small>
-            {% endif %}
-            </h3>
-
-            
-            {% if entry.buddy_name %}
-                <h3>(went out with {{entry.buddy_name}})</h3>
-            {% else %}
-                {% if entry.go_out == "Y" %}
-                <h2><small>(Went out solo)</small></h2>
+            <div class="row"> <!-- col-left upper row -->
+                <h2>{{entry.loc.beach_name}}
+                {% if entry.spot_name %}
+                    <small>({{entry.spot_name}})</small>
                 {% endif %}
-            {% endif %}
+                </h2>
 
-        </div> <!-- closes beach col -->
+                <h3>{{entry.date_time_start.strftime('%m/%d/%Y')}}
+                    <small>{{entry.date_time_start.strftime('%I:%m %p')}}</small>
+                {% if entry.go_out == "N" %}
+                <h3><small>(condition check: did not go out)</small></h3>                    
+                {% endif %}
+                </h3>
+            </div> <!-- closes col-left upper row -->
 
+            <div class="row"> <!-- col-left upper row2 -->
+                    {% if entry.buddy_name %}
+                        <h3>(went out with {{entry.buddy_name}})</h3>
+                    {% else %}
+                        {% if entry.go_out == "Y" %}
+                        <h2><small>(Went out solo)</small></h2>
+                        {% endif %}
+                    {% endif %}
+            </div> <!-- closes col-left upper row2 -->
 
-        <!-- MSW data -->
-        <div class="col-md-3"> <!-- MSW col -->
+            <div class="row"> <!-- col-left spacer row -->
+                <!-- spacer -->
+            </div> <!-- closes col-left spacer row -->
 
-            <div class="row" id = "row-title"> <!-- title row inside MSW col -->
-                <h3>Conditions:</h3>
-            </div>  <!-- closes title row inside MSW col -->
-
-            <div class="row"> <!-- content row inside MSW col -->
-                <table class="table-nonfluid">
-                    <thead>
-                        <tr>
-                            <th>Swell</th>
-                            <th>Wind</th>
-                        </tr>
-                    </thead>
-                     
-                    <tbody>
-                        <tr>    
-                            <td><div title="{{entry.swell1_dir_deg_global}}&deg; {{entry.swell1_dir_comp}}" class="msw-swa msw-swa-{{entry.swell1_arrow_deg}}"> </div>
-                                {{entry.swell1_ht}} ft. @ {{entry.swell1_per}} sec</td>
-                            <td><div title="{{entry.wind_dir_deg}}&deg;" class="msw-ssa msw-ssa-{{entry.wind_arrow_deg}}"> </div> <br> {{entry.wind_speed}} ({{entry.wind_gust}})</td>
-                        </tr>
-                    </tbody>
-                </table>
-            </div>
-
-        </div> <!-- closes MSW col -->
-
-    </div>  <!-- closes top row -->
-
-
-    <div class="row"> <!-- middle row -->
-
-        <div class="col-md-4"> <!-- board col -->
-
-            <div class="row" id = "row-title"> <!-- title row inside board col -->
-                <h3>Board Info:</h3>
-            </div>  <!-- closes title row inside board col -->
-                
-            <div class="row"> <!-- content row inside board col -->
-
+            <div class="row"> <!-- col-left lower row -->
                 <div class="col-md-2"> <!-- board icon col -->
                     {% if entry.board.category %}
                         <div class="icon-board">
@@ -98,87 +61,136 @@
                 </div> <!-- closes board icon col -->
 
                 <div class="col-md-10 col-board"> <!-- board info col -->
-                    <h4>
-                        <p>
-                        {{entry.board.nickname}}
-                        {% if entry.board.length_ft %}
-                            {{entry.board.length_ft}}' {{entry.board.length_in}}"
-                        {% endif %}
-                        {% if entry.board.fins %}
-                            ({{entry.board.fins}})
-                        {% endif %}
-                        </p>
-
-                        {% if entry.board_pref == "ok" %}
-                        {% else %}
-                            <p>(wanted a {{entry.board_pref}} board)</p>
-                        {% endif %}
-                        {% if entry.board_notes%}
-                            <p>Notes on board: {{entry.board_notes}}</p>
-                        {% endif %}
-
-                    </h4>
-                </div> <!-- closes board info col -->
-
-            </div>  <!-- closes content row inside board col -->
-
-        </div>  <!-- closes board col -->
-
-        <div class="col-md-4"> <!-- space between board and ratings col -->
-        </div> <!-- closes space between board and ratings col -->
-
-        <!-- user ratings -->
-        <div class="col-md-4"> <!-- ratings col -->
-
-            <div class="row" id = "row-title"> <!-- title row inside ratings col -->
-                <h3>Ratings Info:</h3>
-            </div>  <!-- closes title row inside ratings col -->
-                
-            <div class="row"> <!-- content row inside ratings col -->
-                <h4>
-                    {% if entry.rate_wave_challenge %}
-                        <p>Wave challenge level: {{wave_challenge_dict[entry.rate_wave_challenge]}}</p>
+                    <p>
+                    <h4>{{entry.board.nickname}}</h4>
+                    {% if entry.board.length_ft %}
+                    <h4>{{entry.board.length_ft}}' {{entry.board.length_in}}"</h4>
                     {% endif %}
-
-                    {% if entry.rate_wave_fun %}
-                        <p>Wave fun level: {{wave_fun_dict[entry.rate_wave_fun]}}</p>
+                    {% if entry.board.fins %}
+                    <h4>({{entry.board.fins}})</h4>
                     {% endif %}
+                    </p>
 
-                    {% if entry.rate_crowd_den %}
-                        <p>Crowd density: {{crowd_den_dict[entry.rate_crowd_den]}}</p>
-                    {% endif %}
-
-                    {% if entry.rate_crowd_vibe %}
-                        <p>Crowd vibe: {{crowd_vibe_dict[entry.rate_crowd_vibe]}}</p>
-                    {% endif %}
-
-                    <p>Overall fun level:
-                    {% if entry.go_out == "N" %}
-                        looked {{overall_fun_dict[entry.rate_overall_fun]}} (condition check)</p>
+                    {% if entry.board_pref == "ok" %}
                     {% else %}
-                        {{overall_fun_dict[entry.rate_overall_fun]}}</p>
+                        <p>(wanted a {{entry.board_pref}} board)</p>
                     {% endif %}
-                </h4>
-            </div>  <!-- closes content row inside ratings col -->
+                    {% if entry.board_notes%}
+                        <p>Notes on board: {{entry.board_notes}}</p>
+                    {% endif %}
+                </div> <!-- closes board info col -->
+            </div> <!-- closes col-left lower row -->
 
-        </div> <!-- closes ratings col -->
-
-    </div>  <!-- closes middle row -->
+        </div> <!-- closes col-left -->
 
 
-    <div class="row"> <!-- bottom row -->
+        <div class="col-md-9"> <!-- col-right -->
 
-        <div class="col-md-12"> <!-- user notes on session -->
-            {% if entry.gen_notes %}
-                <span class="title-center">
-                <h4>
-                Notes on overall experience: {{entry.gen_notes}}
-                </h4>
-            </span>
-            {% endif %}
-        </div> <!-- closes user notes on session -->
+            <div class="row"> <!-- right-top row -->
 
-    </div> <!-- closes bottom row -->
+                    <table class="table table-condensed">
+
+                        <thead>
+                            <tr>
+                                <th>When?</th>
+                                <th>Where?</th>
+                                <th>Swell</th>
+                                <th>Wind</th>
+                                <th>Your Rating</th>
+                            </tr>
+                        </thead>
+                         
+                        <tbody>
+                            <tr>    
+                                <td>{{entry.date_time_start.strftime('%m/%d/%Y')}}<br>{{entry.date_time_start.strftime('%I:%m %p')}}</td>
+                                <td>{{entry.loc.beach_name}}<br>{{entry.spot_name}}</td>
+                                <td><div title="{{entry.swell1_dir_deg_global}}&deg; {{entry.swell1_dir_comp}}" class="msw-swa msw-swa-{{entry.swell1_arrow_deg}}"> </div>
+                                    {{entry.swell1_ht}} ft. @ {{entry.swell1_per}} sec</td>
+                                <td><div title="{{entry.wind_dir_deg}}&deg;" class="msw-ssa msw-ssa-{{entry.wind_arrow_deg}}"> </div> <br> {{entry.wind_speed}} ({{entry.wind_gust}}) mph</td>
+                                {% if entry.go_out == "N" %}
+                                    <td>({{entry.rate_overall_fun}})<br>
+                                    (condition check)</td>
+                                {% else %}
+                                    <td>{{entry.rate_overall_fun}}</td>
+                                {% endif %}
+                            </tr>
+                            <tr></tr>
+                            <tr></tr>
+                        </tbody>
+
+                    </table>
+
+            </div>  <!-- closes right-top row -->
+
+            <div class="row"> <!-- spacer row -->
+            </div> <!-- closes spacer row -->
+
+            <div class="row"> <!-- ratings row -->
+
+
+                <div class="col-md-4"> <!-- col-spacer -->
+                </div> <!-- closes col-spacer  -->
+
+                <!-- user ratings -->
+                <div class="col-md-8"> <!-- ratings col -->
+
+                    <div class="row" id = "row-title"> <!-- title row inside ratings col -->
+                        <h3>Ratings Info:</h3>
+                    </div>  <!-- closes title row inside ratings col -->
+                        
+                    <div class="row"> <!-- content row inside ratings col -->
+                        <h4>
+                            {% if entry.rate_wave_challenge %}
+                                <p class="lead">Wave challenge level: {{wave_challenge_dict[entry.rate_wave_challenge]}}<br />
+                            {% endif %}
+
+                            {% if entry.rate_wave_fun %}
+                                <p class="lead">Wave fun level: {{wave_fun_dict[entry.rate_wave_fun]}}
+                            {% endif %}
+
+                            {% if entry.rate_crowd_den %}
+                                <p class="lead">Crowd density: {{crowd_den_dict[entry.rate_crowd_den]}}</p>
+                            {% endif %}
+
+                            {% if entry.rate_crowd_vibe %}
+                                <p class="lead">Crowd vibe: {{crowd_vibe_dict[entry.rate_crowd_vibe]}}</p>
+                            {% endif %}
+
+                            <p class="lead">Overall fun level:
+                            {% if entry.go_out == "N" %}
+                                looked {{overall_fun_dict[entry.rate_overall_fun]}} (condition check)</p>
+                            {% else %}
+                                {{overall_fun_dict[entry.rate_overall_fun]}}</p>
+                            {% endif %}
+                        </h4>
+                    </div>  <!-- closes content row inside ratings col -->
+
+                </div> <!-- closes ratings col -->
+            </div> <!-- closes ratinga row -->
+
+            <div class="row"> <!-- spacer row -->
+            </div> <!-- closes spacer row -->
+
+        </div> <!-- closes col-right -->
+
+    </div> <!-- closes row for most of the content -->
+
+    <div class="row"> <!-- spacer row -->
+    </div> <!-- closes spacer row -->
+    <div class="row"> <!-- spacer row -->
+    </div> <!-- closes spacer row -->
+
+    <div class="row"> <!-- bottom row notes -->
+
+        {% if entry.gen_notes %}
+            <span class="title-center">
+            <h3>
+            Notes on overall experience: {{entry.gen_notes}}
+            </h3>
+        </span>
+        {% endif %}
+
+    </div> <!-- closes bottom row notes -->
 
 
 </div> <!-- closes content container -->
@@ -189,5 +201,6 @@
     <br>
     <h5 class = "msw">Surf condtion data from magicseaweed.com</h5> 
 </div>
+
 
 {% endblock %}
