@@ -7,6 +7,8 @@ Ocean Rider’s Journal is a place for Northern and Central California surfers t
 
 ![JournalEntriesSummaryPageExample](https://raw.githubusercontent.com/kb0rg/hb_project/master/screengrabs/sg02_summary.png)
 
+Ocean Rider’s Journal was made at Hackbright Academy as my final project for the Winter 2015 cohort. 
+
 ### Technology
 
 Ocean Rider’s Journal uses a Python controller and a Flask web framework. The SQLite database collects information provided by users about their surf sessions, the boards they ride, and the wind and swell conditions at the time of each journal entry. Weather data is gathered from the magicseaweed.com API. 
@@ -31,4 +33,16 @@ Connect with the developer: www.linkedin.com/in/www.linkedin.com/in/kborges
 
 ##### Acknowledgements
 
-Many thanks to all the amazing Hackbright teachers and TAs (especially my advisor Katie LeFevre), my mentors, and the irreplaceable collection of friends and family who encouraged me to make the jump to Hackbright. 
+Many thanks to all the amazing Hackbright teachers and TAs (especially my advisor Katie LeFevre), and my very inspiring mentors.
+I am also deeply indebted to my irreplaceable collection of friends and family, all of whom encouraged me to make the jump to Hackbright.  
+
+##### To recreate this webapp
+
+- Sign up for an API key at: http://magicseaweed.com/developer/sign-up.
+- Store your API key as "MSW_API_KEY" along with an "APP_SECRET_KEY" in a local "secrets.sh" file.
+- Install the required packages in the webapp directory's virtualenv.
+- Source the env and your secrets file.
+- Run the model.py file in interactive mode (python -i model.py) and follow the prompts to initialize your database.
+- Run the db_seed.py in python (python db_seed.py) to seed the database (necessary to have access to beach locations in the add entry form).
+- Start the webapp (python surfjournal.py), register as a user, and start exploring the journal!
+
