@@ -55,7 +55,7 @@ def go_to_addEntry():
     ## and set of counties for organizing locations dropdown
     loc_list = model.session.query(model.Location).all()
     loc_county_list = set(model.session.query(model.Location.county).all())
-    pprint(loc_county_list)
+    # pprint(loc_county_list)
 
     ## get all boards for current user from db and pass to template for dropdown
     ## and set of board categorys for organizing boards dropdown
@@ -119,7 +119,7 @@ def add_entry():
     ## make API call for wind info using msw_id
     msw_wind_json_obj = msw.getWind(msw_id)
     print "*" * 30, "\n msw_wind_json_obj:"
-    pprint(msw_wind_json_obj)
+    # pprint(msw_wind_json_obj)
 
     ## parse msw response object for wind info into desired attr
     wind_speed = msw_wind_json_obj['wind']['speed']
@@ -161,7 +161,7 @@ def list_entries():
 
     ## get all entries and username for current user from db and pass to template for display
     entry_list = model.session.query(model.Entry).filter_by(user_id=g.user_id)
-    pprint(entry_list[7])
+    # pprint(entry_list[7])
     username = model.session.query(model.User).filter_by(id=g.user_id).one().username
     # print username
     return render_template("surf_entries_summary.html", entries = entry_list, username = username)
