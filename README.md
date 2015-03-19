@@ -29,7 +29,7 @@ Python, Flask, Jinja2, SQLite, SQLAlchemy, HTML5, CSS, highcharts.js, and Bootst
 
 ##### Contact Me
 
-Connect with the developer: www.linkedin.com/in/www.linkedin.com/in/kborges
+Connect with the developer: www.linkedin.com/in/kborges
 
 ##### Acknowledgements
 
