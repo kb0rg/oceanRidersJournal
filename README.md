@@ -23,8 +23,9 @@ Each user can an entry to their personal surf journal:
 ![JournalAddEntryExample](https://raw.githubusercontent.com/kb0rg/hb_project/master/screengrabs/sg04_add.png)
 View a summary of all journal entries:
 ![JournalEntriesSummaryTableExample](https://raw.githubusercontent.com/kb0rg/hb_project/master/screengrabs/sg02b_summary.png)
-Summary page inclused a chart correlating overall ratings with swell conditions:
+Summary page includes a chart correlating overall ratings with swell conditions:
 ![JournalEntriesSummaryChartExample](https://raw.githubusercontent.com/kb0rg/hb_project/master/screengrabs/sg02c_summaryChart.png)
+Journal entry details page displays the more subjective/ contextual user input: 
 ![JournalEntryDetailsExample](https://raw.githubusercontent.com/kb0rg/hb_project/master/screengrabs/sg03_details.png)
 ![QuiverBoardListExample](https://raw.githubusercontent.com/kb0rg/hb_project/master/screengrabs/sg06_quiverList.png)
 ![QuiverAddBoardExample](https://raw.githubusercontent.com/kb0rg/hb_project/master/screengrabs/sg04_add.png)
