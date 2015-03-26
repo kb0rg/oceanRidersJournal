@@ -19,8 +19,11 @@ Python, Flask, Jinja2, SQLite, SQLAlchemy, HTML5, CSS, highcharts.js, and Bootst
 
 ##### Screengrabs
 
+Each user can an entry to their personal surf journal:
 ![JournalAddEntryExample](https://raw.githubusercontent.com/kb0rg/hb_project/master/screengrabs/sg04_add.png)
+View a summary of all journal entries:
 ![JournalEntriesSummaryTableExample](https://raw.githubusercontent.com/kb0rg/hb_project/master/screengrabs/sg02b_summary.png)
+Summary page inclused a chart correlating overall ratings with swell conditions:
 ![JournalEntriesSummaryChartExample](https://raw.githubusercontent.com/kb0rg/hb_project/master/screengrabs/sg02c_summaryChart.png)
 ![JournalEntryDetailsExample](https://raw.githubusercontent.com/kb0rg/hb_project/master/screengrabs/sg03_details.png)
 ![QuiverBoardListExample](https://raw.githubusercontent.com/kb0rg/hb_project/master/screengrabs/sg06_quiverList.png)
