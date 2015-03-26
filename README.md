@@ -29,7 +29,7 @@ Journal entry details page displays the more subjective/ contextual user input:
 ![JournalEntryDetailsExample](https://raw.githubusercontent.com/kb0rg/hb_project/master/screengrabs/sg03_details.png)
 The "Quiver" page is where the user creates, views, and edits their collection of surfboards.
 ![QuiverBoardListExample](https://raw.githubusercontent.com/kb0rg/hb_project/master/screengrabs/sg06_quiverList.png)
-![QuiverAddBoardExample](https://raw.githubusercontent.com/kb0rg/hb_project/master/screengrabs/sg04_add.png)
+![QuiverAddBoardExample](https://raw.githubusercontent.com/kb0rg/hb_project/master/screengrabs/sg05_quiverAdd.png)
 
 
 ##### Contact Me
