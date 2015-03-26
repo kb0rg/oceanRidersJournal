@@ -19,7 +19,7 @@ Python, Flask, Jinja2, SQLite, SQLAlchemy, HTML5, CSS, highcharts.js, and Bootst
 
 ##### Screengrabs
 
-Each user can an entry to their personal surf journal:
+Each user can add an entry to their personal surf journal:
 ![JournalAddEntryExample](https://raw.githubusercontent.com/kb0rg/hb_project/master/screengrabs/sg04_add.png)
 View a summary of all journal entries:
 ![JournalEntriesSummaryTableExample](https://raw.githubusercontent.com/kb0rg/hb_project/master/screengrabs/sg02b_summary.png)
@@ -27,6 +27,7 @@ Summary page includes a chart correlating overall ratings with swell conditions:
 ![JournalEntriesSummaryChartExample](https://raw.githubusercontent.com/kb0rg/hb_project/master/screengrabs/sg02c_summaryChart.png)
 Journal entry details page displays the more subjective/ contextual user input: 
 ![JournalEntryDetailsExample](https://raw.githubusercontent.com/kb0rg/hb_project/master/screengrabs/sg03_details.png)
+The "Quiver" page is where the user creates, views, and edits their collection of surfboards.
 ![QuiverBoardListExample](https://raw.githubusercontent.com/kb0rg/hb_project/master/screengrabs/sg06_quiverList.png)
 ![QuiverAddBoardExample](https://raw.githubusercontent.com/kb0rg/hb_project/master/screengrabs/sg04_add.png)
 
