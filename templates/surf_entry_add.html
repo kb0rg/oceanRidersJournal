@@ -36,9 +36,6 @@
 			<input type="time" name="end_time"> -->
 			<!--  -->
 			<!--  -->
-			<h4> (this entry will automatically use today's date and the current time)</h4>
-			<!-- <h5> Ability to specify past dates/ times will be implemented later.</h5>
-			 -->
 		</span>
 
 	</div> <!-- closes top row -->
@@ -46,7 +43,7 @@
 	<!-- form -->
 	<div class="row"> <!-- main row -->
 
-		<div class="col-md-6"> <!-- left col -->
+		<div class="col-md-6 col-xs-12"> <!-- left col -->
 
 			<br>
 			<!-- location info -->
@@ -67,14 +64,14 @@
 			</select>
 
 			<h4>Spot Name:</h4>
-			<input type="text" name = "spot_name" maxlength="64" size="64" placeholder="(more specific descriptor, eg: patch, Sloat, north end...)">
+			<input type="text" class="form-control" name = "spot_name" maxlength="64" size="64" placeholder="(more specific descriptor, eg: patch, Sloat, north end...)">
 
 			<h5>Did you go out?</h5>
 			<input type="radio" name = "go_out" required value = "Y"> Yes!
 			<input type="radio" name = "go_out" value = "N"> No (Select no if you just checked the conditions)
 
 			<h5>Did you go out with a buddy?</h5>
-			<input type="text" name = "buddy_name" maxlength="64" size="64" placeholder="(if so put their name(s) here)">
+			<input type="text" class="form-control" name = "buddy_name" maxlength="64" size="64" placeholder="(if so put their name(s) here)">
 
 			<!-- board info -->
 			<h5>Board Ridden:</h5>
@@ -98,13 +95,13 @@
 			<input type="radio" name = "board_pref" value = "ok">(just right)
 			<input type="radio" name = "board_pref" value = "bigger">(bigger)
 			<h5>Any notes on your board choice?</h5>
-			<input type="text" name = "board_notes" maxlength="64" size="64" placeholder="(optional notes about how this board worked for you this session)">
+			<input type="text" class="form-control" name = "board_notes" maxlength="64" size="64" placeholder="(optional notes about how this board worked for you this session)">
 			<br>
 			<br>
 		</div> <!-- closes left col -->
 
 
-		<div class="col-md-6"> <!-- right col -->
+		<div class="col-md-6 col-xs-12"> <!-- right col -->
 
 			<div class="row" id="entry-form-rating-overall"> <!-- right-top row -->
 
@@ -169,12 +166,13 @@
 			<h3>Other notes about your overall experience:</h3>
 			</div>
 			<div class="row" id = "entry-notes-input">
-			<input type="text" name = "gen_notes"  maxlength="140" size="140" placeholder = "(keep it tweet-sized: 140 char limit)">
+			<input type="text" class="form-control" name = "gen_notes"  maxlength="140" size="140" placeholder = "(keep it tweet-sized: 140 char limit)">
 			<!-- TODO: make this input bigger, and specify char limit -->
 			</div>
 			<div class="row" id = "entry-form-submit">
 			<input type="submit" value = "Add Entry to the Journal">
-			<div>
+			<h3> (this entry will automatically use today's date and the current time)</h3>
+			</div>
         </span>
 
 	</div> <!-- closes bot row -->
