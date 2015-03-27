@@ -15,7 +15,6 @@ session = scoped_session(sessionmaker(bind=engine,
 Base = declarative_base()
 
 class User(Base):
-
     """
     makes a row in the users table.
     """
@@ -36,7 +35,6 @@ class User(Base):
         return "%d, %s, %s, %s, %s" % (self.id, self.username, self.firstname, self.lastname, self.home_region)
 
 class Location(Base):
-
     """
     makes a row in the locations table.
     """
@@ -70,7 +68,6 @@ class Location(Base):
         return "<Location: %d, %s, MSW (or nearest) ID: %d >"%(self.id, self.beach_name, self.msw_id) 
 
 class Board(Base):
-
     """
     makes a row in the boards table.
     """
@@ -102,7 +99,6 @@ class Board(Base):
         return "<Board: %d, %s, %s %s>"%(self.id, self.nickname, self.shaper, self.shape) 
 
 class Entry(Base):
-
     """
     makes a row in the entries table.
     """
@@ -180,10 +176,8 @@ class Entry(Base):
 
 
 def main():
-
     """
-    when model is called directly,
-    prints helpful info in console for db rebuilding.
+    directions for rebuilding db when model is called directly.
     """
     
     print "\nWelcome to kborg's surfjournal model.\n"

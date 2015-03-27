@@ -18,8 +18,7 @@ def load_user_id():
     g.user_id = session.get('user_id')
 
 @app.route("/")
-def index():
-    
+def index():    
     """
     The cover page of kborg's surf journal site.
     """
@@ -28,20 +27,16 @@ def index():
 
 @app.route("/about")
 def list_entriesInfo():
-
     """
-    temp page while building -- turn into intro/ about page.
-    currently a list of all of the potential info that can be collected
+    intro/ about page.
     """
 
     return render_template("about.html")
 
 @app.route("/addEntryForm")
 def go_to_addEntry():
-
     """
-    goes to the form to add an entry to the surf journal.
-    gets info from the db to send to/ populate the form.
+    renders form, using info from the db, to add an entry to the surf journal.
     """
 
     ## make page available only if logged in
@@ -69,10 +64,8 @@ def go_to_addEntry():
 
 @app.route("/addEntryToDB", methods=["POST"])
 def add_entry():
-
     """
-    receive input from add_entry form, commit to db, 
-    then redirect to page that displays summary of existing entries.
+    receive input from add_entry form, commit to db, goto summary display page.
     """
 
     ## get user id from session
@@ -148,9 +141,8 @@ def add_entry():
 
 @app.route("/entries")
 def list_entries():
-
     """
-    displays all of the surf entries logged for current user.
+    render summary page, chart plus all surf entries logged for current user.
     """
 
     if not g.user_id:
@@ -166,15 +158,17 @@ def list_entries():
 
 @app.route("/entries_data")
 def list_entries_data():
-
     """
     sends json to the entry_details route to render bubble chart.
-    format needed by hicharts:
+
+    ref of format needed by highcharts:
     [{
-            data: [[97, 36, 79], [50, 20, 84]]
+            "data": [[x, y, size], [x, y, size]],
+            "name": "data_name_for_display"
         }, {
-            data: [[25, 10, 87], [10, 20, 3]]
+            "data": [[25, 10, 87], [10, 20, 3]]
         }]
+    etc.
     """
 
     ## get all entries for current user from db and pass to template for display
@@ -210,7 +204,6 @@ def list_entries_data():
 
 @app.route("/entryDetails/<int:id>")
 def list_entry_details(id):
-
     """
     displays full details of the selected surf entry.
     """
@@ -220,6 +213,7 @@ def list_entry_details(id):
         flash("Please log in", "warning")
         # return redirect(url_for("index"))
 
+    ## text display options for ratings 
     wave_challenge_dict = {1 : "easy",
                             2 : "easy plus a little juice",
                             3 : "just right/ neutral",
@@ -260,7 +254,6 @@ def list_entry_details(id):
 
 @app.route("/board_quiver")
 def edit_quiver():
-
     """
     display and edit existing quiver of boards.
     """
@@ -285,9 +278,11 @@ def edit_quiver():
 def add_board():
 
     """
-    receive input from board_quiver form, 
-    commit to db, then redirect to quiver list page
-    and flash message confirming board was added.
+    adds board to quiver.
+
+    receives input from board_quiver form, 
+    commits to db, then redirects to quiver list page
+    and flashes message confirming board was added.
     """
 
     ## get user id from session
@@ -317,9 +312,8 @@ def add_board():
 
 @app.route("/login", methods=["GET"])
 def show_login():
-
     """
-    display log-in/ register form.
+    displays log-in/ register form.
     """
 
     ## flash message and stay on same page if user is logged in and tries to go back to login page
@@ -332,10 +326,8 @@ def show_login():
 
 @app.route("/login", methods=["POST"])
 def login():
-
     """
-    validate input from log-in form and start user session,
-    redirect to user's entries summary page.
+    validates input from log-in form and starts user session, redirect to user's entries summary page.
     """
 
     ## get info from user input
@@ -357,8 +349,7 @@ def login():
 def register():
 
     """
-    validate input from registration form and start user session,
-    redirect to user's entries summary page.
+    validates input from registration form and starts user session, redirect to add entry page.
     """
 
     ## get info from user input
@@ -381,11 +372,10 @@ def register():
     model.session.commit()
     model.session.refresh(u)
     session['user_id'] = u.id 
-    return redirect("/about")
+    return redirect("/addEntryForm")
 
 @app.route("/logout")
 def logout():
-
     """
     log out user or redirect to log-in page.
     """
@@ -401,9 +391,9 @@ def logout():
 
 
 def redirect_url(default='index'):
-
     """
     flask helper function to redirect back to same page.
+
     used in unnecessary click of "log in" button."
     """
 
@@ -419,8 +409,7 @@ TODO before deploying:
 if __name__ == "__main__":
     
     """
-    run app after getting env var for debug and port:
-    allows for different settings for dev vs deployment.
+    run app after getting env var for debug and port: allows for different settings for dev vs deployment.
     """
 
     ## for deploy on heroku: "heroku config: Set NO_DUBUG = 1"
