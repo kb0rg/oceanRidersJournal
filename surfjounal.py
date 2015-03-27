@@ -184,17 +184,23 @@ def list_entries_data():
         ## define variables for chart's data points
         x = entry.swell1_ht
         y = entry.swell1_dir_deg_global
-        size = entry.rate_overall_fun # bubble size = user rating
-        beach = entry.loc.beach_name
+        swell_interval = entry.swell1_per
+        bubble_size = entry.rate_overall_fun # bubble size = user rating
         ## clean ratings data (convert any "None" -> 0)
-        if not isinstance(size, int):
-            size = 0
+        if not isinstance(bubble_size, int):
+            bubble_size = 0
+
 
         ## check to see if entry's loc is already key in dict, if not, add it and set up it's value's dict.
         if entry.loc_id not in results:
+            # results[entry.loc_id] = {"data" : [], "name": entry.loc.beach_name}
             results[entry.loc_id] = {"data" : [], "name": entry.loc.beach_name}
 
-        results[entry.loc_id]["data"].append([x, y, size, beach])
+        # results[entry.loc_id]["data"].append([x, y, bubble_size, interval])
+        results[entry.loc_id]["data"].append({"x": x, 
+                                         "y": y, 
+                                         "z": bubble_size,
+                                         "interval": swell_interval})
 
     ## get values from results dict: chart expects a list of dictionaries
     results_list = results.values()

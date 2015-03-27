@@ -87,7 +87,7 @@ $(function () {
         tooltip: {
             formatter: function () {
                 return this.series.name + ": " +
-                    this.x + 'ft @' + this.y +
+                    this.x + 'ft @' + this.point.options.interval + ' sec, from ' + this.y +
                     '°' + ' -> rated: ' + this.point.z;
             }
         },
