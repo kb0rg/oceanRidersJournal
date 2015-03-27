@@ -191,6 +191,7 @@ def list_entries_data():
         x = entry.swell1_ht
         y = entry.swell1_dir_deg_global
         size = entry.rate_overall_fun # bubble size = user rating
+        beach = entry.loc.beach_name
         ## clean ratings data (convert any "None" -> 0)
         if not isinstance(size, int):
             size = 0
@@ -199,7 +200,7 @@ def list_entries_data():
         if entry.loc_id not in results:
             results[entry.loc_id] = {"data" : [], "name": entry.loc.beach_name}
 
-        results[entry.loc_id]["data"].append([x, y, size])
+        results[entry.loc_id]["data"].append([x, y, size, beach])
 
     ## get values from results dict: chart expects a list of dictionaries
     results_list = results.values()
@@ -418,10 +419,8 @@ TODO before deploying:
 if __name__ == "__main__":
     
     """
-    run app after getting
-    env var for debug and port:
-    allows for different settings for
-    development vs deployment.
+    run app after getting env var for debug and port:
+    allows for different settings for dev vs deployment.
     """
 
     ## for deploy on heroku: "heroku config: Set NO_DUBUG = 1"
