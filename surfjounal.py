@@ -21,9 +21,7 @@ def load_user_id():
 def index():
     
     """
-    This is the 'cover' page of kborg's surf journal site.
-    It will contain some kind of awesome background image.
-    And a logo. And maybe some inspirational text. 
+    The cover page of kborg's surf journal site.
     """
 
     return render_template("index.html")
@@ -181,24 +179,32 @@ def list_entries_data():
 
     ## get all entries for current user from db and pass to template for display
     entry_list = model.session.query(model.Entry).filter_by(user_id=g.user_id)
-    
-    # entry_list_oceanBeach = entry_list.filter_by(loc_id=1).all()
-    # pprint(entry_list_oceanBeach)
+    # print "*" * 30,"\n", "entry_list is an object:"
+    # pprint(entry_list)
 
-    # loc_list = set(model.session.query(model.Entry.loc_id).all())
-    # pprint(loc_list)
-
-    results = []
-
+    ## process entries data into form required by chart
+    ## store "entries" data in dict during processing
+    results = {}
     for entry in entry_list:
+
+        ## define variables for chart's data points
         x = entry.swell1_ht
         y = entry.swell1_dir_deg_global
-        size = entry.rate_overall_fun
-        if not isinstance(size, int ):
+        size = entry.rate_overall_fun # bubble size = user rating
+        ## clean ratings data (convert any "None" -> 0)
+        if not isinstance(size, int):
             size = 0
-        results.append([x, y, size])
 
-    return jsonify(results=results)
+        ## check to see if entry's loc is already key in dict, if not, add it and set up it's value's dict.
+        if entry.loc_id not in results:
+            results[entry.loc_id] = {"data" : [], "name": entry.loc.beach_name}
+
+        results[entry.loc_id]["data"].append([x, y, size])
+
+    ## get values from results dict: chart expects a list of dictionaries
+    results_list = results.values()
+    ## send to chart as json object
+    return jsonify(results=results_list)
 
 
 @app.route("/entryDetails/<int:id>")
@@ -392,10 +398,12 @@ def logout():
         flash("You can't log out, you're not logged in! Please log in to use the journal.", "error")
         return render_template("login.html")
 
+
 def redirect_url(default='index'):
 
     """
     flask helper function to redirect back to same page.
+    used in unnecessary click of "log in" button."
     """
 
     return request.args.get('next') or \
@@ -404,10 +412,21 @@ def redirect_url(default='index'):
 
 """
 TODO before deploying:
-- turn off app.run(debug=True) 
 - hash/ salt passwords.
 """
 
 if __name__ == "__main__":
-    port = int(os.environ.get("PORT", 5000))
-    app.run(debug=True, port=port)
+    
+    """
+    run app after getting
+    env var for debug and port:
+    allows for different settings for
+    development vs deployment.
+    """
+
+    ## for deploy on heroku: "heroku config: Set NO_DUBUG = 1"
+    DEBUG = "NO_DEBUG" not in os.environ 
+    ## heroku will set port as env var
+    PORT = int(os.environ.get("PORT", 5000))
+
+    app.run(debug=DEBUG, port=PORT)

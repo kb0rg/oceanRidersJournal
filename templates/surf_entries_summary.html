@@ -71,6 +71,7 @@
 
 $(function () {
     $.get('/entries_data', function (data) {
+        console.log(data.results);
         $('#chart').highcharts({
 
         chart: {
@@ -90,15 +91,7 @@ $(function () {
             }
         },
 
-        series: [{
-            data: data.results,
-            name: 'Your "Overall Fun" Ratings For All Beaches'
-        },
-        // {
-        //     data: data.results,
-        //     name: 'testing2'
-        // }
-        ],
+        series: data.results,
 
         xAxis: {
             title: {
