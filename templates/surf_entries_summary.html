@@ -70,6 +70,16 @@
 <script type="text/javascript">
 
 $(function () {
+
+    // Highcharts.setOptions({
+    //     colors: ['#058DC7', '#50B432', '#ED561B', '#DDDF00', '#24CBE5', '#64E572', '#FF9655', '#FFF263', '#6AF9C4']
+    // });
+
+    Highcharts.setOptions({
+        colors: ['#38B4BE', '#3238CB', '#3482D5', '#34D595', '#3CCB4E', '#54BE33', '#B6D52E', '#CBBE5B', '#F9E96C']
+    });
+
+
     $.get('/entries_data', function (data) {
         console.log(data.results);
         $('#chart').highcharts({
@@ -78,6 +88,7 @@ $(function () {
             type: 'bubble',
             backgroundColor: '#C8C8C8',
             zoomType: 'xy'
+
         },
 
         title: {
