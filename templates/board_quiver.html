@@ -18,46 +18,49 @@
 <div class="content-container">
     <h2>{{username}}'s Quiver:</h2>
 
-    <table class="table table-hover">
-        <thead>
-        	<tr>
-                <th></th>
-            	<th>Board's nickname</th>
-            	<th>Length</th> 
-                <th>Type</th>
-                <th>Shaper</th>
-                <th>Model</th>
-            	<th>Fin Setup</th>
+    <div class="table-responsive">
+        <table class="table table-hover">
+            <thead>
+            	<tr>
+                    <th></th>
+                	<th>Board's nickname</th>
+                	<th>Length</th> 
+                    <th>Type</th>
+                    <th>Shaper</th>
+                    <th>Model</th>
+                	<th>Fin Setup</th>
 
-          	</tr>
-        </thead>
-         
-        <tbody>
-            {% for board in boards %}
-        	<tr>
-                <td>
-                    <div class="icon-board-sm">
-                        <img src="/static/img/icon_board_{{board.category}}_sm.png" title="{{board.category}}"></a>
-                    </div>
-                </td>    
-            	<td>{{board.nickname}} </td>
-                <td>
-                {% if board.length_ft %}
-                    {{board.length_ft}}'
-                {% endif %}
-                {% if board.length_in %}
-                	 {{board.length_in}}"
-                {% endif %}
-                </td>
-            	<td>{{board.category}}</td>
-            	<td>{{board.shaper}}</td>
-            	<td>{{board.shape}}</td>
-            	<td>{{board.fins}} </td>
-            </tr>
-    	   {% endfor %}
-        </tbody>
-    </table>
-</div>
+              	</tr>
+            </thead>
+             
+            <tbody>
+                {% for board in boards %}
+            	<tr>
+                    <td>
+                        <div class="icon-board-sm">
+                            <img src="/static/img/icon_board_{{board.category}}_sm.png" title="{{board.category}}"></a>
+                        </div>
+                    </td>    
+                	<td>{{board.nickname}} </td>
+                    <td>
+                    {% if board.length_ft %}
+                        {{board.length_ft}}'
+                    {% endif %}
+                    {% if board.length_in %}
+                    	 {{board.length_in}}"
+                    {% endif %}
+                    </td>
+                	<td>{{board.category}}</td>
+                	<td>{{board.shaper}}</td>
+                	<td>{{board.shape}}</td>
+                	<td>{{board.fins}} </td>
+                </tr>
+        	   {% endfor %}
+            </tbody>
+        </table>
+
+    </div> <!-- closes quiver table -->
+</div> <!-- closes content container: quiver table -->
 
 <div class="content-container">
     <form class="form" action="/addBoardToDB" method="post">
@@ -145,6 +148,6 @@
 
     </form>
 
-</div> <!-- closes content container -->
+</div> <!-- closes content container: quiver form -->
 
 {% endblock %}

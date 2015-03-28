@@ -25,40 +25,42 @@
 
     <h3> Welcome back {{username}}! Here's a summary of your journal entries:</h3>
 
-    <table class="table table-hover table-condensed">
+    <div class="table-responsive">
+        <table class="table table-hover table-condensed">
 
-        <thead>
-        	<tr>
-            	<th>When?</th>
-            	<th>Where?</th>
-                <th>Swell</th>
-                <th>Wind</th>
-                <th>Your Rating</th>
-          	</tr>
-        </thead>
-         
-        <tbody>
-            {% for entry in entries %}
-        	<tr>    
-            	<td>{{entry.date_time_start.strftime('%m/%d/%Y')}}<br>{{entry.date_time_start.strftime('%I:%m %p')}}</td>
-            	<td>{{entry.loc.beach_name}}<br>{{entry.spot_name}}</td>
-                <td><div title="{{entry.swell1_dir_deg_global}}&deg; {{entry.swell1_dir_comp}}" class="msw-swa msw-swa-{{entry.swell1_arrow_deg}}"> </div>
-                    {{entry.swell1_ht}} ft. @ {{entry.swell1_per}} sec</td>
-                <td><div title="{{entry.wind_dir_deg}}&deg;" class="msw-ssa msw-ssa-{{entry.wind_arrow_deg}}"> </div> <br> {{entry.wind_speed}} ({{entry.wind_gust}}) mph</td>
-                {% if entry.go_out == "N" %}
-                    <td>({{entry.rate_overall_fun}})<br>
-                    (condition check)</td>
-                {% else %}
-                    <td>{{entry.rate_overall_fun}}</td>
-                {% endif %}
-                <td><a class="btn btn-primary" href="/entryDetails/{{entry.id}}">Details</a></td>
-            </tr>
-        	{% endfor %}
-        </tbody>
+            <thead>
+            	<tr>
+                	<th>When?</th>
+                	<th>Where?</th>
+                    <th>Swell</th>
+                    <th>Wind</th>
+                    <th>Your Rating</th>
+              	</tr>
+            </thead>
+             
+            <tbody>
+                {% for entry in entries %}
+            	<tr>    
+                	<td>{{entry.date_time_start.strftime('%m/%d/%Y')}}<br>{{entry.date_time_start.strftime('%I:%m %p')}}</td>
+                	<td>{{entry.loc.beach_name}}<br>{{entry.spot_name}}</td>
+                    <td><div title="{{entry.swell1_dir_deg_global}}&deg; {{entry.swell1_dir_comp}}" class="msw-swa msw-swa-{{entry.swell1_arrow_deg}}"> </div>
+                        {{entry.swell1_ht}} ft. @ {{entry.swell1_per}} sec</td>
+                    <td><div title="{{entry.wind_dir_deg}}&deg;" class="msw-ssa msw-ssa-{{entry.wind_arrow_deg}}"> </div> <br> {{entry.wind_speed}} ({{entry.wind_gust}}) mph</td>
+                    {% if entry.go_out == "N" %}
+                        <td>({{entry.rate_overall_fun}})<br>
+                        (condition check)</td>
+                    {% else %}
+                        <td>{{entry.rate_overall_fun}}</td>
+                    {% endif %}
+                    <td><a class="btn btn-primary" href="/entryDetails/{{entry.id}}">Details</a></td>
+                </tr>
+            	{% endfor %}
+            </tbody>
 
-    </table>
+        </table>
+    </div> <!-- closes summary table -->
 
-</div>
+</div> <!-- closes content container -->
 
 <!-- credit to the API -->
 <div class = "msw">
