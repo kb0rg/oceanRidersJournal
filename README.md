@@ -38,7 +38,7 @@ Connect with the developer: www.linkedin.com/in/kborges
 
 ##### Acknowledgements
 
-Many thanks to all the amazing Hackbright teachers and TAs (especially my advisor Katie LeFevre), and my very inspiring mentors.
+Many thanks to all the amazing Hackbright teachers and TAs (especially my advisor Katie LeFevre), and to my very inspiring mentors.
 I am also deeply indebted to my irreplaceable collection of friends and family, all of whom encouraged me to make the jump to Hackbright.  
 
 ##### To recreate this webapp
