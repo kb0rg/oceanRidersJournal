@@ -18,185 +18,224 @@
     {% endblock %}
 
 <div class="content-container">
+	<!-- <div class="col-md-12"> --> <!-- force everything in the content-container into one col -->  
 
-	<form action="/addEntryToDB" method="post">
+		<form action="/addEntryToDB" method="post">
 
-		<div class="row"> <!-- top row: instructions -->
-	        <span class="title-center">
-				<h2>Enter info about your surf session</h2>
-				<h4>(only fields marked with * are required)</h4>
-			</span>
-		</div> <!-- closes top row -->
+			<div class="row"> <!-- top row: instructions -->
+		        <span class="title-center">
+					<h2>Enter info about your surf session</h2>
+					<h4>(only fields marked with * are required)</h4>
+				</span>
+			</div> <!-- closes top row -->
 
-        <div class="row"> <!-- spacer row -->
-        </div> <!-- closes spacer row -->
+	        <div class="row"> <!-- spacer row -->
+	        </div> <!-- closes spacer row -->
 
+			<div class="row"> <!-- main row: all the forms, incl left and right col -->
+				<div class="col-md-12"> <!-- nest the left/ right columns --> 
 
-		<div class="row"> <!-- main row: all the forms -->
+					<div class="col-md-6 col-xs-12"> <!-- left col: when/ where/ with whom/ what board -->
 
-			<div class="col-md-6 col-xs-12"> <!-- left col: when/ where/ with whom/ what board -->
-
-				<!-- implement start and end time again later. for now, datetime NOW -->
-				<!-- Date:<br>
-				<input type="date" name = "entry_date">
-				<br>
-				Start Time (as HH:MM with "AM" or "PM"):<br>
-				<input type="time" name="start_time">
-				<br>
-				End Time (as HH:MM with "AM" or "PM"):<br>
-				<input type="time" name="end_time"> -->
-
-				<!-- location info -->
-				<div class="input-group">
-					<h4>Beach Name*</h4>
-					<h5>(if your spot isn't on the list, pick the nearest beach)</h5>
-
-					<select name = "loc_id">
-						{% for county in counties %}
-							<optgroup label="{{county[0]}}">
-								{% for loc in locations %}
-									{% if loc.county == county[0] %}
-									<option value="{{loc.id}}">{{loc.beach_name}}</option>
-									{% endif %}
-								{% endfor %}	
-							</optgroup>	
-						{% endfor %}
-					</select>
-				</div> <!-- closes input group -->
-
-				<div class="input-group">
-					<h4>Spot Name</h4>
-					<input type="text" class="form-control" name = "spot_name" maxlength="64" size="64" placeholder="(more specific descriptor, eg: patch, Sloat, north end...)">
-
-					<h5>Did you go out?</h5>
-					<input type="radio" name = "go_out" required value = "Y"> Yes!
-					<input type="radio" name = "go_out" value = "N"> No (Select no if you just checked the conditions)
-
-					<h5>Did you go out with a buddy?</h5>
-					<input type="text" class="form-control" name = "buddy_name" maxlength="64" size="64" placeholder="(if so put their name(s) here)">
-				</div> <!-- closes input group -->
-
-				<!-- board info -->
-				<div class="input-group">
-					<h5>Board Ridden*</h5>
-					<select name = "board_id">
-						{% for category in categories %}
-							<optgroup label="{{category[0]}}">
-								{% for board in boards %}
-									{% if board.category == category[0] %}
-									<option value="{{board.id}}">{{board.nickname}}</option>
-									{% endif %}
-								{% endfor %}
-							</optgroup>	
-						{% endfor %}
-					</select>
-					<a href="/board_quiver" class="btn btn-xs btn-default" target="_blank">add a board to quiver</a> 
-				</div> <!-- closes input group -->
-
-				<br>
-				<div class="input-group">
-					<h5>Did you wish you'd brought a different board?*</h5>
-					<input type="radio" name = "board_pref" required value = "smaller"> (smaller)
-					<input type="radio" name = "board_pref" value = "ok"> (just right)
-					<input type="radio" name = "board_pref" value = "bigger"> (bigger)
-					<h5>Any notes on your board choice?</h5>
-					<input type="text" class="form-control" name = "board_notes" maxlength="64" size="64" placeholder="(optional notes about how this board worked for you this session)">
-				</div> <!-- closes input group -->
-				<br>
-				<br>
-			</div> <!-- closes left col -->
-
-
-			<div class="col-md-6 col-xs-12"> <!-- right col -->
-
-				<div class="row" id="entry-form-rating-overall"> <!-- right-top row -->
-
-					<div class="input-group">
-						<h4>Please rate how much you enjoyed the session overall*</h4>
-						(or how good it looked, if you didn't go out)
+						<!-- implement start and end time again later. for now, datetime NOW -->
+						<!-- Date:<br>
+						<input type="date" name = "entry_date">
 						<br>
-						(should've gone for a bike ride)
-						<input type="radio" name = "rate_overall_fun" required value = "1">
-						<input type="radio" name = "rate_overall_fun" value = "2">
-						<input type="radio" name = "rate_overall_fun" value = "3">
-						<input type="radio" name = "rate_overall_fun" value = "4">
-						<input type="radio" name = "rate_overall_fun" value = "5"> (made my day!)
-					</div> <!-- closes input group -->
+						Start Time (as HH:MM with "AM" or "PM"):<br>
+						<input type="time" name="start_time">
+						<br>
+						End Time (as HH:MM with "AM" or "PM"):<br>
+						<input type="time" name="end_time"> -->
 
-				</div> <!-- closes right-top row -->
+						<!-- location info -->
+						<div class="form-group">
+							<label for="entry-loc">
+							<h4>Beach Name*</h4>
+							<h5>(if your spot isn't on the list, pick the nearest beach)</h5>
+							</label>
 
-				<div class="row" id="entry-form-ratings-specific"> <!-- right-bot row -->
+							<select class="form-control" name = "loc_id" id="entry-loc">
+								{% for county in counties %}
+									<optgroup label="{{county[0]}}">
+										{% for loc in locations %}
+											{% if loc.county == county[0] %}
+											<option value="{{loc.id}}">{{loc.beach_name}}</option>
+											{% endif %}
+										{% endfor %}	
+									</optgroup>	
+								{% endfor %}
+							</select>
+						</div> <!-- closes form group -->
 
-					<h4>These specific ratings below are optional,<br>
-						but the more you answer, the more we can show you later:</h4>
-						
-					<div class="input-group">
-						<h5>How crowded was it?</h5>
-						(just me and the marine mammals)
-						<input type="radio" name = "rate_crowd_den" value = "1">
-						<input type="radio" name = "rate_crowd_den" value = "2">
-						<input type="radio" name = "rate_crowd_den" value = "3">
-						<input type="radio" name = "rate_crowd_den" value = "4">
-						<input type="radio" name = "rate_crowd_den" value = "5"> (human obstacle course)
-					</div> <!-- closes input group -->
+						<div class="form-group">
+							<label for="entry-spot">
+							<h4>Spot Name</h4>
+							</label>
+							<input type="text" class="form-control" id="entry-spot" name = "spot_name" maxlength="64" size="64" placeholder="(more specific descriptor, eg: patch, Sloat, north end...)">
+						</div> <!-- closes form group -->
 
-					<div class="input-group">
-						<h5>How was the crowd's vibe?</h5>
-						(grrr)
-						<input type="radio" name = "rate_crowd_vibe" value = "1">
-						<input type="radio" name = "rate_crowd_vibe" value = "2">
-						<input type="radio" name = "rate_crowd_vibe" value = "3">
-						<input type="radio" name = "rate_crowd_vibe" value = "4">
-						<input type="radio" name = "rate_crowd_vibe" value = "5"> (yeah!)
-					</div> <!-- closes input group -->
+						<div class="form-group">
+							<label for="entry-go_out">
+							<h4>Did you go out?</h4>
+							</label>
+							<input type="radio" id="entry-go_out" name = "go_out" required value = "Y"> Yes!
+							<input type="radio" id="entry-go_out" name = "go_out" value = "N"> No (Select no if you just checked the conditions)
+						</div> <!-- closes form group -->
 
-					<div class="input-group">
-						<h5>How challenging were the waves for you?</h5>
-						(easy)
-						<input type="radio" name = "rate_wave_challenge" value = "1">
-						<input type="radio" name = "rate_wave_challenge" value = "2">
-						<input type="radio" name = "rate_wave_challenge" value = "3">
-						<input type="radio" name = "rate_wave_challenge" value = "4">
-						<input type="radio" name = "rate_wave_challenge" value = "5"> (intense!)
-					</div> <!-- closes input group -->
+						<div class="form-group">
+							<label for="entry-buddy_name">
+							<h4>Did you go out with a buddy?</h4>
+							</label>
+							<input type="text" class="form-control" id="entry-buddy_name" name = "buddy_name" maxlength="64" size="64" placeholder="(if so put their name(s) here)">
+						</div> <!-- closes form group -->
 
-					<div class="input-group">
-						<h5>How FUN were the waves for you?</h5>
-						(meh)
-						<input type="radio" name = "rate_wave_fun" value = "1">
-						<input type="radio" name = "rate_wave_fun" value = "2">
-						<input type="radio" name = "rate_wave_fun" value = "3">
-						<input type="radio" name = "rate_wave_fun" value = "4">
-						<input type="radio" name = "rate_wave_fun" value = "5"> (epic!)
-					</div> <!-- closes input group -->
+						<!-- board info -->
+						<div class="form-group">
+							<label for="entry-board">
+							<h4>Board Ridden*</h4>
+							</label>
+							<select class="form-control" name = "board_id" id="entry-board">
+								{% for category in categories %}
+									<optgroup label="{{category[0]}}">
+										{% for board in boards %}
+											{% if board.category == category[0] %}
+											<option value="{{board.id}}">{{board.nickname}}</option>
+											{% endif %}
+										{% endfor %}
+									</optgroup>	
+								{% endfor %}
+							</select>
+							<p class="help-block"> (pick a board from your quiver)
+							<a href="/board_quiver" class="btn btn-default btn-xs" id="board-add" target="_blank">add a board to your quiver</a> </p>
+						</div> <!-- closes form group -->
 
-				</div> <!-- closes right-bot row -->
+						<br>
+						<div class="form-group" id="entry-board_pref">
+							<h4>Did you wish you'd brought a different board?*</h4>
+							<label class="radio-inline">
+							<input type="radio" name = "board_pref" required value = "smaller"> (smaller)
+							</label>
+							<label class="radio-inline">
+							<input type="radio" name = "board_pref" value = "ok"> (just right)
+							</label>
+							<label class="radio-inline">
+							<input type="radio" name = "board_pref" value = "bigger"> (bigger)
+							</label>
+							<label for="entry-board_notes">
+							<h5>Any notes on your board choice?</h5>
+							</label>
+							<input type="text" class="form-control" id="entry-board_notes" name = "board_notes" maxlength="64" size="64" placeholder="(optional notes about how this board worked for you this session)">
 
-			</div> <!-- closes right col -->
-		</div> <!-- closes main row -->
+						</div> <!-- closes form group -->
+						<br>
+						<br>
+					</div> <!-- closes left col -->
 
-		<div class="row"> <!-- bot row -->
-
-	        <span class="title-center">
-	        	<div class="input-group">
-		        	<div class="row">
-						<h3>Other notes about your overall experience:</h3>
-						</div>
-						<div class="row" id = "entry-notes-input">
-						<input type="text" class="form-control" name = "gen_notes"  maxlength="140" size="140" placeholder = "(keep it tweet-sized: 140 char limit)">
-					</div> <!-- closes row -->
-				</div> <!-- closes input group -->
-	        	<div class="input-group">
-					<div class="row" id = "entry-form-submit">
-					<input type="submit" value = "Add Entry to the Journal">
-					<h3> (this entry will automatically use today's date and the current time)</h3>
+					<div class="col-md-1 col-xs-0"> <!-- spacer between left/right col -->
 					</div>
-				</div> <!-- closes input group -->
-	        </span>
 
-		</div> <!-- closes bot row -->
+					<div class="col-md-5 col-xs-12"> <!-- right col -->
 
-	</form>
+						<div class="row" id="entry-form-rating-overall"> <!-- right-top row -->
+
+							<div class="form-group">
+								<h4>Please rate how much you enjoyed the session overall*</h4>
+								<h5>(or how good it looked, if you didn't go out)</h5>
+								<br>
+								(should've gone for a bike ride)
+								<input type="radio" name = "rate_overall_fun" required value = "1">
+								<input type="radio" name = "rate_overall_fun" value = "2">
+								<input type="radio" name = "rate_overall_fun" value = "3">
+								<input type="radio" name = "rate_overall_fun" value = "4">
+								<input type="radio" name = "rate_overall_fun" value = "5"> (made my day!)
+							</div> <!-- closes form group -->
+
+						</div> <!-- closes right-top row -->
+
+						<div class="row" id="entry-form-ratings-specific"> <!-- right-bot row -->
+
+							<h4>The specific ratings below are optional,
+								but the more you answer, the more we can show you later:</h4>
+
+							<div class="form-group">
+								<h5>How crowded was it?</h5>
+								(just me and the marine mammals)
+								<input type="radio" name = "rate_crowd_den" value = "1">
+								<input type="radio" name = "rate_crowd_den" value = "2">
+								<input type="radio" name = "rate_crowd_den" value = "3">
+								<input type="radio" name = "rate_crowd_den" value = "4">
+								<input type="radio" name = "rate_crowd_den" value = "5"> (human obstacle course)
+							</div> <!-- closes form group -->
+
+							<div class="form-group">
+								<h5>How was the crowd's vibe?</h5>
+								(grrr)
+								<input type="radio" name = "rate_crowd_vibe" value = "1">
+								<input type="radio" name = "rate_crowd_vibe" value = "2">
+								<input type="radio" name = "rate_crowd_vibe" value = "3">
+								<input type="radio" name = "rate_crowd_vibe" value = "4">
+								<input type="radio" name = "rate_crowd_vibe" value = "5"> (yeah!)
+							</div> <!-- closes form group -->
+
+							<div class="form-group">
+								<h5>How challenging were the waves for you?</h5>
+								(easy)
+								<input type="radio" name = "rate_wave_challenge" value = "1">
+								<input type="radio" name = "rate_wave_challenge" value = "2">
+								<input type="radio" name = "rate_wave_challenge" value = "3">
+								<input type="radio" name = "rate_wave_challenge" value = "4">
+								<input type="radio" name = "rate_wave_challenge" value = "5"> (intense!)
+							</div> <!-- closes form group -->
+
+							<div class="form-group">
+								<h5>How FUN were the waves for you?</h5>
+								(meh)
+								<input type="radio" name = "rate_wave_fun" value = "1">
+								<input type="radio" name = "rate_wave_fun" value = "2">
+								<input type="radio" name = "rate_wave_fun" value = "3">
+								<input type="radio" name = "rate_wave_fun" value = "4">
+								<input type="radio" name = "rate_wave_fun" value = "5"> (epic!)
+							</div> <!-- closes form group -->
+
+						</div> <!-- closes right-bot row -->
+
+					</div> <!-- closes right col -->
+				</div> <!-- closes the nested left/ right columns -->
+			</div> <!-- closes main row -->
+
+			<div class="row"> <!-- bot row -->
+				<div class="col-md-1 col-xs-1">  <!-- spacer col to force-contain the notes field -->
+				</div> <!-- closes spacer col to force-contain the notes field -->
+
+				<div class="col-md-10 col-xs-10">  <!-- col to force-contain the notes field -->
+			        <span class="title-center">
+
+			        	<div class="row" id = "entry-notes-input">
+				        	<div class="form-group">
+				        		<label for="entry-gen_notes">
+				        		<h4>Other notes about your overall experience:</h4>
+				        		</label>
+								<input type="text" class="form-control" id = "entry-gen_notes" name = "gen_notes"  maxlength="140" size="140" placeholder = "(keep it tweet-sized: 140 char limit)">
+							</div> <!-- closes form group -->
+						</div> <!-- closes row -->
+
+						<div class="row" id = "entry-form-submit">
+				        	<div class="form-group">
+							<input type="submit" class="btn btn-default btn-med" value = "Add Entry to the Journal">
+							<h5> (this entry will automatically use today's date and the current time)</h5>
+							</div> <!-- closes form group -->
+						</div> <!-- closes row -->
+
+			        </span>
+		        </div> <!-- closes col to force-contain the notes field -->
+
+				<div class="col-md-1 col-xs-1">  <!-- spacer col to force-contain the notes field -->
+				</div> <!-- closes spacer col to force-contain the notes field -->
+
+			</div> <!-- closes bot row -->
+
+		</form>
+	<!-- </div> --> <!-- closes forced content-container col -->
 </div> <!-- closes content container -->
 
 

@@ -35,11 +35,10 @@ div.navbar-header img {
     margin-bottom: 0px; 
 }
 
-/*  main container-fluid class */
+/*  main page-wrapper: container-fluid class */
 .container-fluid{
   padding-right: 46px;
   padding-left: 46px;
-
 }
 
 /*  put content in reduced opacity container */
@@ -59,7 +58,7 @@ div.navbar-header img {
 */
 }
 
-/* entries summary primary buttons */
+/* entries summary buttons */
 .btn-primary {
   background-color: #007C7D;
 }
@@ -78,7 +77,6 @@ div.navbar-header img {
   height: 75px;
 }
 
-
 /* page bottom credit to magicseaweed */
 .msw { 
     float: right; 
@@ -91,7 +89,8 @@ div.navbar-header img {
 .msw img { 
     float: right; 
 /*    width: 150 px;
-*/    margin-top: 7px;
+*/    
+    margin-top: 7px;
     margin-right: 7px; 
 }
 
@@ -128,6 +127,12 @@ div.navbar-header img {
   align-items: center;
 }
 
+/* add entry form formatting */
+
+/* button add board to quiver */
+#board-add{
+   float: right; 
+}
 
 /* entry details MSW info table */
 .table-nonfluid {
@@ -204,7 +209,7 @@ need to clean up unused stuff
   padding: 10px;
   font-size: 16px;
 }
-/* not sure what this is doing or if it's in use */
+/* not sure if z-index is in use for form control? check login page */
 .form-signin .form-control:focus {
   z-index: 2;
 }
