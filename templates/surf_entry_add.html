@@ -35,7 +35,7 @@
 			<div class="row"> <!-- main row: all the forms, incl left and right col -->
 				<div class="col-md-12"> <!-- nest the left/ right columns --> 
 
-					<div class="col-md-6 col-xs-12"> <!-- left col: when/ where/ with whom/ what board -->
+					<div class="col-md-6 col-xs-12" id="entry-form-info-main"> <!-- left col: when/ where/ with whom/ what board -->
 
 						<!-- implement start and end time again later. for now, datetime NOW -->
 						<!-- Date:<br>
@@ -139,9 +139,8 @@
 						<div class="row" id="entry-form-rating-overall"> <!-- right-top row -->
 
 							<div class="form-group">
-								<h4>Please rate how much you enjoyed the session overall*</h4>
-								<h5>(or how good it looked, if you didn't go out)</h5>
-								<br>
+								<h4>Rate how much you enjoyed the session overall*</h4>
+								<h4>(or how good it looked, if you didn't go out)</h4>
 								(should've gone for a bike ride)
 								<input type="radio" name = "rate_overall_fun" required value = "1">
 								<input type="radio" name = "rate_overall_fun" value = "2">
@@ -152,13 +151,18 @@
 
 						</div> <!-- closes right-top row -->
 
+						<div class="row" id="entry-form-ratings-prompt"> <!-- right-mid row -->
+
+							<h3>The specific ratings below are optional,
+								but the more you answer, the more you can learn about what 
+								qualities make the best time in the ocean for you...</h3>
+
+						</div> <!-- closes right-mid row -->
+
 						<div class="row" id="entry-form-ratings-specific"> <!-- right-bot row -->
 
-							<h4>The specific ratings below are optional,
-								but the more you answer, the more we can show you later:</h4>
-
 							<div class="form-group">
-								<h5>How crowded was it?</h5>
+								<h4>How crowded was it?</h4>
 								(just me and the marine mammals)
 								<input type="radio" name = "rate_crowd_den" value = "1">
 								<input type="radio" name = "rate_crowd_den" value = "2">
@@ -168,7 +172,7 @@
 							</div> <!-- closes form group -->
 
 							<div class="form-group">
-								<h5>How was the crowd's vibe?</h5>
+								<h4>How was the crowd's vibe?</h4>
 								(grrr)
 								<input type="radio" name = "rate_crowd_vibe" value = "1">
 								<input type="radio" name = "rate_crowd_vibe" value = "2">
@@ -178,7 +182,7 @@
 							</div> <!-- closes form group -->
 
 							<div class="form-group">
-								<h5>How challenging were the waves for you?</h5>
+								<h4>How challenging were the waves for you?</h4>
 								(easy)
 								<input type="radio" name = "rate_wave_challenge" value = "1">
 								<input type="radio" name = "rate_wave_challenge" value = "2">
@@ -188,7 +192,7 @@
 							</div> <!-- closes form group -->
 
 							<div class="form-group">
-								<h5>How FUN were the waves for you?</h5>
+								<h4>How FUN were the waves for you?</h4>
 								(meh)
 								<input type="radio" name = "rate_wave_fun" value = "1">
 								<input type="radio" name = "rate_wave_fun" value = "2">

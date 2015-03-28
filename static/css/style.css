@@ -100,9 +100,19 @@ div.navbar-header img {
   text-align: center;
 }
 
-#entry-form-rating-overall{
-  margin-top:50px;
+#entry-form-info-main{
+  margin-top:25px;
   margin-bottom:25px;
+}
+
+#entry-form-rating-overall{
+  margin-top:25px;
+  margin-bottom:25px;
+}
+
+#entry-form-ratings-prompt{
+  margin-top:50px;
+  margin-bottom:10px;
 }
 
 #entry-form-ratings-specific{

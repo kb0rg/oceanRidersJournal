@@ -79,8 +79,8 @@
                 <div class="col-md-4"> <!-- left col -->
 
                     <div class = "form-group">
-                        <label for="nickname">Board's nickname:</label>
-                        <input type="text" name = "nickname" required maxlength="30" size="30" placeholder="(name your board!)">
+                        <label for="board-nickname">Board's nickname:</label>
+                        <input type="text" class="form-control" id = "board-nickname" name = "nickname" required maxlength="30" size="30" placeholder="(name your board!)">
                     </div>
 
                     <div class = "form-group">
@@ -95,10 +95,10 @@
 
                     <div class = "form-group">            
                     <h5>Length:</h5>
-                        <label for="length_ft">feet</label>
-                        <input type="text" id = "length_ft" maxlength="2" size="2" placeholder="#"> 
-                        <label for="length_in">in.</label>
-                        <input type="text" name = "length_in" maxlength="2" size="2"  placeholder="#">
+                        <label for="board-length_ft">feet</label>
+                        <input type="text" class="form-control" id = "board-length_ft" name = "length_ft" maxlength="2" size="2" placeholder="#"> 
+                        <label for="board-length_in">in.</label>
+                        <input type="text" class="form-control" id = "board-length_in" name = "length_in" maxlength="2" size="2"  placeholder="#">
                     </div>
 
                 </div> <!-- closes left col -->
@@ -108,12 +108,12 @@
 
                     <div class = "form-group">
                         <label for="shaper">Shaper:</label>
-                        <input type="text" id = "shaper" maxlength="30" size="30" placeholder="(Shaper's Name)">
+                        <input type="text" class="form-control" id = "shaper" maxlength="30" size="30" placeholder="(Shaper's Name)">
                     </div>
 
                     <div class = "form-group">
                         <label for="fins">Fin Setup:</label>
-                        <input type="text" id = "fins" maxlength="30" size="30" placeholder="(2+1, singlefin..?)">      
+                        <input type="text" class="form-control" id = "fins" maxlength="30" size="30" placeholder="(2+1, singlefin..?)">      
                     </div>
 
                 </div> <!-- closes mid col -->
@@ -124,7 +124,7 @@
 
                         <div class = "form-group">
                             <label for="shape">Model or Description:</label>
-                            <input type="text" id = "shape" required maxlength="30" size="30" placeholder="(Superfish, custom..?)">
+                            <input type="text" class="form-control" id = "shape" required maxlength="30" size="30" placeholder="(Superfish, custom..?)">
                         </div>
 
                     </div> <!-- closes right-top row -->
@@ -135,7 +135,7 @@
 
                     <div class="row"> <!-- right-bot row -->
 
-                        <div class = "form-group"id = "quiver-form-submit">
+                        <div class = "form-group" id = "quiver-form-submit">
                             <input type="submit" value = "Add Board to your Quiver">
                         </div>
 
