@@ -21,10 +21,8 @@ Python, Flask, Jinja2, SQLite, SQLAlchemy, HTML5, CSS, highcharts.js, and Bootst
 
 Each user can add an entry to their personal surf journal:
 ![JournalAddEntryExample](https://raw.githubusercontent.com/kb0rg/hb_project/master/screengrabs/sg04_add.png)
-![Sm_JournalAddEntryExample](https://raw.githubusercontent.com/kb0rg/hb_project/master/screengrabs/sg10b_mbl_addEntry.png)
 View a summary of all journal entries:
 ![JournalEntriesSummaryTableExample](https://raw.githubusercontent.com/kb0rg/hb_project/master/screengrabs/sg02b_summary.png)
-![Sm-JournalEntriesSummaryTableExample](https://raw.githubusercontent.com/kb0rg/hb_project/master/screengrabs/sg10a_mbl_summary.png)
 Summary page includes a chart correlating overall ratings with swell conditions:
 ![JournalEntriesSummaryChartExample](https://raw.githubusercontent.com/kb0rg/hb_project/master/screengrabs/sg02c_summaryChart.png)
 Journal entry details page displays the more subjective/ contextual user input: 
@@ -32,9 +30,9 @@ Journal entry details page displays the more subjective/ contextual user input:
 The "Quiver" page is where the user creates, views, and edits their collection of surfboards.
 ![QuiverBoardListExample](https://raw.githubusercontent.com/kb0rg/hb_project/master/screengrabs/sg06_quiverList.png)
 ![QuiverAddBoardExample](https://raw.githubusercontent.com/kb0rg/hb_project/master/screengrabs/sg05_quiverAdd.png)
+
+![Sm-JournalEntriesSummaryTableExample](https://raw.githubusercontent.com/kb0rg/hb_project/master/screengrabs/sg10a_mbl_summary.png) | ![Sm_JournalAddEntryExample](https://raw.githubusercontent.com/kb0rg/hb_project/master/screengrabs/sg10b_mbl_addEntry.png) | 
 ![Sm_QuiverAddBoardExample](https://raw.githubusercontent.com/kb0rg/hb_project/master/screengrabs/sg10c_mbl_addBoard.png)
-
-
 
 ##### Contact Me
 
