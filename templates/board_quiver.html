@@ -76,7 +76,7 @@
 
         <div class="row"> <!-- bot row -->
 
-                <div class="col-md-4"> <!-- left col -->
+                <div class="col-md-4 col-xs-12"> <!-- left col -->
 
                     <div class = "form-group">
                         <label for="board-nickname">Board's nickname:</label>
@@ -85,15 +85,14 @@
 
                     <div class = "form-group">
                         <label for="category">Board Type:</label>
-                        <select name = "category" required>  
+                        <select class="form-control" name = "category" required>  
                         {% for category in categories %}     
                         <option value="category">{{category}}</option>
                        {% endfor %}
                         </select>
                     </div>
 
-
-                    <div class = "form-group">            
+                    <div class = "form-group form-inline">            
                     <h5>Length:</h5>
                         <label for="board-length_ft">feet</label>
                         <input type="text" class="form-control" id = "board-length_ft" name = "length_ft" maxlength="2" size="2" placeholder="#"> 
@@ -101,10 +100,18 @@
                         <input type="text" class="form-control" id = "board-length_in" name = "length_in" maxlength="2" size="2"  placeholder="#">
                     </div>
 
+<!--                     <div class = "form-group">            
+                    <h5>Length:</h5>
+                        <label for="board-length_ft">feet</label>
+                        <input type="text" class="form-control" id = "board-length_ft" name = "length_ft" maxlength="2" size="2" placeholder="#"> 
+                        <label for="board-length_in">in.</label>
+                        <input type="text" class="form-control" id = "board-length_in" name = "length_in" maxlength="2" size="2"  placeholder="#">
+                    </div> -->
+
                 </div> <!-- closes left col -->
 
 
-                <div class="col-md-4"> <!-- mid col -->
+                <div class="col-md-4 col-xs-12"> <!-- mid col -->
 
                     <div class = "form-group">
                         <label for="shaper">Shaper:</label>
@@ -118,28 +125,17 @@
 
                 </div> <!-- closes mid col -->
 
-                <div class="col-md-4"> <!-- right col -->
+                <div class="col-md-4 col-xs-12"> <!-- right col -->
 
-                    <div class="row"> <!-- right-top row -->
 
-                        <div class = "form-group">
-                            <label for="shape">Model or Description:</label>
-                            <input type="text" class="form-control" id = "shape" required maxlength="30" size="30" placeholder="(Superfish, custom..?)">
-                        </div>
+                    <div class = "form-group">
+                        <label for="shape">Model or Description:</label>
+                        <input type="text" class="form-control" id = "shape" required maxlength="30" size="30" placeholder="(Superfish, custom..?)">
+                    </div>
 
-                    </div> <!-- closes right-top row -->
-
-                    <div class="row"> <!-- right-mid row -->
-                        <!-- spacer -->
-                    </div> <!-- closes right-mid row -->
-
-                    <div class="row"> <!-- right-bot row -->
-
-                        <div class = "form-group" id = "quiver-form-submit">
-                            <input type="submit" value = "Add Board to your Quiver">
-                        </div>
-
-                    </div> <!-- closes right-bot row -->
+                    <div class = "form-group" id = "quiver-form-submit">
+                        <input type="submit" class="btn btn-default btn-med" value = "Add Board to your Quiver">
+                    </div>
 
 
                 </div> <!-- closes right col -->

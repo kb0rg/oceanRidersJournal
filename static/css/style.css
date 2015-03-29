@@ -95,10 +95,12 @@ div.navbar-header img {
 }
 
 
-/* bootstrap grid row formatting */
+/* title row formatting */
 .title-center{
   text-align: center;
 }
+
+/* add entry form formatting */
 
 #entry-form-info-main{
   margin-top:25px;
@@ -116,33 +118,35 @@ div.navbar-header img {
 }
 
 #entry-form-ratings-specific{
-  margin-top:75px;
-  margin-bottom:10px;
-}
+  margin-top:50px;
+/*  margin-bottom:10px;
+*/}
 
 #entry-notes-input{
-  margin-top:20px;
-}
+/*  margin-top:20px;
+*/}
 
 #entry-form-submit{
   margin-top:20px;
 }
 
+/* button add board to quiver */
+#board-add{
+   float: right; 
+}
+
+/* add board form formatting */
+
 #quiver-form-submit{
   margin-top:75px;
-  margin-left:200px;
+  float: right; 
+/*  margin-left:200px;*/
 }
 
 .col-md-10 col-board{
   align-items: center;
 }
 
-/* add entry form formatting */
-
-/* button add board to quiver */
-#board-add{
-   float: right; 
-}
 
 /* entry details MSW info table */
 .table-nonfluid {

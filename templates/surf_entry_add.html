@@ -23,14 +23,13 @@
 		<form action="/addEntryToDB" method="post">
 
 			<div class="row"> <!-- top row: instructions -->
-		        <span class="title-center">
-					<h2>Enter info about your surf session</h2>
-					<h4>(only fields marked with * are required)</h4>
-				</span>
+				<div class="col-md-12"> <!-- col to force-contain the title field -->
+			        <span class="title-center">
+						<h2>Enter info about your surf session</h2>
+						<h4>(only fields marked with * are required)</h4>
+					</span>
+				</div> <!-- closes col to force-contain the title field -->
 			</div> <!-- closes top row -->
-
-	        <div class="row"> <!-- spacer row -->
-	        </div> <!-- closes spacer row -->
 
 			<div class="row"> <!-- main row: all the forms, incl left and right col -->
 				<div class="col-md-12"> <!-- nest the left/ right columns --> 
@@ -65,14 +64,15 @@
 									</optgroup>	
 								{% endfor %}
 							</select>
-						</div> <!-- closes form group -->
+						</div> <!-- closes loc_id form group -->
 
 						<div class="form-group">
 							<label for="entry-spot">
 							<h4>Spot Name</h4>
+							<h5>(more specific descriptor)</h5>
 							</label>
-							<input type="text" class="form-control" id="entry-spot" name = "spot_name" maxlength="64" size="64" placeholder="(more specific descriptor, eg: patch, Sloat, north end...)">
-						</div> <!-- closes form group -->
+							<input type="text" class="form-control" id="entry-spot" name = "spot_name" maxlength="64" size="64" placeholder="(eg: patch, Sloat, north end...)">
+						</div> <!-- closes spot_name form group -->
 
 						<div class="form-group">
 							<label for="entry-go_out">
@@ -80,14 +80,14 @@
 							</label>
 							<input type="radio" id="entry-go_out" name = "go_out" required value = "Y"> Yes!
 							<input type="radio" id="entry-go_out" name = "go_out" value = "N"> No (Select no if you just checked the conditions)
-						</div> <!-- closes form group -->
+						</div> <!-- closes go_out form group -->
 
 						<div class="form-group">
 							<label for="entry-buddy_name">
 							<h4>Did you go out with a buddy?</h4>
 							</label>
 							<input type="text" class="form-control" id="entry-buddy_name" name = "buddy_name" maxlength="64" size="64" placeholder="(if so put their name(s) here)">
-						</div> <!-- closes form group -->
+						</div> <!-- closes buddy_name form group -->
 
 						<!-- board info -->
 						<div class="form-group">
@@ -107,9 +107,8 @@
 							</select>
 							<p class="help-block"> (pick a board from your quiver)
 							<a href="/board_quiver" class="btn btn-default btn-xs" id="board-add" target="_blank">add a board to your quiver</a> </p>
-						</div> <!-- closes form group -->
+						</div> <!-- closes board form group -->
 
-						<br>
 						<div class="form-group" id="entry-board_pref">
 							<h4>Did you wish you'd brought a different board?*</h4>
 							<label class="radio-inline">
@@ -124,11 +123,10 @@
 							<label for="entry-board_notes">
 							<h5>Any notes on your board choice?</h5>
 							</label>
-							<input type="text" class="form-control" id="entry-board_notes" name = "board_notes" maxlength="64" size="64" placeholder="(optional notes about how this board worked for you this session)">
+							<input type="text" class="form-control" id="entry-board_notes" name = "board_notes" maxlength="64" size="64" placeholder="(how did this board work for you?)">
 
-						</div> <!-- closes form group -->
-						<br>
-						<br>
+						</div> <!-- closes board_pref form group -->
+
 					</div> <!-- closes left col -->
 
 					<div class="col-md-1 col-xs-0"> <!-- spacer between left/right col -->
@@ -238,7 +236,7 @@
 
 			</div> <!-- closes bot row -->
 
-		</form>
+		</form> <!-- closes add-entry form -->
 	<!-- </div> --> <!-- closes forced content-container col -->
 </div> <!-- closes content container -->
 
