@@ -31,7 +31,10 @@ The "Quiver" page is where the user creates, views, and edits their collection o
 ![QuiverBoardListExample](https://raw.githubusercontent.com/kb0rg/hb_project/master/screengrabs/sg06_quiverList.png)
 ![QuiverAddBoardExample](https://raw.githubusercontent.com/kb0rg/hb_project/master/screengrabs/sg05_quiverAdd.png)
 
-![Sm-JournalEntriesSummaryTableExample](https://raw.githubusercontent.com/kb0rg/hb_project/master/screengrabs/sg10a_mbl_summary.png) | ![Sm_JournalAddEntryExample](https://raw.githubusercontent.com/kb0rg/hb_project/master/screengrabs/sg10b_mbl_addEntry.png) | 
+##### Designed for Mobile Responsiveness
+
+![Sm-JournalEntriesSummaryTableExample](https://raw.githubusercontent.com/kb0rg/hb_project/master/screengrabs/sg10a_mbl_summary.png)
+![Sm_JournalAddEntryExample](https://raw.githubusercontent.com/kb0rg/hb_project/master/screengrabs/sg10b_mbl_addEntry.png)
 ![Sm_QuiverAddBoardExample](https://raw.githubusercontent.com/kb0rg/hb_project/master/screengrabs/sg10c_mbl_addBoard.png)
 
 ##### Contact Me
