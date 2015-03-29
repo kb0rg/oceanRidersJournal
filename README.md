@@ -3,7 +3,7 @@ Ocean Riders' Journal
 
 ![CoverPage](https://raw.githubusercontent.com/kb0rg/hb_project/master/screengrabs/sg01_cover.png)
 
-Ocean Rider’s Journal is a place for Northern and Central California surfers to record their time in the ocean. The journal collects swell and wind data based on time and location, and combines it with subjective user ratings to visually graph the best conditions for the user. develop a keener sense of what conditions work best for them at their favorite spots.
+Ocean Rider’s Journal is a place for Northern and Central California surfers to record their time in the ocean. The journal collects swell and wind data based on time and location, and combines it with subjective user ratings to visually graph the best conditions for the user, with the aim to help users develop a keener sense of what conditions work best for them at their favorite spots.
 
 ![JournalEntriesSummaryPageExample](https://raw.githubusercontent.com/kb0rg/hb_project/master/screengrabs/sg02_summary.png)
 
