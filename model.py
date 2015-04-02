@@ -1,11 +1,15 @@
 # database model for surf journal
+import os
+
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy import create_engine
 from sqlalchemy import Boolean, Column, Integer, Float, String, DateTime, func
 from sqlalchemy import ForeignKey
 from sqlalchemy.orm import sessionmaker, scoped_session, relationship, backref
 
-engine = create_engine("sqlite:///db_surfjournal.db", echo=False) 
+DATABASE_URL = os.environ.get("DATABASE_URL", "sqlite:///db_surfjournal.db")
+
+engine = create_engine(DATABASE_URL, echo=False) 
 session = scoped_session(sessionmaker(bind=engine,
                          autocommit = False,
                          autoflush = False))

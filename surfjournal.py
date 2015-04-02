@@ -423,4 +423,4 @@ if __name__ == "__main__":
     ## heroku will set port as env var
     PORT = int(os.environ.get("PORT", 5000))
 
-    app.run(debug=DEBUG, port=PORT)
+    app.run(debug=DEBUG, host="0.0.0.0", port=PORT)
