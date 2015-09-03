@@ -1,3 +1,4 @@
+import md5
 from flask import Flask, request, session, render_template, g, redirect, url_for, flash
 import model
 import jinja2
@@ -25,7 +26,9 @@ def load_users(session):
         for row in reader:
             id, username, email, password, firstname, lastname, home_region = row
             id = int(id)
-            
+
+            # TODO: Create a single method that encodes password
+            password = md5.new(password).hexdigest()
             u = model.User(id=id,username=username, email=email, password=password, 
                             firstname=firstname, lastname=lastname, home_region=home_region)
             session.add(u)

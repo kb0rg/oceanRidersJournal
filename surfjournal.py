@@ -1,4 +1,5 @@
 ## controller file for kborg's surf journal webapp
+import md5
 from flask import Flask, request, session, render_template, g, redirect, url_for, flash, jsonify
 import jinja2
 import os
@@ -338,7 +339,9 @@ def login():
 
     ## get info from user input
     email = request.form['email']
-    password = request.form['password']
+
+    # TODO: Create a single method that encodes password
+    password = md5.new(request.form['password']).hexdigest()
 
     ## make sure log-in info is valid
     try:
@@ -361,7 +364,10 @@ def register():
     ## get info from user input
     username = request.form['username']
     email = request.form['email']
-    password = request.form['password']
+
+    # TODO: Create a single method that encodes password
+    password = md5.new(request.form['password']).hexdigest()
+
     existing_email = model.session.query(model.User).filter_by(email=email).first()
     existing_username = model.session.query(model.User).filter_by(username=username).first()
 
