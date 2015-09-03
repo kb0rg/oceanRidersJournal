@@ -10,6 +10,7 @@ import model
 import api_msw as msw
 from pprint import pprint
 import models
+from services.location import get_locations_counties
 
 app = Flask(__name__)
 app.secret_key = os.environ['APP_SECRET_KEY']
@@ -48,8 +49,7 @@ def go_to_addEntry():
 
     ## get all locations from db and pass to template for dropdown
     ## and set of counties for organizing locations dropdown
-    loc_list = model.session.query(model.Location).all()
-    loc_county_list = set(model.session.query(model.Location.county).all())
+    loc_list, loc_county_list = get_locations_counties()
     # pprint(loc_county_list)
 
     ## get all boards for current user from db and pass to template for dropdown
