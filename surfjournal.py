@@ -9,6 +9,7 @@ from datetime import datetime
 import model
 import api_msw as msw
 from pprint import pprint
+import models
 
 app = Flask(__name__)
 app.secret_key = os.environ['APP_SECRET_KEY']
@@ -92,7 +93,7 @@ def add_entry():
     gen_notes = request.form.get("gen_notes")
 
     ## access loc table: from loc_id get msw_id
-    loc_obj = model.session.query(model.Location).get(loc_id)
+    loc_obj = model.session.query(models.Location).get(loc_id)
     ## store msw_id from db for this loc
     msw_id = loc_obj.msw_id
 

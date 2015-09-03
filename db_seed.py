@@ -12,7 +12,9 @@ from datetime import datetime
 import csv
 import sqlalchemy.exc
 import re
- 
+import models
+
+
 def load_users(session):
 
     """
@@ -57,9 +59,9 @@ def load_locations(session):
             else:
                 msw_unique_id_exists = False
 
-            m = model.Location(
+            m = models.Location(
                 id=id, region=region, country=country, state_or_prov=state_or_prov,
-                county=county, beach_name = beach_name, 
+                county=county, beach_name=beach_name,
                 msw_id=msw_id, msw_unique_id_exists=msw_unique_id_exists, msw_beach_name=msw_beach_name,
                 lat=lat, long=long
                 )
