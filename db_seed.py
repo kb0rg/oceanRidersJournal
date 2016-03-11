@@ -1,3 +1,4 @@
+import md5
 from flask import Flask, request, session, render_template, g, redirect, url_for, flash
 import model
 import jinja2
@@ -11,7 +12,9 @@ from datetime import datetime
 import csv
 import sqlalchemy.exc
 import re
- 
+import models
+
+
 def load_users(session):
 
     """
@@ -25,7 +28,9 @@ def load_users(session):
         for row in reader:
             id, username, email, password, firstname, lastname, home_region = row
             id = int(id)
-            
+
+            # TODO: Create a single method that encodes password
+            password = md5.new(password).hexdigest()
             u = model.User(id=id,username=username, email=email, password=password, 
                             firstname=firstname, lastname=lastname, home_region=home_region)
             session.add(u)
@@ -54,9 +59,9 @@ def load_locations(session):
             else:
                 msw_unique_id_exists = False
 
-            m = model.Location(
+            m = models.Location(
                 id=id, region=region, country=country, state_or_prov=state_or_prov,
-                county=county, beach_name = beach_name, 
+                county=county, beach_name=beach_name,
                 msw_id=msw_id, msw_unique_id_exists=msw_unique_id_exists, msw_beach_name=msw_beach_name,
                 lat=lat, long=long
                 )
