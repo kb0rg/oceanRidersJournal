@@ -1,6 +1,6 @@
 # database model for surf journal
 import os
-
+from werkzeug.security import generate_password_hash, check_password_hash
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy import create_engine
 from sqlalchemy import Boolean, Column, Integer, Float, String, DateTime, func
@@ -24,7 +24,14 @@ class User(Base):
     """
     __tablename__ = "users"
 
-    ## automatically generated when instance is created
+    def __init__(self, username, password):
+        self.username = username
+        self.password = generate_password_hash(password)
+
+    def check_password(self, password):
+        return check_password_hash(self.pw_hash, password)
+
+    ## ID is automatically generated when instance is created
     id = Column(Integer, primary_key = True)
     username = Column(String(64), nullable = False)
     email = Column(String(64), nullable = False)
@@ -202,6 +209,6 @@ if __name__ == "__main__":
 NOTE!!!!
 *****
 when db needs to be deleted and rebuilt,
-run model.py in interactive mode (while in venv):
+run model.py in interactive mode (while in virtual env):
 python -i model.py
 """
