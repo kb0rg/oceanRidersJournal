@@ -1,13 +1,16 @@
 ## controller file for kborg's surf journal webapp
-from flask import Flask, request, session, render_template, g, redirect, url_for, flash, jsonify
 import jinja2
+import json
 import os
 import requests
-import json
 from datetime import datetime
-import models
-import api_msw as msw
 from pprint import pprint
+
+import api_msw as msw
+from flask import (Flask, request, session, render_template, g, redirect,
+    url_for, flash, jsonify)
+
+import models
 
 app = Flask(__name__)
 app.secret_key = os.environ['APP_SECRET_KEY']
@@ -18,7 +21,7 @@ def load_user_id():
     g.user_id = session.get('user_id')
 
 @app.route("/")
-def index():    
+def index():
     """
     The cover page of kborg's surf journal site.
     """
@@ -59,10 +62,14 @@ def go_to_addEntry():
     # print loc_county_list
     # print board_cat_list
 
-    return render_template("surf_entry_add.html", locations = loc_list, counties=loc_county_list,
-                                                    boards = board_list, categories = board_cat_list)
+    return render_template("surf_entry_add.html",
+        locations = loc_list,
+        counties = loc_county_list,
+        boards = board_list,
+        categories = board_cat_list,
+        )
 
-@app.route("/addEntryToDB", methods=["POST"])
+@app.route("/addEntryToDB", methods = ["POST"])
 def add_entry():
     """
     receive input from add_entry form, commit to db, goto summary display page.
@@ -121,18 +128,36 @@ def add_entry():
     wind_arrow_deg = msw.getArrowDegrees(wind_dir_deg)
 
     ## add info from user and api to this instance of models.Entry
-    new_entry = models.Entry(user_id = user_id,
-                            date_time_start = date_time_start, date_time_end=date_time_end,
-                            loc_id = loc_id, spot_name = spot_name, go_out = go_out, buddy_name = buddy_name,
-                            swell1_ht = swell1_ht, swell1_per = swell1_per, swell1_dir_deg_msw = swell1_dir_deg_msw,
-                            swell1_dir_comp = swell1_dir_comp, swell1_dir_deg_global =swell1_dir_deg_global, 
-                            swell1_arrow_deg = swell1_arrow_deg,
-                            wind_speed = wind_speed, wind_gust= wind_gust, wind_dir_deg = wind_dir_deg,
-                            wind_dir_comp = wind_dir_comp, wind_unit = wind_unit, wind_arrow_deg = wind_arrow_deg,
-                            board_id = board_id, board_pref = board_pref, board_notes = board_notes,
-                            rate_overall_fun = rate_overall_fun, rate_wave_challenge = rate_wave_challenge,
-                            rate_wave_fun = rate_wave_fun, rate_crowd_den = rate_crowd_den,
-                            rate_crowd_vibe = rate_crowd_vibe, gen_notes = gen_notes)
+    new_entry = models.Entry(
+        user_id = user_id,
+        date_time_start = date_time_start,
+        date_time_end=date_time_end,
+        loc_id = loc_id,
+        spot_name = spot_name,
+        go_out = go_out,
+        buddy_name = buddy_name,
+        swell1_ht = swell1_ht,
+        swell1_per = swell1_per,
+        swell1_dir_deg_msw = swell1_dir_deg_msw,
+        swell1_dir_comp = swell1_dir_comp,
+        swell1_dir_deg_global = swell1_dir_deg_global,
+        swell1_arrow_deg = swell1_arrow_deg,
+        wind_speed = wind_speed,
+        wind_gust= wind_gust,
+        wind_dir_deg = wind_dir_deg,
+        wind_dir_comp = wind_dir_comp,
+        wind_unit = wind_unit,
+        wind_arrow_deg = wind_arrow_deg,
+        board_id = board_id,
+        board_pref = board_pref,
+        board_notes = board_notes,
+        rate_overall_fun = rate_overall_fun,
+        rate_wave_challenge = rate_wave_challenge,
+        rate_wave_fun = rate_wave_fun,
+        rate_crowd_den = rate_crowd_den,
+        rate_crowd_vibe = rate_crowd_vibe,
+        gen_notes = gen_notes,
+        )
 
     models.session.add(new_entry)
     models.session.commit()
@@ -151,10 +176,10 @@ def list_entries():
 
     ## get all entries and username for current user from db and pass to template for display
     entry_list = models.session.query(models.Entry).filter_by(user_id=g.user_id)
-    # pprint(entry_list[7])
-    username = models.session.query(models.User).filter_by(id=g.user_id).one().username
-    # print username
-    return render_template("surf_entries_summary.html", entries = entry_list, username = username)
+    username = models.session.query(models.User).filter_by(id=g.user_id).\
+        one().username
+    return render_template(
+        "surf_entries_summary.html", entries = entry_list, username = username)
 
 @app.route("/entries_data")
 def list_entries_data():
@@ -173,8 +198,6 @@ def list_entries_data():
 
     ## get all entries for current user from db and pass to template for display
     entry_list = models.session.query(models.Entry).filter_by(user_id=g.user_id)
-    # print "*" * 30,"\n", "entry_list is an object:"
-    # pprint(entry_list)
 
     ## process entries data into form required by chart
     ## store "entries" data in dict during processing
@@ -190,17 +213,16 @@ def list_entries_data():
         if not isinstance(bubble_size, int):
             bubble_size = 0
 
-
-        ## check to see if entry's loc is already key in dict, if not, add it and set up it's value's dict.
         if entry.loc_id not in results:
             # results[entry.loc_id] = {"data" : [], "name": entry.loc.beach_name}
             results[entry.loc_id] = {"data" : [], "name": entry.loc.beach_name}
 
-        # results[entry.loc_id]["data"].append([x, y, bubble_size, interval])
-        results[entry.loc_id]["data"].append({"x": x, 
-                                         "y": y, 
-                                         "z": bubble_size,
-                                         "interval": swell_interval})
+        results[entry.loc_id]["data"].append(
+            {"x": x,
+             "y": y,
+             "z": bubble_size,
+             "interval": swell_interval,
+            })
 
     ## get values from results dict: chart expects a list of dictionaries
     results_list = results.values()
@@ -219,44 +241,58 @@ def list_entry_details(id):
         flash("Please log in", "warning")
         # return redirect(url_for("index"))
 
-    ## text display options for ratings 
-    wave_challenge_dict = {1 : "easy",
-                            2 : "easy plus a little juice",
-                            3 : "just right/ neutral",
-                            4 : "little bit of a stretch",
-                            5 : "super intense"}
+    ## text display options for ratings
+    wave_challenge_dict = {
+        1 : "easy",
+        2 : "easy plus a little juice",
+        3 : "just right/ neutral",
+        4 : "little bit of a stretch",
+        5 : "super intense",
+        }
 
-    wave_fun_dict = {1 : "meh",
-                            2 : "kind of alright",
-                            3 : "just right/ neutral",
-                            4 : "fun!",
-                            5 : "epic!"}
+    wave_fun_dict = {
+        1 : "meh",
+        2 : "kind of alright",
+        3 : "just right/ neutral",
+        4 : "fun!",
+        5 : "epic!",
+        }
 
-    crowd_den_dict = {1 : "just me and the marine mammals",
-                        2 : "lots of space",
-                        3 : "manageable lineup",
-                        4 : "kind of crowded",
-                        5 : "human obstacle course"}
+    crowd_den_dict = {
+        1 : "just me and the marine mammals",
+        2 : "lots of space",
+        3 : "manageable lineup",
+        4 : "kind of crowded",
+        5 : "human obstacle course",
+        }
 
-    crowd_vibe_dict = {1 : "grrrr", 
-                        2 : "arrgh",
-                        3 : "meh",
-                        4 : "alright!",
-                        5 : "wooooo!"}
+    crowd_vibe_dict = {
+        1 : "grrrr",
+        2 : "arrgh",
+        3 : "meh",
+        4 : "alright!",
+        5 : "wooooo!",
+        }
 
-    overall_fun_dict = {1 : "should've gone for a bike ride",
-                            2 : "not too bad",
-                            3 : "alright/ neutral",
-                            4 : "pretty fun",
-                            5 : "made my day!"}
+    overall_fun_dict = {
+        1 : "should've gone for a bike ride",
+        2 : "not too bad",
+        3 : "alright/ neutral",
+        4 : "pretty fun",
+        5 : "made my day!",
+        }
 
     ## get all fields from db for entry selected and pass to template for display
     entry = models.session.query(models.Entry).filter_by(id = id).one()
-    # print entry
-    return render_template("surf_entry_details.html", entry = entry, 
-                            wave_challenge_dict = wave_challenge_dict, wave_fun_dict = wave_fun_dict,
-                            crowd_vibe_dict = crowd_vibe_dict, crowd_den_dict = crowd_den_dict,
-                            overall_fun_dict = overall_fun_dict)
+    return render_template(
+        "surf_entry_details.html",
+        entry = entry,
+        wave_challenge_dict = wave_challenge_dict,
+        wave_fun_dict = wave_fun_dict,
+        crowd_vibe_dict = crowd_vibe_dict,
+        crowd_den_dict = crowd_den_dict,
+        overall_fun_dict = overall_fun_dict,
+        )
 
 @app.route("/board_quiver")
 def edit_quiver():
@@ -278,7 +314,12 @@ def edit_quiver():
     # print board_list
     # print username
 
-    return render_template("board_quiver.html", boards = board_list, username = username, categories = category_list)
+    return render_template(
+        "board_quiver.html",
+        boards = board_list,
+        username = username,
+        categories = category_list,
+        )
 
 @app.route("/addBoardToDB", methods=["POST"])
 def add_board():
@@ -286,7 +327,7 @@ def add_board():
     """
     adds board to quiver.
 
-    receives input from board_quiver form, 
+    receives input from board_quiver form,
     commits to db, then redirects to quiver list page
     and flashes message confirming board was added.
     """
@@ -304,10 +345,16 @@ def add_board():
     fins = request.form.get("fins")
 
     ## add info from user to this instance of models.Board
-    new_entry = models.Board(user_id = user_id,
-                            nickname = nickname, category = category,
-                            length_ft = length_ft, length_in = length_in,
-                            shaper = shaper, shape = shape, fins = fins)
+    new_entry = models.Board(
+        user_id = user_id,
+        nickname = nickname,
+        category = category,
+        length_ft = length_ft,
+        length_in = length_in,
+        shaper = shaper,
+        shape = shape,
+        fins = fins,
+        )
 
     models.session.add(new_entry)
     models.session.commit()
@@ -316,7 +363,7 @@ def add_board():
 
     return redirect("/board_quiver")
 
-@app.route("/login", methods=["GET"])
+@app.route("/login", methods = ["GET"])
 def show_login():
     """
     displays log-in/ register form.
@@ -330,10 +377,11 @@ def show_login():
     else:
         return render_template("login.html")
 
-@app.route("/login", methods=["POST"])
+@app.route("/login", methods = ["POST"])
 def login():
     """
-    validates input from log-in form and starts user session, redirect to user's entries summary page.
+    validates input from log-in form and starts user session,
+    redirects to user's entries summary page.
     """
 
     ## get info from user input
@@ -342,7 +390,8 @@ def login():
 
     ## make sure log-in info is valid
     try:
-        user = models.session.query(models.User).filter_by(email=email, password=password).one()
+        user = models.session.query(models.User).filter_by(
+            email = email, password = password).one()
     except:
         flash("Invalid username or password", "error")
         # return redirect(url_for("index"))
@@ -351,7 +400,7 @@ def login():
     session['user_id'] = user.id
     return redirect("/entries")
 
-@app.route("/register", methods=["POST"])
+@app.route("/register", methods = ["POST"])
 def register():
 
     """
@@ -362,8 +411,10 @@ def register():
     username = request.form['username']
     email = request.form['email']
     password = request.form['password']
-    existing_email = models.session.query(models.User).filter_by(email=email).first()
-    existing_username = models.session.query(models.User).filter_by(username=username).first()
+    existing_email = models.session.query(models.User).filter_by(
+        email = email).first()
+    existing_username = models.session.query(models.User).filter_by(
+        username = username).first()
 
     if existing_email:
         flash("This email is already registered: please log in!", "error")
@@ -373,11 +424,15 @@ def register():
         flash("This username is already in use: pick another one.", "error")
         return redirect(url_for("login"))
 
-    u = models.User(username=username, email=email, password=password)
+    u = models.User(
+        username = username,
+        email = email,
+        password = password,
+        )
     models.session.add(u)
     models.session.commit()
     models.session.refresh(u)
-    session['user_id'] = u.id 
+    session['user_id'] = u.id
     return redirect("/addEntryForm")
 
 @app.route("/logout")
@@ -387,7 +442,8 @@ def logout():
     """
 
     if g.user_id:
-        username = models.session.query(models.User).filter_by(id=g.user_id).one().username
+        username = models.session.query(models.User).filter_by(
+            id = g.user_id).one().username
         flash("See you again soon, %s. Now go get in the water." % username, "error")
         del session['user_id']
         return redirect(url_for("index"))
@@ -396,7 +452,7 @@ def logout():
         return render_template("login.html")
 
 
-def redirect_url(default='index'):
+def redirect_url(default = 'index'):
     """
     flask helper function to redirect back to same page.
 
@@ -413,14 +469,14 @@ TODO before deploying:
 """
 
 if __name__ == "__main__":
-    
+
     """
     run app after getting env var for debug and port: allows for different settings for dev vs deployment.
     """
 
     ## for deploy on heroku: "heroku config: Set NO_DUBUG = 1"
-    DEBUG = "NO_DEBUG" not in os.environ 
+    DEBUG = "NO_DEBUG" not in os.environ
     ## heroku will set port as env var
     PORT = int(os.environ.get("PORT", 5000))
 
-    app.run(debug=DEBUG, host="0.0.0.0", port=PORT)
+    app.run(debug = DEBUG, host = "0.0.0.0", port=PORT)

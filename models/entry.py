@@ -17,7 +17,7 @@ class Entry(Base):
 
     ## Entry/ Yser tables relationship
     user = relationship("User",
-        backref=backref("entries", order_by=id))
+        backref = backref("entries", order_by = id))
 
     date_time_start = Column(DateTime, nullable = False)
     date_time_end = Column(DateTime, nullable = False)
@@ -31,7 +31,7 @@ class Entry(Base):
 
     ## Entry/ Location tables relationship
     loc = relationship("Location",
-        backref=backref("entries", order_by=id))
+        backref = backref("entries", order_by = id))
 
     ## board_id grabbed from dropdown (uses board table's id)
     board_id = Column(Integer, ForeignKey('boards.id'))
@@ -40,7 +40,7 @@ class Entry(Base):
 
     ## Entry/ Board tables relationship
     board = relationship("Board",
-        backref=backref("entries", order_by=id))
+        backref = backref("entries", order_by = id))
 
     ## pull swell1 data from apis and add to entry
     swell1_ht = Column(Float, nullable = True)

@@ -7,8 +7,8 @@ from sqlalchemy.orm import sessionmaker, scoped_session
 
 DATABASE_URL = os.environ.get("DATABASE_URL", "sqlite:///db_surfjournal.db")
 
-engine = create_engine(DATABASE_URL, echo=False) 
-session = scoped_session(sessionmaker(bind=engine,
+engine = create_engine(DATABASE_URL, echo = False)
+session = scoped_session(sessionmaker(bind = engine,
                          autocommit = False,
                          autoflush = False))
 
@@ -18,7 +18,7 @@ def main():
     """
     directions for rebuilding db when model is called directly.
     """
-    
+
     print "\nWelcome to kborg's surfjournal model.\n"
     print "*" * 13, "\n"
     print "To proceed rebuilding the schema, run the following code:\n" + \

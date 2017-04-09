@@ -6,7 +6,7 @@ from pprint import pprint
 
 
 """
-module for functions relating to calls to magicseaweed.com api 
+module for functions relating to calls to magicseaweed.com api
 """
 
 """
@@ -20,11 +20,11 @@ MSW_API_URL = "http://magicseaweed.com/api/"+MSW_API_KEY+"/forecast/?spot_id="
 
 
 def getUrlBySpot(spot_id):
-    
+
     url_base = MSW_API_URL +str(spot_id)+"&units=us"
     print "MSW_API_URL with spot_id added is: ", url_base
 
-    return url_base   
+    return url_base
 
 
 def getSwell1(spot_id):
@@ -80,7 +80,7 @@ def getGlobalDegrees(degrees):
     return degreesGlobal
 
 def getArrowDegrees(degrees):
-    
+
     """
     find nearest 5 degree increment to get arrow sprite from api.
     """

@@ -16,9 +16,9 @@ class Board(Base):
     user_id = Column(Integer, ForeignKey('users.id'))
 
     user = relationship("User",
-        backref=backref("boards", order_by=id))
+        backref = backref("boards", order_by=id))
 
-    ## required fields: 
+    ## required fields:
     nickname = Column(String(64), nullable = False)
     ## type of board (long, short, fish, etc)
     ## used in add entry dropdown
@@ -34,4 +34,4 @@ class Board(Base):
 
     def __repr__(self):
         return "<Board: %d, %s, %s %s>"%(self.id, self.nickname, self.shaper,
-            self.shape) 
+            self.shape)

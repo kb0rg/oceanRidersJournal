@@ -1,5 +1,5 @@
 from werkzeug.security import generate_password_hash, check_password_hash
-from sqlalchemy import Column, Integer, String 
+from sqlalchemy import Column, Integer, String
 
 from models import Base
 
