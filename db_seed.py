@@ -1,5 +1,5 @@
 from flask import Flask, request, session, render_template, g, redirect, url_for, flash
-import model
+import models
 import jinja2
 import os
 import requests
@@ -26,7 +26,7 @@ def load_users(session):
             id, username, email, password, firstname, lastname, home_region = row
             id = int(id)
             
-            u = model.User(id=id,username=username, email=email, password=password, 
+            u = models.User(id=id,username=username, email=email, password=password, 
                             firstname=firstname, lastname=lastname, home_region=home_region)
             session.add(u)
         
@@ -54,7 +54,7 @@ def load_locations(session):
             else:
                 msw_unique_id_exists = False
 
-            m = model.Location(
+            m = models.Location(
                 id=id, region=region, country=country, state_or_prov=state_or_prov,
                 county=county, beach_name = beach_name, 
                 msw_id=msw_id, msw_unique_id_exists=msw_unique_id_exists, msw_beach_name=msw_beach_name,
@@ -83,7 +83,7 @@ def load_boards(session):
 
             user_id, nickname, category, length_ft, length_in, shaper, shape, fins = row
 
-            m = model.Board(user_id=user_id, nickname=nickname, category=category,
+            m = models.Board(user_id=user_id, nickname=nickname, category=category,
                             length_ft=length_ft, length_in=length_in,
                             shaper=shaper, shape=shape, fins=fins)
             session.add(m)
@@ -132,7 +132,7 @@ def load_entries(session):
             print "swell1_dir_deg_msw: ", swell1_dir_deg_msw
 
 
-            u = model.Entry(user_id=user_id, date_time_start=date_time_start, date_time_end=date_time_end, 
+            u = models.Entry(user_id=user_id, date_time_start=date_time_start, date_time_end=date_time_end, 
                             loc_id=loc_id, spot_name=spot_name, go_out=go_out,
                             swell1_ht=swell1_ht, swell1_per=swell1_per, swell1_dir_deg_global=swell1_dir_deg_global,
                             swell1_dir_deg_msw=swell1_dir_deg_msw, swell1_arrow_deg=swell1_arrow_deg, swell1_dir_comp=swell1_dir_comp,
@@ -163,5 +163,5 @@ def main(session):
 
 
 if __name__ == "__main__":
-    session = model.session
+    session = models.session
     main(session)
