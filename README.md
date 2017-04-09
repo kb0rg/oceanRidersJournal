@@ -1,11 +1,11 @@
 Ocean Riders' Journal
 ===========
 
-![CoverPage](https://raw.githubusercontent.com/kb0rg/hb_project/master/screengrabs/sg01_cover.png)
+![CoverPage](static/screengrabs/screengrabs/sg01_cover.png)
 
 Ocean Rider’s Journal is a place for Northern and Central California surfers to record their time in the ocean. The journal collects swell and wind data based on time and location, and combines it with subjective user ratings to visually graph the best conditions for the user, with the aim to help users develop a keener sense of what conditions work best for them at their favorite spots.
 
-![JournalEntriesSummaryPageExample](https://raw.githubusercontent.com/kb0rg/hb_project/master/screengrabs/sg02_summary.png)
+![JournalEntriesSummaryPageExample](static/screengrabs/screengrabs/sg02_summary.png)
 
 ### Technology
 
@@ -18,22 +18,22 @@ Python, Flask, Jinja2, SQLite, SQLAlchemy, HTML5, CSS, highcharts.js, and Bootst
 ##### Screengrabs
 
 Each user can add an entry to their personal surf journal:
-![JournalAddEntryExample](https://raw.githubusercontent.com/kb0rg/hb_project/master/screengrabs/sg04_add.png)
+![JournalAddEntryExample](static/screengrabs/screengrabs/sg04_add.png)
 View a summary of all journal entries:
-![JournalEntriesSummaryTableExample](https://raw.githubusercontent.com/kb0rg/hb_project/master/screengrabs/sg02b_summary.png)
+![JournalEntriesSummaryTableExample](static/screengrabs/screengrabs/sg02b_summary.png)
 Summary page includes a chart correlating overall ratings with swell conditions:
-![JournalEntriesSummaryChartExample](https://raw.githubusercontent.com/kb0rg/hb_project/master/screengrabs/sg02c_summaryChart.png)
+![JournalEntriesSummaryChartExample](static/screengrabs/screengrabs/sg02c_summaryChart.png)
 Journal entry details page displays the more subjective/ contextual user input: 
-![JournalEntryDetailsExample](https://raw.githubusercontent.com/kb0rg/hb_project/master/screengrabs/sg03_details.png)
+![JournalEntryDetailsExample](static/screengrabs/screengrabs/sg03_details.png)
 The "Quiver" page is where the user creates, views, and edits their collection of surfboards.
-![QuiverBoardListExample](https://raw.githubusercontent.com/kb0rg/hb_project/master/screengrabs/sg06_quiverList.png)
-![QuiverAddBoardExample](https://raw.githubusercontent.com/kb0rg/hb_project/master/screengrabs/sg05_quiverAdd.png)
+![QuiverBoardListExample](static/screengrabs/screengrabs/sg06_quiverList.png)
+![QuiverAddBoardExample](static/screengrabs/screengrabs/sg05_quiverAdd.png)
 
 ##### Designed for Mobile Responsiveness
 
-![Sm-JournalEntriesSummaryTableExample](https://raw.githubusercontent.com/kb0rg/hb_project/master/screengrabs/sg10a_mbl_summary.png)
-![Sm_JournalAddEntryExample](https://raw.githubusercontent.com/kb0rg/hb_project/master/screengrabs/sg10b_mbl_addEntry.png)
-![Sm_QuiverAddBoardExample](https://raw.githubusercontent.com/kb0rg/hb_project/master/screengrabs/sg10c_mbl_addBoard.png)
+![Sm-JournalEntriesSummaryTableExample](static/screengrabs/screengrabs/sg10a_mbl_summary.png)
+![Sm_JournalAddEntryExample](static/screengrabs/screengrabs/sg10b_mbl_addEntry.png)
+![Sm_QuiverAddBoardExample](static/screengrabs/screengrabs/sg10c_mbl_addBoard.png)
 
 ##### Contact Me
 
