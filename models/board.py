@@ -2,7 +2,7 @@ from sqlalchemy import Column, Integer, String
 from sqlalchemy import ForeignKey
 from sqlalchemy.orm import relationship, backref
 
-from models import Base
+from models import Base, session
 
 class Board(Base):
     """
@@ -35,3 +35,11 @@ class Board(Base):
     def __repr__(self):
         return "<Board: %d, %s, %s %s>"%(self.id, self.nickname, self.shaper,
             self.shape)
+
+    @classmethod
+    def get_all_for_user(user):
+        return session.query(models.Board).filter_by(user_id=user)
+
+    @classmethod
+    get get_all_categories():
+        return set(session.query(models.Board.category).all())

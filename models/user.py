@@ -1,7 +1,7 @@
 from werkzeug.security import generate_password_hash, check_password_hash
 from sqlalchemy import Column, Integer, String
 
-from models import Base
+from models import Base, session
 
 class User(Base):
     """
@@ -30,3 +30,25 @@ class User(Base):
     def __repr__(self):
         return "%d, %s, %s, %s, %s" % (self.id, self.username, self.firstname,
             self.lastname, self.home_region)
+
+    @classmethod
+    def get_username(cls, user_id):
+        return session.query(models.User).filter_by(id = user_id).one().username
+
+    @classmethod
+    def get_by_login_creds(cls, email, pwd):
+        return session.query(models.User).filter_by(
+            email = email,
+            password = pwd,
+            ).one()
+
+    @classmethod
+    def email_exists(cls, email):
+        return True if session.query(cls).filter_by(email = email).\
+            first() is not None else False
+
+    @classmethod
+    def username_exists(cls, username):
+        return True if session.query(cls).filter_by(username = username).\
+            first() is not None else False
+

@@ -1,12 +1,12 @@
 from sqlalchemy import Boolean, Column, Integer, String
 
-from models import Base
+from models import Base, session
 
 class Location(Base):
     """
     makes a row in the locations table.
     """
-    __tablename__ = "locations"
+    __tablename__ = 'locations'
 
     ## automatically generated when instance is created
     id = Column(Integer, primary_key = True)
@@ -27,10 +27,28 @@ class Location(Base):
     msw_beach_name = Column(String(64), nullable = False)
 
     ## lat long for possible future use
-    ## (in case API changes or if adding ability to find nearest from current loc)
+    ## (in case API changes or adding ability to find nearest from current loc)
     ## storing as string until use-case determines necessary format
     lat = Column(String(64), nullable = False)
     long = Column(String(64), nullable = False)
 
     def __repr__(self):
-        return "<Location: %d, %s, MSW (or nearest) ID: %d >"%(self.id, self.beach_name, self.msw_id)
+        return '<Location: %d, %s, MSW (or nearest) ID: %d >'.format(
+            self.id, self.beach_name, self.msw_id)
+
+    @classmethod
+    def get_all(cls):
+        return session.query(cls).all()
+
+    @classmethod
+    def get_by_id(cls, loc_id):
+        return session.query(models.Location).get(loc_id)
+
+    def serialize(self):
+        return {
+            'beach_name': self.beach_name,
+            'region': self.region,
+            'country': self.country,
+            'state_or_prov': self.state_or_prov,
+            'county': self.county,
+            }

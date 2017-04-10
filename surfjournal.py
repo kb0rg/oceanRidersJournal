@@ -4,13 +4,13 @@ import json
 import os
 import requests
 from datetime import datetime
-from pprint import pprint
 
-import api_msw as msw
 from flask import (Flask, request, session, render_template, g, redirect,
     url_for, flash, jsonify)
 
+import api_msw as msw
 import models
+from services import location
 
 app = Flask(__name__)
 app.secret_key = os.environ['APP_SECRET_KEY']
@@ -49,18 +49,12 @@ def go_to_addEntry():
 
     ## get all locations from db and pass to template for dropdown
     ## and set of counties for organizing locations dropdown
-    loc_list = models.session.query(models.Location).all()
-    loc_county_list = set(models.session.query(models.Location.county).all())
-    # pprint(loc_county_list)
+    loc_list, country_list = location.get_locations_counties()
 
     ## get all boards for current user from db and pass to template for dropdown
     ## and set of board categorys for organizing boards dropdown
-    board_list = models.session.query(models.Board).filter_by(user_id=g.user_id)
-    board_cat_list = set(models.session.query(models.Board.category).all())
-
-    # print "*" * 30
-    # print loc_county_list
-    # print board_cat_list
+    board_list = models.Board.get_all_for_user(g.user_id)
+    board_cat_list = models.Board.get_all_categories()
 
     return render_template("surf_entry_add.html",
         locations = loc_list,
@@ -97,10 +91,8 @@ def add_entry():
     rate_crowd_vibe = request.form.get("rate_crowd_vibe")
     gen_notes = request.form.get("gen_notes")
 
-    ## access loc table: from loc_id get msw_id
-    loc_obj = models.session.query(models.Location).get(loc_id)
-    ## store msw_id from db for this loc
-    msw_id = loc_obj.msw_id
+    ## get msw_id from db for this loc
+    msw_id = models.Location.get_by_id(loc_id).msw_id
 
     ## make API call for swell1 info using msw_id
     msw_swell1_json_obj = msw.getSwell1(msw_id)
@@ -117,7 +109,6 @@ def add_entry():
     ## make API call for wind info using msw_id
     msw_wind_json_obj = msw.getWind(msw_id)
     print "*" * 30, "\n msw_wind_json_obj:"
-    # pprint(msw_wind_json_obj)
 
     ## parse msw response object for wind info into desired attr
     wind_speed = msw_wind_json_obj['wind']['speed']
@@ -175,9 +166,9 @@ def list_entries():
         return redirect("/about")
 
     ## get all entries and username for current user from db and pass to template for display
-    entry_list = models.session.query(models.Entry).filter_by(user_id=g.user_id)
-    username = models.session.query(models.User).filter_by(id=g.user_id).\
-        one().username
+    entry_list = models.Entry.get_all_for_user(g.user_id)
+    username = models.User.get_username(g.user_id)
+
     return render_template(
         "surf_entries_summary.html", entries = entry_list, username = username)
 
@@ -197,7 +188,7 @@ def list_entries_data():
     """
 
     ## get all entries for current user from db and pass to template for display
-    entry_list = models.session.query(models.Entry).filter_by(user_id=g.user_id)
+    entry_list = models.Entry.get_all_for_user(g.user_id)
 
     ## process entries data into form required by chart
     ## store "entries" data in dict during processing
@@ -283,7 +274,7 @@ def list_entry_details(id):
         }
 
     ## get all fields from db for entry selected and pass to template for display
-    entry = models.session.query(models.Entry).filter_by(id = id).one()
+    entry = models.Entry.get_by_id(id)
     return render_template(
         "surf_entry_details.html",
         entry = entry,
@@ -309,10 +300,8 @@ def edit_quiver():
     category_list = ["longboard", "shortboard", "fish", "gun", "SUP", "other"]
 
     ## get all boards and username for current user from db and pass to template for display
-    board_list = models.session.query(models.Board).filter_by(user_id=g.user_id)
-    username = models.session.query(models.User).filter_by(id=g.user_id).one().username
-    # print board_list
-    # print username
+    board_list = models.Board.get_all_for_user(g.user_id)
+    username = models.User.get_username(g.user_id)
 
     return render_template(
         "board_quiver.html",
@@ -371,7 +360,7 @@ def show_login():
 
     ## flash message and stay on same page if user is logged in and tries to go back to login page
     if g.user_id:
-        username = models.session.query(models.User).filter_by(id=g.user_id).one().username
+        username = models.User.get_username(g.user_id)
         flash("Hey %s! You're already logged in!" % username, "error")
         return redirect(redirect_url())
     else:
@@ -390,8 +379,7 @@ def login():
 
     ## make sure log-in info is valid
     try:
-        user = models.session.query(models.User).filter_by(
-            email = email, password = password).one()
+        user = models.User.get_by_login_creds(email, password)
     except:
         flash("Invalid username or password", "error")
         # return redirect(url_for("index"))
@@ -404,23 +392,20 @@ def login():
 def register():
 
     """
-    validates input from registration form and starts user session, redirect to add entry page.
+    validates input from registration form and starts user session,
+    redirects to add entry page.
     """
 
     ## get info from user input
     username = request.form['username']
     email = request.form['email']
     password = request.form['password']
-    existing_email = models.session.query(models.User).filter_by(
-        email = email).first()
-    existing_username = models.session.query(models.User).filter_by(
-        username = username).first()
 
-    if existing_email:
+    if models.User.email_exists(email):
         flash("This email is already registered: please log in!", "error")
         return redirect(url_for("login"))
 
-    if existing_username:
+    if models.User.username_exists(username):
         flash("This username is already in use: pick another one.", "error")
         return redirect(url_for("login"))
 
@@ -429,6 +414,7 @@ def register():
         email = email,
         password = password,
         )
+
     models.session.add(u)
     models.session.commit()
     models.session.refresh(u)
@@ -442,8 +428,7 @@ def logout():
     """
 
     if g.user_id:
-        username = models.session.query(models.User).filter_by(
-            id = g.user_id).one().username
+        username = models.User.get_username(g.user_id)
         flash("See you again soon, %s. Now go get in the water." % username, "error")
         del session['user_id']
         return redirect(url_for("index"))
@@ -471,7 +456,8 @@ TODO before deploying:
 if __name__ == "__main__":
 
     """
-    run app after getting env var for debug and port: allows for different settings for dev vs deployment.
+    run app after getting env var for debug and port: allows for different
+    settings for dev vs deployment.
     """
 
     ## for deploy on heroku: "heroku config: Set NO_DUBUG = 1"

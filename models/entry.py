@@ -2,7 +2,7 @@ from sqlalchemy import Column, Integer, Float, String, DateTime
 from sqlalchemy import ForeignKey
 from sqlalchemy.orm import relationship, backref
 
-from models import Base
+from models import Base, session
 
 class Entry(Base):
 
@@ -78,3 +78,11 @@ class Entry(Base):
     def __repr__(self):
         return "%d, %d, %s, %s, %s" % (self.id, self.loc_id, self.spot_name,
             self.board.nickname, self.board_pref)
+
+    @classmethod
+    def get_all_for_user(user):
+        return session.query(models.Entry).filter_by(user_id= user)
+
+    @classmethod
+    def get_by_id(entry_id):
+        return session.query(models.Entry).filter_by(id = entry_id).one()
