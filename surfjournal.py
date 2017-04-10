@@ -9,7 +9,11 @@ from flask import (Flask, request, session, render_template, g, redirect,
     url_for, flash, jsonify)
 
 import api_msw as msw
-import models
+from models import base
+from models.board import Board
+from models.entry import Entry
+from models.location import Location
+from models.user import User
 from services import location
 
 app = Flask(__name__)
@@ -53,8 +57,8 @@ def go_to_addEntry():
 
     ## get all boards for current user from db and pass to template for dropdown
     ## and set of board categorys for organizing boards dropdown
-    board_list = models.Board.get_all_for_user(g.user_id)
-    board_cat_list = models.Board.get_all_categories()
+    board_list = Board.get_all_for_user(g.user_id)
+    board_cat_list = Board.get_all_categories()
 
     return render_template("surf_entry_add.html",
         locations = loc_list,
@@ -92,7 +96,7 @@ def add_entry():
     gen_notes = request.form.get("gen_notes")
 
     ## get msw_id from db for this loc
-    msw_id = models.Location.get_by_id(loc_id).msw_id
+    msw_id = Location.get_by_id(loc_id).msw_id
 
     ## make API call for swell1 info using msw_id
     msw_swell1_json_obj = msw.getSwell1(msw_id)
@@ -118,8 +122,8 @@ def add_entry():
     wind_unit = msw_wind_json_obj['wind']['unit']
     wind_arrow_deg = msw.getArrowDegrees(wind_dir_deg)
 
-    ## add info from user and api to this instance of models.Entry
-    new_entry = models.Entry(
+    ## add info from user and api to this instance of Entry
+    new_entry = Entry(
         user_id = user_id,
         date_time_start = date_time_start,
         date_time_end=date_time_end,
@@ -150,8 +154,8 @@ def add_entry():
         gen_notes = gen_notes,
         )
 
-    models.session.add(new_entry)
-    models.session.commit()
+    session.add(new_entry)
+    session.commit()
 
     return redirect("/entries")
 
@@ -166,8 +170,8 @@ def list_entries():
         return redirect("/about")
 
     ## get all entries and username for current user from db and pass to template for display
-    entry_list = models.Entry.get_all_for_user(g.user_id)
-    username = models.User.get_username(g.user_id)
+    entry_list = Entry.get_all_for_user(g.user_id)
+    username = User.get_username(g.user_id)
 
     return render_template(
         "surf_entries_summary.html", entries = entry_list, username = username)
@@ -188,7 +192,7 @@ def list_entries_data():
     """
 
     ## get all entries for current user from db and pass to template for display
-    entry_list = models.Entry.get_all_for_user(g.user_id)
+    entry_list = Entry.get_all_for_user(g.user_id)
 
     ## process entries data into form required by chart
     ## store "entries" data in dict during processing
@@ -274,7 +278,7 @@ def list_entry_details(id):
         }
 
     ## get all fields from db for entry selected and pass to template for display
-    entry = models.Entry.get_by_id(id)
+    entry = Entry.get_by_id(id)
     return render_template(
         "surf_entry_details.html",
         entry = entry,
@@ -300,8 +304,8 @@ def edit_quiver():
     category_list = ["longboard", "shortboard", "fish", "gun", "SUP", "other"]
 
     ## get all boards and username for current user from db and pass to template for display
-    board_list = models.Board.get_all_for_user(g.user_id)
-    username = models.User.get_username(g.user_id)
+    board_list = Board.get_all_for_user(g.user_id)
+    username = User.get_username(g.user_id)
 
     return render_template(
         "board_quiver.html",
@@ -333,8 +337,8 @@ def add_board():
     shape = request.form.get("shape")
     fins = request.form.get("fins")
 
-    ## add info from user to this instance of models.Board
-    new_entry = models.Board(
+    ## add info from user to this instance of Board
+    new_entry = Board(
         user_id = user_id,
         nickname = nickname,
         category = category,
@@ -345,8 +349,8 @@ def add_board():
         fins = fins,
         )
 
-    models.session.add(new_entry)
-    models.session.commit()
+    session.add(new_entry)
+    session.commit()
 
     flash("%s added you your quiver!" % nickname)
 
@@ -357,10 +361,9 @@ def show_login():
     """
     displays log-in/ register form.
     """
-
     ## flash message and stay on same page if user is logged in and tries to go back to login page
     if g.user_id:
-        username = models.User.get_username(g.user_id)
+        username = User.get_username(g.user_id)
         flash("Hey %s! You're already logged in!" % username, "error")
         return redirect(redirect_url())
     else:
@@ -372,17 +375,21 @@ def login():
     validates input from log-in form and starts user session,
     redirects to user's entries summary page.
     """
-
     ## get info from user input
     email = request.form['email']
     password = request.form['password']
-
+    user = None
     ## make sure log-in info is valid
     try:
-        user = models.User.get_by_login_creds(email, password)
+        import pdb; pdb.set_trace()
+        user = User.get_by_login_creds(email, password)
     except:
         flash("Invalid username or password", "error")
         # return redirect(url_for("index"))
+
+    if not user:
+        flash("NOPE", "error")
+        return redirect(url_for("index"))
 
     ## start session for user and redirect to user's journal summary
     session['user_id'] = user.id
@@ -401,23 +408,23 @@ def register():
     email = request.form['email']
     password = request.form['password']
 
-    if models.User.email_exists(email):
+    if User.email_exists(email):
         flash("This email is already registered: please log in!", "error")
         return redirect(url_for("login"))
 
-    if models.User.username_exists(username):
+    if User.username_exists(username):
         flash("This username is already in use: pick another one.", "error")
         return redirect(url_for("login"))
 
-    u = models.User(
+    u = User(
         username = username,
         email = email,
         password = password,
         )
 
-    models.session.add(u)
-    models.session.commit()
-    models.session.refresh(u)
+    session.add(u)
+    session.commit()
+    session.refresh(u)
     session['user_id'] = u.id
     return redirect("/addEntryForm")
 
@@ -428,7 +435,7 @@ def logout():
     """
 
     if g.user_id:
-        username = models.User.get_username(g.user_id)
+        username = User.get_username(g.user_id)
         flash("See you again soon, %s. Now go get in the water." % username, "error")
         del session['user_id']
         return redirect(url_for("index"))

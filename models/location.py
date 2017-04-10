@@ -1,8 +1,8 @@
 from sqlalchemy import Boolean, Column, Integer, String
 
-from models import Base, session
+from models import base
 
-class Location(Base):
+class Location(base.Base):
     """
     makes a row in the locations table.
     """
@@ -38,11 +38,11 @@ class Location(Base):
 
     @classmethod
     def get_all(cls):
-        return session.query(cls).all()
+        return base.session.query(cls).all()
 
     @classmethod
     def get_by_id(cls, loc_id):
-        return session.query(models.Location).get(loc_id)
+        return base.session.query(cls).get(loc_id)
 
     def serialize(self):
         return {

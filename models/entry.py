@@ -2,9 +2,9 @@ from sqlalchemy import Column, Integer, Float, String, DateTime
 from sqlalchemy import ForeignKey
 from sqlalchemy.orm import relationship, backref
 
-from models import Base, session
+from models import base
 
-class Entry(Base):
+class Entry(base.Base):
 
     """
     makes a row in the entries table.
@@ -80,9 +80,9 @@ class Entry(Base):
             self.board.nickname, self.board_pref)
 
     @classmethod
-    def get_all_for_user(user):
-        return session.query(models.Entry).filter_by(user_id= user)
+    def get_all_for_user(cls, user):
+        return base.session.query(cls).filter_by(user_id= user)
 
     @classmethod
-    def get_by_id(entry_id):
-        return session.query(models.Entry).filter_by(id = entry_id).one()
+    def get_by_id(cls, entry_id):
+        return base.session.query(cls).filter_by(id = entry_id).one()

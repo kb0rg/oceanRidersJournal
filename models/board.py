@@ -2,9 +2,9 @@ from sqlalchemy import Column, Integer, String
 from sqlalchemy import ForeignKey
 from sqlalchemy.orm import relationship, backref
 
-from models import Base, session
+from models import base
 
-class Board(Base):
+class Board(base.Base):
     """
     makes a row in the boards table.
     """
@@ -37,9 +37,9 @@ class Board(Base):
             self.shape)
 
     @classmethod
-    def get_all_for_user(user):
-        return session.query(models.Board).filter_by(user_id=user)
+    def get_all_for_user(cls, user):
+        return base.session.query(cls).filter_by(user_id=user)
 
     @classmethod
-    get get_all_categories():
-        return set(session.query(models.Board.category).all())
+    def get_all_categories(cls):
+        return set(base.session.query(cls.category).all())

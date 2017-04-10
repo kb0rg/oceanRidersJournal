@@ -1,9 +1,9 @@
 from werkzeug.security import generate_password_hash, check_password_hash
 from sqlalchemy import Column, Integer, String
 
-from models import Base, session
+from models import base
 
-class User(Base):
+class User(base.Base):
     """
     makes a row in the users table.
     """
@@ -33,11 +33,11 @@ class User(Base):
 
     @classmethod
     def get_username(cls, user_id):
-        return session.query(models.User).filter_by(id = user_id).one().username
+        return base.session.query(cls).filter_by(id = user_id).one().username
 
     @classmethod
     def get_by_login_creds(cls, email, pwd):
-        return session.query(models.User).filter_by(
+        return base.session.query(cls).filter_by(
             email = email,
             password = pwd,
             ).one()
