@@ -53,7 +53,7 @@ def go_to_addEntry():
 
     ## get all locations from db and pass to template for dropdown
     ## and set of counties for organizing locations dropdown
-    loc_list, country_list = location.get_locations_counties()
+    loc_list, loc_county_list = location.get_locations_counties()
 
     ## get all boards for current user from db and pass to template for dropdown
     ## and set of board categorys for organizing boards dropdown
@@ -381,7 +381,6 @@ def login():
     user = None
     ## make sure log-in info is valid
     try:
-        import pdb; pdb.set_trace()
         user = User.get_by_login_creds(email, password)
     except:
         flash("Invalid username or password", "error")
