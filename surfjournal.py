@@ -9,7 +9,7 @@ from flask import (Flask, request, session, render_template, g, redirect,
     url_for, flash, jsonify)
 
 import api_msw as msw
-from models import base
+from models import base as db
 from models.board import Board
 from models.entry import Entry
 from models.location import Location
@@ -154,8 +154,8 @@ def add_entry():
         gen_notes = gen_notes,
         )
 
-    session.add(new_entry)
-    session.commit()
+    db.session.add(new_entry)
+    db.session.commit()
 
     return redirect("/entries")
 
@@ -349,8 +349,8 @@ def add_board():
         fins = fins,
         )
 
-    session.add(new_entry)
-    session.commit()
+    db.session.add(new_entry)
+    db.session.commit()
 
     flash("%s added you your quiver!" % nickname)
 
@@ -421,9 +421,9 @@ def register():
         password = password,
         )
 
-    session.add(u)
-    session.commit()
-    session.refresh(u)
+    db.session.add(u)
+    db.session.commit()
+    db.session.refresh(u)
     session['user_id'] = u.id
     return redirect("/addEntryForm")
 
