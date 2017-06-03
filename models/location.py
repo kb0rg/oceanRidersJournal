@@ -46,6 +46,7 @@ class Location(base.Base):
 
     def serialize(self):
         return {
+            'id': self.id,
             'beach_name': self.beach_name,
             'region': self.region,
             'country': self.country,

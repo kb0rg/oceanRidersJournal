@@ -55,9 +55,9 @@
 
 							<select class="form-control" name = "loc_id" id="entry-loc">
 								{% for county in counties %}
-									<optgroup label="{{county[0]}}">
+									<optgroup label="{{county}}">
 										{% for loc in locations %}
-											{% if loc.county == county[0] %}
+											{% if loc.county == county %}
 											<option value="{{loc.id}}">{{loc.beach_name}}</option>
 											{% endif %}
 										{% endfor %}	
