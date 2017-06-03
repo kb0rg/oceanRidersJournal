@@ -1,4 +1,3 @@
-## controller file for kborg's surf journal webapp
 import jinja2
 import json
 import os
@@ -8,7 +7,7 @@ from datetime import datetime
 from flask import (Flask, request, session, render_template, g, redirect,
     url_for, flash, jsonify)
 
-import api_msw as msw
+from services import api_msw as msw
 from models import base as db
 from models.board import Board
 from models.entry import Entry
@@ -99,19 +98,19 @@ def add_entry():
     msw_id = Location.get_by_id(loc_id).msw_id
 
     ## make API call for swell1 info using msw_id
-    msw_swell1_json_obj = msw.getSwell1(msw_id)
+    msw_swell1_json_obj = msw.get_swell_1(msw_id)
 
     ## parse msw response object for swell1 info into desired attr
     swell1_ht = msw_swell1_json_obj['swell']['components']['primary']['height']
     swell1_per = msw_swell1_json_obj['swell']['components']['primary']['period']
     swell1_dir_deg_msw = msw_swell1_json_obj['swell']['components']['primary']['direction']
     swell1_dir_comp = msw_swell1_json_obj['swell']['components']['primary']['compassDirection']
-    swell1_dir_deg_global = msw.getGlobalDegrees(swell1_dir_deg_msw)
-    swell1_arrow_deg = msw.getArrowDegrees(swell1_dir_deg_global)
+    swell1_dir_deg_global = msw.get_global_degrees(swell1_dir_deg_msw)
+    swell1_arrow_deg = msw.get_arrow_degrees(swell1_dir_deg_global)
 
 
     ## make API call for wind info using msw_id
-    msw_wind_json_obj = msw.getWind(msw_id)
+    msw_wind_json_obj = msw.get_wind(msw_id)
     print "*" * 30, "\n msw_wind_json_obj:"
 
     ## parse msw response object for wind info into desired attr
@@ -120,7 +119,7 @@ def add_entry():
     wind_dir_deg = msw_wind_json_obj['wind']['direction']
     wind_dir_comp = msw_wind_json_obj['wind']['compassDirection']
     wind_unit = msw_wind_json_obj['wind']['unit']
-    wind_arrow_deg = msw.getArrowDegrees(wind_dir_deg)
+    wind_arrow_deg = msw.get_arrow_degrees(wind_dir_deg)
 
     ## add info from user and api to this instance of Entry
     new_entry = Entry(

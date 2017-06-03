@@ -1,7 +1,6 @@
 import os
 import requests
 import json
-# from decimal import Decimal
 from pprint import pprint
 
 
@@ -19,7 +18,7 @@ MSW_API_KEY = os.environ['MSW_ACCESS_TOKEN']
 MSW_API_URL = "http://magicseaweed.com/api/"+MSW_API_KEY+"/forecast/?spot_id="
 
 
-def getUrlBySpot(spot_id):
+def get_url_by_spot(spot_id):
 
     url_base = MSW_API_URL +str(spot_id)+"&units=us"
     print "MSW_API_URL with spot_id added is: ", url_base
@@ -27,13 +26,13 @@ def getUrlBySpot(spot_id):
     return url_base
 
 
-def getSwell1(spot_id):
+def get_swell_1(spot_id):
 
     """
     make call to magicseaweed API to get swell info for journal entry.
     """
 
-    url_base = getUrlBySpot(spot_id)
+    url_base = get_url_by_spot(spot_id)
     # print "MSW_API_URL with spot_id is: ", url_base
 
     """
@@ -53,7 +52,7 @@ def getSwell1(spot_id):
     return msw_swell1_json_obj
 
 
-def getWind(spot_id):
+def get_wind(spot_id):
 
     """
     make call to magicseaweed API to get wind info for journal entry.
@@ -68,7 +67,7 @@ def getWind(spot_id):
     msw_wind_json_obj = msw_wind_json_list[0]
     return msw_wind_json_obj
 
-def getGlobalDegrees(degrees):
+def get_global_degrees(degrees):
 
     """
     convert degress from API (rotate 180)
@@ -79,7 +78,7 @@ def getGlobalDegrees(degrees):
 
     return degreesGlobal
 
-def getArrowDegrees(degrees):
+def get_arrow_degrees(degrees):
 
     """
     find nearest 5 degree increment to get arrow sprite from api.
