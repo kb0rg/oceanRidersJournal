@@ -7,12 +7,12 @@ from datetime import datetime
 from flask import (Flask, request, session, render_template, g, redirect,
     url_for, flash, jsonify)
 
-from services import api_msw as msw
 from models import base as db
 from models.board import Board
 from models.entry import Entry
 from models.location import Location
 from models.user import User
+from services import api_msw as msw
 from services import location
 
 app = Flask(__name__)
@@ -72,86 +72,19 @@ def add_entry():
     receive input from add_entry form, commit to db, goto summary display page.
     """
 
-    ## get user id from session
-    user_id = g.user_id
+    data_dict = {}
+
+    data_dict['user_id'] = g.user_id
 
     ## wire start and end times to datetime.now for MVP
-    date_time_start = datetime.now()
-    date_time_end = datetime.now()
+    data_dict['date_time_start'] = datetime.now()
+    data_dict['date_time_end'] = datetime.now()
 
     ## get info from user input
-    loc_id = request.form.get("loc_id")
-    spot_name = request.form.get("spot_name")
-    go_out = request.form.get("go_out")
-    buddy_name = request.form.get("buddy_name")
-    board_id = request.form.get("board_id")
-    board_pref = request.form.get("board_pref")
-    board_notes = request.form.get("board_notes")
-    rate_overall_fun = request.form.get("rate_overall_fun")
-    rate_wave_challenge = request.form.get("rate_wave_challenge")
-    rate_wave_fun = request.form.get("rate_wave_fun")
-    rate_crowd_den = request.form.get("rate_crowd_den")
-    rate_crowd_vibe = request.form.get("rate_crowd_vibe")
-    gen_notes = request.form.get("gen_notes")
+    form_input = request.values
+    data_dict.update(form_input.to_dict())
 
-    ## get msw_id from db for this loc
-    msw_id = Location.get_by_id(loc_id).msw_id
-
-    ## make API call for swell1 info using msw_id
-    msw_swell1_json_obj = msw.get_swell_1(msw_id)
-
-    ## parse msw response object for swell1 info into desired attr
-    swell1_ht = msw_swell1_json_obj['swell']['components']['primary']['height']
-    swell1_per = msw_swell1_json_obj['swell']['components']['primary']['period']
-    swell1_dir_deg_msw = msw_swell1_json_obj['swell']['components']['primary']['direction']
-    swell1_dir_comp = msw_swell1_json_obj['swell']['components']['primary']['compassDirection']
-    swell1_dir_deg_global = msw.get_global_degrees(swell1_dir_deg_msw)
-    swell1_arrow_deg = msw.get_arrow_degrees(swell1_dir_deg_global)
-
-
-    ## make API call for wind info using msw_id
-    msw_wind_json_obj = msw.get_wind(msw_id)
-    print "*" * 30, "\n msw_wind_json_obj:"
-
-    ## parse msw response object for wind info into desired attr
-    wind_speed = msw_wind_json_obj['wind']['speed']
-    wind_gust = msw_wind_json_obj['wind']['gusts']
-    wind_dir_deg = msw_wind_json_obj['wind']['direction']
-    wind_dir_comp = msw_wind_json_obj['wind']['compassDirection']
-    wind_unit = msw_wind_json_obj['wind']['unit']
-    wind_arrow_deg = msw.get_arrow_degrees(wind_dir_deg)
-
-    ## add info from user and api to this instance of Entry
-    new_entry = Entry(
-        user_id = user_id,
-        date_time_start = date_time_start,
-        date_time_end=date_time_end,
-        loc_id = loc_id,
-        spot_name = spot_name,
-        go_out = go_out,
-        buddy_name = buddy_name,
-        swell1_ht = swell1_ht,
-        swell1_per = swell1_per,
-        swell1_dir_deg_msw = swell1_dir_deg_msw,
-        swell1_dir_comp = swell1_dir_comp,
-        swell1_dir_deg_global = swell1_dir_deg_global,
-        swell1_arrow_deg = swell1_arrow_deg,
-        wind_speed = wind_speed,
-        wind_gust= wind_gust,
-        wind_dir_deg = wind_dir_deg,
-        wind_dir_comp = wind_dir_comp,
-        wind_unit = wind_unit,
-        wind_arrow_deg = wind_arrow_deg,
-        board_id = board_id,
-        board_pref = board_pref,
-        board_notes = board_notes,
-        rate_overall_fun = rate_overall_fun,
-        rate_wave_challenge = rate_wave_challenge,
-        rate_wave_fun = rate_wave_fun,
-        rate_crowd_den = rate_crowd_den,
-        rate_crowd_vibe = rate_crowd_vibe,
-        gen_notes = gen_notes,
-        )
+    new_entry = Entry.from_form_data(data_dict)
 
     db.session.add(new_entry)
     db.session.commit()
