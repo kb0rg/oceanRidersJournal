@@ -9,21 +9,21 @@ from models.location import Location
 
 from services import api_msw as msw
 
-# TODO: move MSW info to separate table, create backref
+# TODO: move MSW info to separate table?
 class Entry(base.Base):
 
     """
     makes a row in the entries table.
     """
-    __tablename__ = "entries"
+    __tablename__ = 'entries'
 
     ## automatically generated when instance is created
     id = Column(Integer, primary_key = True)
     user_id = Column(Integer, ForeignKey('users.id'))
 
     ## Entry/ Yser tables relationship
-    user = relationship("User",
-        backref = backref("entries", order_by = id))
+    user = relationship('User',
+        backref = backref('entries', order_by = id))
 
     date_time_start = Column(DateTime, nullable = False)
     date_time_end = Column(DateTime, nullable = False)
@@ -36,8 +36,8 @@ class Entry(base.Base):
     spot_name = Column(String(64), nullable = True)
 
     ## Entry/ Location tables relationship
-    loc = relationship("Location",
-        backref = backref("entries", order_by = id))
+    loc = relationship('Location',
+        backref = backref('entries', order_by = id))
 
     ## board_id grabbed from dropdown (uses board table's id)
     board_id = Column(Integer, ForeignKey('boards.id'))
@@ -45,8 +45,8 @@ class Entry(base.Base):
     board_notes = Column(String(64), nullable = True)
 
     ## Entry/ Board tables relationship
-    board = relationship("Board",
-        backref = backref("entries", order_by = id))
+    board = relationship('Board',
+        backref = backref('entries', order_by = id))
 
     ## pull swell1 data from apis and add to entry
     swell1_ht = Column(Float, nullable = True)
@@ -82,7 +82,7 @@ class Entry(base.Base):
 
 
     def __repr__(self):
-        return "%d, %d, %s, %s, %s" % (self.id, self.loc_id, self.spot_name,
+        return '%d, %d, %s, %s, %s' % (self.id, self.loc_id, self.spot_name,
             self.board.nickname, self.board_pref)
 
     @classmethod
@@ -96,22 +96,7 @@ class Entry(base.Base):
     @classmethod
     def from_form_data(cls, data_dict):
 
-        user_id = data_dict.get("user_id")
-        date_time_start = data_dict.get("date_time_start")
-        date_time_end = data_dict.get("date_time_end")
-        loc_id = data_dict.get("loc_id")
-        spot_name = data_dict.get("spot_name")
-        go_out = data_dict.get("go_out")
-        buddy_name = data_dict.get("buddy_name")
-        board_id = data_dict.get("board_id")
-        board_pref = data_dict.get("board_pref")
-        board_notes = data_dict.get("board_notes")
-        rate_overall_fun = data_dict.get("rate_overall_fun")
-        rate_wave_challenge = data_dict.get("rate_wave_challenge")
-        rate_wave_fun = data_dict.get("rate_wave_fun")
-        rate_crowd_den = data_dict.get("rate_crowd_den")
-        rate_crowd_vibe = data_dict.get("rate_crowd_vibe")
-        gen_notes = data_dict.get("gen_notes")
+        loc_id = data_dict.get('loc_id')
 
         msw_id = Location.get_by_id(loc_id).msw_id
         msw_spot_url = msw.get_url_by_spot(msw_id)
@@ -119,22 +104,22 @@ class Entry(base.Base):
         msw_wind = msw.parse_wind_data(msw.get_wind(msw_spot_url))
 
         new_entry = Entry(
-            user_id = user_id,
-            date_time_start = date_time_start,
-            date_time_end=date_time_end,
+            user_id = data_dict.get('user_id'),
+            date_time_start = data_dict.get('date_time_start'),
+            date_time_end = data_dict.get('date_time_end'),
             loc_id = loc_id,
-            spot_name = spot_name,
-            go_out = go_out,
-            buddy_name = buddy_name,
-            board_id = board_id,
-            board_pref = board_pref,
-            board_notes = board_notes,
-            rate_overall_fun = rate_overall_fun,
-            rate_wave_challenge = rate_wave_challenge,
-            rate_wave_fun = rate_wave_fun,
-            rate_crowd_den = rate_crowd_den,
-            rate_crowd_vibe = rate_crowd_vibe,
-            gen_notes = gen_notes,
+            spot_name = data_dict.get('spot_name'),
+            go_out = data_dict.get('go_out'),
+            buddy_name = data_dict.get('buddy_name'),
+            board_id = data_dict.get('board_id'),
+            board_pref = data_dict.get('board_pref'),
+            board_notes = data_dict.get('board_notes'),
+            rate_overall_fun = data_dict.get('rate_overall_fun'),
+            rate_wave_challenge = data_dict.get('rate_wave_challenge'),
+            rate_wave_fun = data_dict.get('rate_wave_fun'),
+            rate_crowd_den = data_dict.get('rate_crowd_den'),
+            rate_crowd_vibe = data_dict.get('rate_crowd_vibe'),
+            gen_notes = data_dict.get('gen_notes'),
             swell1_ht = msw_swell1.get('swell1_ht'),
             swell1_per = msw_swell1.get('swell1_per'),
             swell1_dir_deg_msw = msw_swell1.get('swell1_dir_deg_msw'),
