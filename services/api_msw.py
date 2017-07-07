@@ -1,6 +1,7 @@
 import os
-import requests
 import json
+import logging
+import requests
 from pprint import pprint
 
 
@@ -14,58 +15,74 @@ for each terminal session.
 """
 
 MSW_API_KEY = os.environ['MSW_ACCESS_TOKEN']
-# base URL for MSW API requests (adding spot_id required for all queries)
 MSW_API_URL = "http://magicseaweed.com/api/"+MSW_API_KEY+"/forecast/?spot_id="
 
 
 def get_url_by_spot(spot_id):
 
     url_base = MSW_API_URL +str(spot_id)+"&units=us"
-    print "MSW_API_URL with spot_id added is: ", url_base
 
     return url_base
 
 
-def get_swell_1(spot_id):
+def get_swell_1(spot_base_url):
 
     """
     make call to magicseaweed API to get swell info for journal entry.
     """
 
-    url_base = get_url_by_spot(spot_id)
-    # print "MSW_API_URL with spot_id is: ", url_base
+    # TODO: reduce request to query only fields used
+    url_swell1 = spot_base_url + "swell.components.primary.*"
+    logging.debug('MSW url_swell1: {}'.format(url_swell1))
 
-    """
-    ## example query gets all forecast for given spot_id
-    # msw_resp = requests.get(url_base)
-    # msw_json_list = msw_resp.json()
-    # msw_json_obj = msw_json[0]
-    """
-
-    # request all attr of primary swell data
-    url_swell1 = url_base + "swell.components.primary.*"
+    # TODO: find closest relevant timestamp in resp. for now, return first
     msw_swell1_resp = requests.get(url_swell1)
-    msw_swell1_json_list = msw_swell1_resp.json()
-    msw_swell1_json_obj = msw_swell1_json_list[0]
+    msw_swell1_first = msw_swell1_resp.json()[0]
+    logging.debug(msw_swell1_first)
 
-    pprint(msw_swell1_json_obj)
-    return msw_swell1_json_obj
+    return msw_swell1_first
 
+def parse_swell_1_data(msw_swell1_first):
 
-def get_wind(spot_id):
+    swell1_primary = msw_swell1_first['swell']['components']['primary']
+    swell1_dir_deg_msw = swell1_primary.get('direction')
+    swell1_dir_deg_global = get_global_degrees(swell1_dir_deg_msw)
+
+    return {
+        'swell1_ht': swell1_primary.get('height'),
+        'swell1_per': swell1_primary.get('period'),
+        'swell1_dir_deg_msw': swell1_dir_deg_msw,
+        'swell1_dir_comp': swell1_primary.get('compassDirection'),
+        'swell1_dir_deg_global': swell1_dir_deg_global,
+        'swell1_arrow_deg': get_arrow_degrees(swell1_dir_deg_global),
+        }
+
+def get_wind(spot_base_url):
 
     """
     make call to magicseaweed API to get wind info for journal entry.
     """
 
-    url_base = getUrlBySpot(spot_id)
+    url_wind = spot_base_url + "wind.speed,wind.direction,wind.compassDirection,wind.unit"
+    logging.debug('MSW url_wind: {}'.format(url_wind))
 
-    # request specified attr of wind data
-    url_wind = url_base + "wind.speed,wind.direction,wind.compassDirection,wind.unit"
     msw_wind_resp = requests.get(url_wind)
-    msw_wind_json_list = msw_wind_resp.json()
-    msw_wind_json_obj = msw_wind_json_list[0]
-    return msw_wind_json_obj
+    wind_data = msw_wind_resp.json()[0]['wind']
+
+    return wind_data
+
+def parse_wind_data(wind_data):
+
+    wind_dir_deg = wind_data['direction']
+
+    return {
+        'wind_speed': wind_data['speed'],
+        'wind_gust': wind_data['gusts'],
+        'wind_dir_deg': wind_dir_deg,
+        'wind_dir_comp': wind_data['compassDirection'],
+        'wind_unit': wind_data['unit'],
+        'wind_arrow_deg': get_arrow_degrees(wind_dir_deg),
+    }
 
 def get_global_degrees(degrees):
 

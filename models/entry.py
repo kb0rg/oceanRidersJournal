@@ -9,6 +9,7 @@ from models.location import Location
 
 from services import api_msw as msw
 
+# TODO: move MSW info to separate table, create backref
 class Entry(base.Base):
 
     """
@@ -98,7 +99,6 @@ class Entry(base.Base):
         user_id = data_dict.get("user_id")
         date_time_start = data_dict.get("date_time_start")
         date_time_end = data_dict.get("date_time_end")
-
         loc_id = data_dict.get("loc_id")
         spot_name = data_dict.get("spot_name")
         go_out = data_dict.get("go_out")
@@ -113,31 +113,10 @@ class Entry(base.Base):
         rate_crowd_vibe = data_dict.get("rate_crowd_vibe")
         gen_notes = data_dict.get("gen_notes")
 
-        # TODO: Abstract all MSW data processing to the api_msw module
-        ## get msw_id from db for this loc
         msw_id = Location.get_by_id(loc_id).msw_id
-
-        ## make API call for swell1 info using msw_id
-        msw_swell1_json_obj = msw.get_swell_1(msw_id)
-
-        swell1_ht = msw_swell1_json_obj['swell']['components']['primary']['height']
-        swell1_per = msw_swell1_json_obj['swell']['components']['primary']['period']
-        swell1_dir_deg_msw = msw_swell1_json_obj['swell']['components']['primary']['direction']
-        swell1_dir_comp = msw_swell1_json_obj['swell']['components']['primary']['compassDirection']
-        swell1_dir_deg_global = msw.get_global_degrees(swell1_dir_deg_msw)
-        swell1_arrow_deg = msw.get_arrow_degrees(swell1_dir_deg_global)
-
-        ## make API call for wind info using msw_id
-        msw_wind_json_obj = msw.get_wind(msw_id)
-        logging.debug('msw_wind_json_obj: {}'.format(msw_wind_json_obj))
-
-        ## parse msw response object for wind info into desired attr
-        wind_speed = msw_wind_json_obj['wind']['speed']
-        wind_gust = msw_wind_json_obj['wind']['gusts']
-        wind_dir_deg = msw_wind_json_obj['wind']['direction']
-        wind_dir_comp = msw_wind_json_obj['wind']['compassDirection']
-        wind_unit = msw_wind_json_obj['wind']['unit']
-        wind_arrow_deg = msw.get_arrow_degrees(wind_dir_deg)
+        msw_spot_url = msw.get_url_by_spot(msw_id)
+        msw_swell1 = msw.parse_swell_1_data(msw.get_swell_1(msw_spot_url))
+        msw_wind = msw.parse_wind_data(msw.get_wind(msw_spot_url))
 
         new_entry = Entry(
             user_id = user_id,
@@ -147,18 +126,6 @@ class Entry(base.Base):
             spot_name = spot_name,
             go_out = go_out,
             buddy_name = buddy_name,
-            swell1_ht = swell1_ht,
-            swell1_per = swell1_per,
-            swell1_dir_deg_msw = swell1_dir_deg_msw,
-            swell1_dir_comp = swell1_dir_comp,
-            swell1_dir_deg_global = swell1_dir_deg_global,
-            swell1_arrow_deg = swell1_arrow_deg,
-            wind_speed = wind_speed,
-            wind_gust= wind_gust,
-            wind_dir_deg = wind_dir_deg,
-            wind_dir_comp = wind_dir_comp,
-            wind_unit = wind_unit,
-            wind_arrow_deg = wind_arrow_deg,
             board_id = board_id,
             board_pref = board_pref,
             board_notes = board_notes,
@@ -168,6 +135,18 @@ class Entry(base.Base):
             rate_crowd_den = rate_crowd_den,
             rate_crowd_vibe = rate_crowd_vibe,
             gen_notes = gen_notes,
+            swell1_ht = msw_swell1.get('swell1_ht'),
+            swell1_per = msw_swell1.get('swell1_per'),
+            swell1_dir_deg_msw = msw_swell1.get('swell1_dir_deg_msw'),
+            swell1_dir_comp = msw_swell1.get('swell1_dir_comp'),
+            swell1_dir_deg_global = msw_swell1.get('swell1_dir_deg_global'),
+            swell1_arrow_deg = msw_swell1.get('swell1_arrow_deg'),
+            wind_speed = msw_wind.get('wind_speed'),
+            wind_gust= msw_wind.get('wind_gust'),
+            wind_dir_deg = msw_wind.get('wind_dir_deg'),
+            wind_dir_comp = msw_wind.get('wind_dir_comp'),
+            wind_unit = msw_wind.get('wind_unit'),
+            wind_arrow_deg = msw_wind.get('wind_arrow_deg'),
             )
 
         return new_entry
