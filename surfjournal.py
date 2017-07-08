@@ -8,7 +8,7 @@ from flask import (Flask, request, session, render_template, g, redirect,
     url_for, flash, jsonify)
 
 from models import base as db
-from models.board import Board
+from models.board import Board, BOARD_CATEGORIES
 from models.entry import Entry
 from models.location import Location
 from models.user import User
@@ -50,20 +50,13 @@ def go_to_addEntry():
         flash("You must be logged in to add to your journal.", "warning")
         return redirect("/about")
 
-    ## get all locations from db and pass to template for dropdown
-    ## and set of counties for organizing locations dropdown
     loc_list, loc_county_list = location.get_locations_counties()
-
-    ## get all boards for current user from db and pass to template for dropdown
-    ## and set of board categorys for organizing boards dropdown
-    board_list = Board.get_all_for_user(g.user_id)
-    board_cat_list = Board.get_all_categories()
 
     return render_template("surf_entry_add.html",
         locations = loc_list,
         counties = loc_county_list,
-        boards = board_list,
-        categories = board_cat_list,
+        boards = Board.get_all_for_user(g.user_id),
+        categories = Board.get_categories_for_user(),
         )
 
 @app.route("/addEntryToDB", methods = ["POST"])
@@ -232,18 +225,11 @@ def edit_quiver():
         flash("You must be logged in to add or view your boards.", "warning")
         return redirect("/about")
 
-    ## make category list to pass to dropdown
-    category_list = ["longboard", "shortboard", "fish", "gun", "SUP", "other"]
-
-    ## get all boards and username for current user from db and pass to template for display
-    board_list = Board.get_all_for_user(g.user_id)
-    username = User.get_username(g.user_id)
-
     return render_template(
         "board_quiver.html",
-        boards = board_list,
-        username = username,
-        categories = category_list,
+        boards = Board.get_all_for_user(g.user_id),
+        username = User.get_username(g.user_id),
+        categories = BOARD_CATEGORIES,
         )
 
 @app.route("/addBoardToDB", methods=["POST"])
@@ -284,7 +270,7 @@ def add_board():
     db.session.add(new_entry)
     db.session.commit()
 
-    flash("%s added you your quiver!" % nickname)
+    flash("%s added to your quiver!" % nickname)
 
     return redirect("/board_quiver")
 

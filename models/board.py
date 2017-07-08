@@ -4,6 +4,15 @@ from sqlalchemy.orm import relationship, backref
 
 from models import base
 
+BOARD_CATEGORIES = [
+    "longboard",
+    "shortboard",
+    "fish",
+    "gun",
+    "SUP",
+    "other",
+    ]
+
 class Board(base.Base):
     """
     makes a row in the boards table.
@@ -41,5 +50,5 @@ class Board(base.Base):
         return base.session.query(cls).filter_by(user_id=user)
 
     @classmethod
-    def get_all_categories(cls):
+    def get_categories_for_user(cls):
         return set(base.session.query(cls.category).all())
