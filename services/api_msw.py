@@ -15,12 +15,12 @@ for each terminal session.
 """
 
 MSW_API_KEY = os.environ['MSW_ACCESS_TOKEN']
-MSW_API_URL = "http://magicseaweed.com/api/"+MSW_API_KEY+"/forecast/?spot_id="
+MSW_API_URL = 'http://magicseaweed.com/api/'+MSW_API_KEY+'/forecast/?spot_id='
 
 
 def get_url_by_spot(spot_id):
 
-    url_base = MSW_API_URL +str(spot_id)+"&units=us"
+    url_base = MSW_API_URL +str(spot_id)+'&units=us'
 
     return url_base
 
@@ -32,7 +32,7 @@ def get_swell_1(spot_base_url):
     """
 
     # TODO: reduce request to query only fields used
-    url_swell1 = spot_base_url + "swell.components.primary.*"
+    url_swell1 = spot_base_url + 'swell.components.primary.*'
     logging.debug('MSW url_swell1: {}'.format(url_swell1))
 
     # TODO: find closest relevant timestamp in resp. for now, return first
@@ -63,7 +63,7 @@ def get_wind(spot_base_url):
     make call to magicseaweed API to get wind info for journal entry.
     """
 
-    url_wind = spot_base_url + "wind.speed,wind.direction,wind.compassDirection,wind.unit"
+    url_wind = spot_base_url + 'wind.speed,wind.direction,wind.compassDirection,wind.unit'
     logging.debug('MSW url_wind: {}'.format(url_wind))
 
     msw_wind_resp = requests.get(url_wind)

@@ -47,8 +47,8 @@ def format_for_chart(entry):
     """
     format needed by highcharts:
     [{
-        "data": [[x, y, z, interval], [x, y, z, interval]],
-        "name": "data_name_for_display"
+        'data': [[x, y, z, interval], [x, y, z, interval]],
+        'name': 'data_name_for_display'
         },
     ]
 
@@ -59,14 +59,14 @@ def format_for_chart(entry):
     interval = swell period
     """
 
-    ## clean ratings data (convert any "None" -> 0)
+    ## clean ratings data (convert any 'None' -> 0)
     bubble_size = entry.rate_overall_fun
     if not isinstance(bubble_size, int):
         bubble_size = 0
 
     return {
-        "x": entry.swell1_ht,
-        "y": entry.swell1_dir_deg_global,
-        "z": bubble_size,
-        "interval": entry.swell1_per,
+        'x': entry.swell1_ht,
+        'y': entry.swell1_dir_deg_global,
+        'z': bubble_size,
+        'interval': entry.swell1_per,
         }
