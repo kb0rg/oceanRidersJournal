@@ -1,4 +1,4 @@
-<!-- template to display details page of a surf journal entry -->
+
 {% extends 'base.html' %}
 {% block body %}
 
@@ -19,11 +19,11 @@
 <div class="content-container">
     <div class = "container-fluid">
 
-        <div class="row"> <!-- most of the content -->
+        <div class="row"> 
 
-            <div class="col-md-3 col-xs-12"> <!-- col-left -->
+            <div class="col-md-3 col-xs-12"> 
 
-                <div class="row"> <!-- col-left upper row -->
+                <div class="row"> 
                     <h2>{{entry.loc.beach_name}}
                     {% if entry.spot_name %}
                         <small>({{entry.spot_name}})</small>
@@ -36,9 +36,9 @@
                     <h3><small>(condition check: did not go out)</small></h3>                    
                     {% endif %}
                     </h3>
-                </div> <!-- closes col-left upper row -->
+                </div> 
 
-                <div class="row"> <!-- col-left upper row2 -->
+                <div class="row"> 
                         {% if entry.buddy_name %}
                             <h3>(went out with {{entry.buddy_name}})</h3>
                         {% else %}
@@ -46,22 +46,22 @@
                             <h2><small>(Went out solo)</small></h2>
                             {% endif %}
                         {% endif %}
-                </div> <!-- closes col-left upper row2 -->
+                </div> 
 
-                <div class="row"> <!-- col-left spacer row -->
-                    <!-- spacer -->
-                </div> <!-- closes col-left spacer row -->
+                <div class="row"> 
+                    
+                </div> 
 
-                <div class="row"> <!-- col-left lower row -->
-                    <div class="col-md-2"> <!-- board icon col -->
+                <div class="row"> 
+                    <div class="col-md-2"> 
                         {% if entry.board.category %}
                             <div class="icon-board">
                                 <img src="/static/img/icon_board_{{entry.board.category}}.png" title="{{entry.board.category}}"></a>
                             </div>
                         {% endif %}
-                    </div> <!-- closes board icon col -->
+                    </div> 
 
-                    <div class="col-md-10 col-board"> <!-- board info col -->
+                    <div class="col-md-10 col-board"> 
                         <p>
                         <h4>{{entry.board.nickname}}</h4>
                         {% if entry.board.length_ft %}
@@ -79,15 +79,15 @@
                         {% if entry.board_notes%}
                             <p>Notes on board: {{entry.board_notes}}</p>
                         {% endif %}
-                    </div> <!-- closes board info col -->
-                </div> <!-- closes col-left lower row -->
+                    </div> 
+                </div> 
 
-            </div> <!-- closes col-left -->
+            </div> 
 
 
-            <div class="col-md-9"> <!-- col-right -->
+            <div class="col-md-9"> 
 
-                <div class="row"> <!-- right-top row -->
+                <div class="row"> 
 
                     <div class="table-responsive">
                         <table class="table table-condensed">
@@ -121,69 +121,69 @@
                             </tbody>
 
                         </table>
-                    </div> <!-- closes summary table -->
+                    </div> 
 
-                </div>  <!-- closes right-top row -->
+                </div>  
 
-                <div class="row"> <!-- spacer row -->
-                </div> <!-- closes spacer row -->
+                <div class="row"> 
+                </div> 
 
-                <div class="row"> <!-- ratings row -->
+                <div class="row"> 
 
 
-                    <div class="col-md-4"> <!-- col-spacer -->
-                    </div> <!-- closes col-spacer  -->
+                    <div class="col-md-4"> 
+                    </div> 
 
-                    <!-- user ratings -->
-                    <div class="col-md-8"> <!-- ratings col -->
+                    
+                    <div class="col-md-8"> 
 
-                        <div class="row" id = "row-title"> <!-- title row inside ratings col -->
+                        <div class="row" id = "row-title"> 
                             <h3>Ratings Info:</h3>
-                        </div>  <!-- closes title row inside ratings col -->
+                        </div>  
                             
-                        <div class="row"> <!-- content row inside ratings col -->
+                        <div class="row"> 
                             <h4>
                                 {% if entry.rate_wave_challenge %}
-                                    <p class="lead">Wave challenge level: {{wave_challenge_dict[entry.rate_wave_challenge]}}<br />
+                                    <p class="lead">Wave challenge level: {{wave_challenge[entry.rate_wave_challenge]}}<br />
                                 {% endif %}
 
                                 {% if entry.rate_wave_fun %}
-                                    <p class="lead">Wave fun level: {{wave_fun_dict[entry.rate_wave_fun]}}
+                                    <p class="lead">Wave fun level: {{wave_fun[entry.rate_wave_fun]}}
                                 {% endif %}
 
                                 {% if entry.rate_crowd_den %}
-                                    <p class="lead">Crowd density: {{crowd_den_dict[entry.rate_crowd_den]}}</p>
+                                    <p class="lead">Crowd density: {{crowd_den[entry.rate_crowd_den]}}</p>
                                 {% endif %}
 
                                 {% if entry.rate_crowd_vibe %}
-                                    <p class="lead">Crowd vibe: {{crowd_vibe_dict[entry.rate_crowd_vibe]}}</p>
+                                    <p class="lead">Crowd vibe: {{crowd_vibe[entry.rate_crowd_vibe]}}</p>
                                 {% endif %}
 
                                 <p class="lead">Overall fun level:
                                 {% if entry.go_out == "N" %}
-                                    looked {{overall_fun_dict[entry.rate_overall_fun]}} (condition check)</p>
+                                    looked {{overall_fun[entry.rate_overall_fun]}} (condition check)</p>
                                 {% else %}
-                                    {{overall_fun_dict[entry.rate_overall_fun]}}</p>
+                                    {{overall_fun[entry.rate_overall_fun]}}</p>
                                 {% endif %}
                             </h4>
-                        </div>  <!-- closes content row inside ratings col -->
+                        </div>  
 
-                    </div> <!-- closes ratings col -->
-                </div> <!-- closes ratinga row -->
+                    </div> 
+                </div> 
 
-                <div class="row"> <!-- spacer row -->
-                </div> <!-- closes spacer row -->
+                <div class="row"> 
+                </div> 
 
-            </div> <!-- closes col-right -->
+            </div> 
 
-        </div> <!-- closes row for most of the content -->
+        </div> 
 
-        <div class="row"> <!-- spacer row -->
-        </div> <!-- closes spacer row -->
-        <div class="row"> <!-- spacer row -->
-        </div> <!-- closes spacer row -->
+        <div class="row"> 
+        </div> 
+        <div class="row"> 
+        </div> 
 
-        <div class="row"> <!-- bottom row notes -->
+        <div class="row"> 
 
             {% if entry.gen_notes %}
                 <span class="title-center">
@@ -193,12 +193,12 @@
             </span>
             {% endif %}
 
-        </div> <!-- closes bottom row notes -->
+        </div> 
 
-    </div> <!-- closes fluid container -->
-</div> <!-- closes content container -->
+    </div> 
+</div> 
 
-<!-- credit to the API -->
+
 <div class = "msw">
     <a href="http://magicseaweed.com"><img src="http://im-1-uk.msw.ms/msw_powered_by.png"></a>
     <br>
