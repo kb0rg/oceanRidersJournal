@@ -144,26 +144,26 @@
                         <div class="row"> 
                             <h4>
                                 {% if entry.rate_wave_challenge %}
-                                    <p class="lead">Wave challenge level: {{wave_challenge_dict[entry.rate_wave_challenge]}}<br />
+                                    <p class="lead">Wave challenge level: {{wave_challenge[entry.rate_wave_challenge]}}<br />
                                 {% endif %}
 
                                 {% if entry.rate_wave_fun %}
-                                    <p class="lead">Wave fun level: {{wave_fun_dict[entry.rate_wave_fun]}}
+                                    <p class="lead">Wave fun level: {{wave_fun[entry.rate_wave_fun]}}
                                 {% endif %}
 
                                 {% if entry.rate_crowd_den %}
-                                    <p class="lead">Crowd density: {{crowd_den_dict[entry.rate_crowd_den]}}</p>
+                                    <p class="lead">Crowd density: {{crowd_den[entry.rate_crowd_den]}}</p>
                                 {% endif %}
 
                                 {% if entry.rate_crowd_vibe %}
-                                    <p class="lead">Crowd vibe: {{crowd_vibe_dict[entry.rate_crowd_vibe]}}</p>
+                                    <p class="lead">Crowd vibe: {{crowd_vibe[entry.rate_crowd_vibe]}}</p>
                                 {% endif %}
 
                                 <p class="lead">Overall fun level:
                                 {% if entry.go_out == "N" %}
-                                    looked {{overall_fun_dict[entry.rate_overall_fun]}} (condition check)</p>
+                                    looked {{overall_fun[entry.rate_overall_fun]}} (condition check)</p>
                                 {% else %}
-                                    {{overall_fun_dict[entry.rate_overall_fun]}}</p>
+                                    {{overall_fun[entry.rate_overall_fun]}}</p>
                                 {% endif %}
                             </h4>
                         </div>  

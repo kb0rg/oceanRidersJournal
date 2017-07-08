@@ -13,6 +13,7 @@ from models.entry import Entry
 from models.location import Location
 from models.user import User
 from services import api_msw as msw
+from services.entries import entry_detail_opts as opts
 from services import location
 
 app = Flask(__name__)
@@ -161,57 +162,16 @@ def list_entry_details(id):
         flash("Please log in", "warning")
         # return redirect(url_for("index"))
 
-    ## text display options for ratings
-    wave_challenge_dict = {
-        1 : "easy",
-        2 : "easy plus a little juice",
-        3 : "just right/ neutral",
-        4 : "little bit of a stretch",
-        5 : "super intense",
-        }
-
-    wave_fun_dict = {
-        1 : "meh",
-        2 : "kind of alright",
-        3 : "just right/ neutral",
-        4 : "fun!",
-        5 : "epic!",
-        }
-
-    crowd_den_dict = {
-        1 : "just me and the marine mammals",
-        2 : "lots of space",
-        3 : "manageable lineup",
-        4 : "kind of crowded",
-        5 : "human obstacle course",
-        }
-
-    crowd_vibe_dict = {
-        1 : "grrrr",
-        2 : "arrgh",
-        3 : "meh",
-        4 : "alright!",
-        5 : "wooooo!",
-        }
-
-    overall_fun_dict = {
-        1 : "should've gone for a bike ride",
-        2 : "not too bad",
-        3 : "alright/ neutral",
-        4 : "pretty fun",
-        5 : "made my day!",
-        }
-
     ## get all fields from db for entry selected and pass to template for display
     entry = Entry.get_by_id(id)
     return render_template(
         "surf_entry_details.html",
         entry = entry,
-        wave_challenge_dict = wave_challenge_dict,
-        wave_fun_dict = wave_fun_dict,
-        crowd_vibe_dict = crowd_vibe_dict,
-        crowd_den_dict = crowd_den_dict,
-        overall_fun_dict = overall_fun_dict,
+        wave_challenge = opts.get('wave_challenge'),
+        wave_fun = opts.get('wave_fun'),
+        crowd_vibe = opts.get('crowd_vibe'),
+        crowd_den = opts.get('crowd_den'),
+        overall_fun = opts.get('overall_fun'),
         )
 
 @app.route("/board_quiver")
