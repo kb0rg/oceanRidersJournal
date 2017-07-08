@@ -1,5 +1,6 @@
 import jinja2
 import json
+import logging
 import os
 import requests
 from datetime import datetime
@@ -13,7 +14,7 @@ from models.entry import Entry
 from models.location import Location
 from models.user import User
 from services import api_msw as msw
-from services.entries import entry_detail_opts as opts
+from services import entries
 from services import location
 
 app = Flask(__name__)
@@ -106,50 +107,29 @@ def list_entries():
 def list_entries_data():
     """
     sends json to the entry_details route to render bubble chart.
-
-    ref of format needed by highcharts:
-    [{
-            "data": [[x, y, size], [x, y, size]],
-            "name": "data_name_for_display"
-        }, {
-            "data": [[25, 10, 87], [10, 20, 3]]
-        }]
-    etc.
     """
 
-    ## get all entries for current user from db and pass to template for display
     entry_list = Entry.get_all_for_user(g.user_id)
 
     ## process entries data into form required by chart
-    ## store "entries" data in dict during processing
     results = {}
     for entry in entry_list:
-
-        ## define variables for chart's data points
-        x = entry.swell1_ht
-        y = entry.swell1_dir_deg_global
-        swell_interval = entry.swell1_per
-        bubble_size = entry.rate_overall_fun # bubble size = user rating
-        ## clean ratings data (convert any "None" -> 0)
-        if not isinstance(bubble_size, int):
-            bubble_size = 0
-
         if entry.loc_id not in results:
-            # results[entry.loc_id] = {"data" : [], "name": entry.loc.beach_name}
-            results[entry.loc_id] = {"data" : [], "name": entry.loc.beach_name}
+            results[entry.loc_id] = {
+                'data': [],
+                'name': entry.loc.beach_name}
 
-        results[entry.loc_id]["data"].append(
-            {"x": x,
-             "y": y,
-             "z": bubble_size,
-             "interval": swell_interval,
-            })
+        disp = entries.format_for_chart(entry)
+        logging.debug('Data for display: {}'.format(disp))
+
+        results[entry.loc_id]["data"].append(disp)
 
     ## get values from results dict: chart expects a list of dictionaries
     results_list = results.values()
+    logging.debug('All results to display: {}'.format(results_list))
+
     ## send to chart as json object
     return jsonify(results=results_list)
-
 
 @app.route("/entryDetails/<int:id>")
 def list_entry_details(id):
@@ -164,8 +144,10 @@ def list_entry_details(id):
 
     ## get all fields from db for entry selected and pass to template for display
     entry = Entry.get_by_id(id)
+    opts = entries.ENTRY_DETAIL_OPTS
+
     return render_template(
-        "surf_entry_details.html",
+        'surf_entry_details.html',
         entry = entry,
         wave_challenge = opts.get('wave_challenge'),
         wave_fun = opts.get('wave_fun'),

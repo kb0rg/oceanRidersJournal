@@ -1,7 +1,7 @@
 
 
 ## text display options for ratings
-entry_detail_opts = {
+ENTRY_DETAIL_OPTS = {
     'wave_challenge': {
         1 : 'easy',
         2 : 'easy plus a little juice',
@@ -42,3 +42,31 @@ entry_detail_opts = {
         5 : 'made my day!',
         },
 }
+
+def format_for_chart(entry):
+    """
+    format needed by highcharts:
+    [{
+        "data": [[x, y, z, interval], [x, y, z, interval]],
+        "name": "data_name_for_display"
+        },
+    ]
+
+    name = name of beach,
+    x = swell height,
+    y = swell direction in degrees,
+    z = bubble_size = overall user rating,
+    interval = swell period
+    """
+
+    ## clean ratings data (convert any "None" -> 0)
+    bubble_size = entry.rate_overall_fun
+    if not isinstance(bubble_size, int):
+        bubble_size = 0
+
+    return {
+        "x": entry.swell1_ht,
+        "y": entry.swell1_dir_deg_global,
+        "z": bubble_size,
+        "interval": entry.swell1_per,
+        }
