@@ -1,5 +1,7 @@
 Ocean Riders' Journal
 ===========
+**This app is no longer in development, and is not functional in its current state:**  
+**the magicseaweed api previously used here has been retired by its creators.**
 
 ![CoverPage](static/screengrabs/sg01_cover.png)
 
@@ -16,7 +18,7 @@ keener sense of what conditions work best for them at their favorite spots.
 Ocean Rider’s Journal uses a Python controller and a Flask web framework. The 
 SQLite database collects information provided by users about their surf 
 sessions, the boards they ride, and the wind and swell conditions at the time 
-of each journal entry. Weather data is gathered from the [the magicseaweed API](http://magicseaweed.com/developer/api). 
+of each journal entry. Weather data is gathered from the (now defunct) magicseaweed API.
 
 Python, Flask, Jinja2, SQLite, SQLAlchemy, HTML5, CSS, highcharts.js, and 
 Bootstrap. (Dependencies are listed in requirements.txt)
